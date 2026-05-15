@@ -89,7 +89,10 @@ input::placeholder, textarea::placeholder { color: #555; }
 /* ══════════════════════════════════════
    CALCULATOR
 ══════════════════════════════════════ */
-#calcScreen { background: #111; }
+#calcScreen { background: #111; min-height: 100vh; }
+#calcScreen.active { position: fixed; top: 0; left: 0; right: 0; bottom: 0; overflow-y: auto; z-index: 500; }
+#adminScreen.active { position: fixed; top: 0; left: 0; right: 0; bottom: 0; overflow-y: auto; z-index: 500; }
+#loginScreen.active { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 500; }
 #topBar { background: #1a1a1a; border-bottom: 1px solid #252525; padding: 0 16px; height: 54px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
 .topBar-logo { font-size: 18px; font-weight: 800; color: #d4a847; }
 .topBar-right { display: flex; align-items: center; gap: 14px; }
@@ -216,9 +219,11 @@ input::placeholder, textarea::placeholder { color: #555; }
     <div class="hero-inner">
       <div class="hero-badge">🛁 Free Online Estimation Tool</div>
       <h1>How much does a <span>bathroom renovation</span> cost?</h1>
-      <p>Calculate your bathroom renovation costs step by step — tiles, fixtures, plumbing, electrical, finishes. Get a detailed estimation quote in minutes, with no registration required.</p>
+      <p>Stop guessing. Get a clear picture of your bathroom renovation costs in minutes — completely free, no registration, no sales calls. Just honest numbers so you can plan with confidence.</p>
       <button class="btn-hero" onclick="startCalc()">Start Your Free Estimate →</button>
-      <div class="hero-note">✓ No registration &nbsp;·&nbsp; ✓ No commitment &nbsp;·&nbsp; ✓ Estimation quote in PDF</div>
+      <div class="hero-note">✓ No registration &nbsp;·&nbsp; ✓ 100% free &nbsp;·&nbsp; ✓ Results in under 5 minutes</div>
+      </div>
+      </div>
     </div>
   </section>
 
@@ -335,10 +340,9 @@ input::placeholder, textarea::placeholder { color: #555; }
         <div class="field"><label>Width (m)</label><input id="dWid" type="number" step="0.01" min="0" oninput="calcDims()"></div>
         <div class="field"><label>Ceiling Height (m)</label><input id="dHei" type="number" step="0.01" min="0" value="2.6" oninput="calcDims()"></div>
       </div>
-      <div class="stat-row" id="dimStats" style="display:none">
+      <div class="stat-row" id="dimStats" style="display:none;grid-template-columns:1fr 1fr;">
         <div class="stat-box"><div class="sl">Floor Area</div><div class="sv" id="sFloor">—</div></div>
         <div class="stat-box"><div class="sl">Wall Area</div><div class="sv" id="sWall">—</div></div>
-        <div class="stat-box"><div class="sl">Volume</div><div class="sv" id="sVol">—</div></div>
       </div>
 
       <div class="sec-title">Preparations</div>
@@ -446,6 +450,10 @@ input::placeholder, textarea::placeholder { color: #555; }
               <option value="units_bath">Units — Bath</option>
               <option value="units_basin">Units — Basin & Vanity</option>
               <option value="units_taps">Units — Taps & Brassware</option>
+              <option value="electrical_lighting">Electrical — LED Mirrors</option>
+              <option value="electrical_heating">Electrical — Underfloor Heating</option>
+              <option value="electrical_ventilation">Electrical — Ventilation</option>
+              <option value="electrical_shaving">Electrical — Shaving Point</option>
               <option value="electrical">Electrical</option>
               <option value="ceiling">Ceiling</option>
               <option value="finishes">Finishes</option>
@@ -738,11 +746,42 @@ var catalog = {
     {id:'tp_other',name:'OTHER — Supplied by Customer',brand:'',unit:'pcs',price:0,install:100,
      img:'',url:'',desc:'Labour & accessories only · Price on assessment',isOther:true},
   ],
-  electrical:[
-    {id:'e1',name:'LED Mirror with Demister',brand:'Keuco',unit:'pcs',price:1600,desc:'Backlit mirror + heated pad + installation'},
-    {id:'e2',name:'IP65 Downlights (set of 4)',brand:'Philips',unit:'set',price:800,desc:'LED recessed lights + wiring + installation'},
-    {id:'e3',name:'Electric Underfloor Heating',brand:'Devi',unit:'m²',price:220,desc:'Heating mat + thermostat + installation'},
-    {id:'e4',name:'Extractor Fan with Timer',brand:'Vent-Axia',unit:'pcs',price:450,desc:'Bathroom fan + installation + wiring'},
+  electrical_lighting:[
+    {id:'el1',name:'Evelyn LED Mirror 500x700mm',brand:'Bathroom Mountain',unit:'pcs',price:89.99,install:150,
+     url:'https://www.bathroommountain.co.uk/mirrors-and-cabinets/mirrors/illuminated-mirrors',
+     desc:'500x700mm · Touch sensor · Demister pad · Mains powered · IP44'},
+    {id:'el2',name:'Evelyn LED Mirror 600x400mm',brand:'Bathroom Mountain',unit:'pcs',price:79.99,install:150,
+     url:'https://www.bathroommountain.co.uk/evelyn-illuminated-led-mirror-600x400mm-73153v2',
+     desc:'600x400mm · Touch sensor · Demister pad · Daylight 6500K'},
+    {id:'el3',name:'Evelyn LED Mirror 700x500mm',brand:'Bathroom Mountain',unit:'pcs',price:109.99,install:150,
+     url:'https://www.bathroommountain.co.uk/evelyn-illuminated-led-mirror-700x500mm-73033v2',
+     desc:'700x500mm · Touch sensor · Demister pad · Bluetooth speaker'},
+    {id:'el4',name:'Evelyn LED Mirror 500x1000mm',brand:'Bathroom Mountain',unit:'pcs',price:132.99,install:150,
+     url:'https://www.bathroommountain.co.uk/mirrors-and-cabinets/mirrors/illuminated-mirrors',
+     desc:'500x1000mm · Full length · Touch sensor · Demister · Vertical or horizontal'},
+    {id:'el5',name:'Aurora LED Mirror Cabinet 700x600mm — Matt Black',brand:'Bathroom Mountain',unit:'pcs',price:199.99,install:150,
+     url:'https://www.bathroommountain.co.uk/mirrors-and-cabinets/mirror-cabinets/illuminated',
+     desc:'700x600mm · Cabinet with storage · LED illuminated · Matt black · Demister'},
+    {id:'el6',name:'Bluetooth LED Mirror with Speaker 800x600mm',brand:'Bathroom Mountain',unit:'pcs',price:229.99,install:150,
+     url:'https://www.bathroommountain.co.uk/mirrors-and-cabinets/mirrors/bluetooth-led-mirrors',
+     desc:'800x600mm · Bluetooth speaker · Touch sensor · Demister · Mains powered'},
+    {id:'el_other',name:'OTHER — Supplied by Customer',brand:'',unit:'pcs',price:0,install:150,
+     url:'',desc:'Installation only · Price on assessment',isOther:true},
+  ],
+  electrical_heating:[
+    {id:'eh1',name:'Electric Underfloor Heating Mat',brand:'Devi',unit:'m²',price:0,install:200,
+     url:'https://www.bathroommountain.co.uk',
+     desc:'Full installation per m² of floor area · Heating mat + thermostat + wiring · All inclusive price'},
+  ],
+  electrical_ventilation:[
+    {id:'ev1',name:'Bathroom Extractor Fan with Timer',brand:'Vent-Axia',unit:'pcs',price:0,install:450,
+     url:'https://www.bathroommountain.co.uk',
+     desc:'Supply & fit · Timer + humidity sensor option · Ducted to outside · IP44 rated'},
+  ],
+  electrical_shaving:[
+    {id:'es1',name:'Shaving Point / USB Charging Socket IP44',brand:'MK Electric',unit:'pcs',price:0,install:100,
+     url:'https://www.bathroommountain.co.uk',
+     desc:'IP44 bathroom-rated shaver socket · Includes USB port · Zone 2 safe installation'},
   ],
   ceiling:[
     {id:'c1',name:'Plasterboard Ceiling',brand:'Knauf',unit:'m²',price:120,desc:'Moisture-resistant plasterboard + frame + skim + paint'},
@@ -757,7 +796,7 @@ var catalog = {
   ]
 };
 
-var sel = { preparations:{}, floor_tiles:{}, floor_lvt:{}, wall_tiles:{}, wall_panels:{}, units_toilet:{}, units_shower:{}, units_enclosure:{}, units_bath:{}, units_basin:{}, units_taps:{}, electrical:{}, ceiling:{}, finishes:{} };
+var sel = { preparations:{}, floor_tiles:{}, floor_lvt:{}, wall_tiles:{}, wall_panels:{}, units_toilet:{}, units_shower:{}, units_enclosure:{}, units_bath:{}, units_basin:{}, units_taps:{}, electrical_lighting:{}, electrical_heating:{}, electrical_ventilation:{}, electrical_shaving:{}, ceiling:{}, finishes:{} };
 var unitsCategory = '';
 var wallCategory = '';
 var wallScope = ''; // 'all', 'half', 'wet'
@@ -777,6 +816,34 @@ function fmt(n) {
   var v = Math.round(n||0);
   return '£' + v.toLocaleString('en-GB');
 }
+
+function getSettings() {
+  if(currentCo) return {vat:currentCo.vat||20, margin:currentCo.margin||15, vatRegistered:!!currentCo.vatRegistered};
+  if(companies && companies.length) return {vat:companies[0].vat||20, margin:companies[0].margin||15, vatRegistered:!!companies[0].vatRegistered};
+  return {vat:20, margin:15, vatRegistered:true};
+}
+
+function findProd(cat, id) {
+  var arr = catalog[cat] || [];
+  for(var i=0; i<arr.length; i++) { if(arr[i].id===id) return arr[i]; }
+  // Also search all catalogs if cat not found
+  var keys = Object.keys(catalog);
+  for(var k=0; k<keys.length; k++) {
+    var a = catalog[keys[k]];
+    for(var i=0; i<a.length; i++) { if(a[i].id===id) return a[i]; }
+  }
+  return null;
+}
+
+function updItem(cat, id) { addItem(cat, id); }
+
+function delItem(cat, id) {
+  if(sel[cat]) delete sel[cat][id];
+  var g = document.getElementById('grid_'+cat);
+  if(g) renderProductGrid(cat, 'grid_'+cat);
+  recalc();
+}
+
 
 function getDisplayPrice(basePrice) {
   return basePrice * (1 + productMarkup / 100);
@@ -834,6 +901,9 @@ function goLanding() {
 function startCalc() {
   hide('landingScreen'); hide('loginScreen'); hide('adminScreen');
   showBlock('calcScreen');
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+  setTimeout(function(){ window.scrollTo({top:0,left:0,behavior:'instant'}); }, 10);
   if (!calcInited) initCalc();
 }
 function showLogin() {
@@ -855,9 +925,21 @@ function doLogout() {
   show('landingScreen');
 }
 
-function hide(id) { var el=document.getElementById(id); if(el){el.style.display='none';el.classList.remove('active');} }
+function hide(id) {
+  var el=document.getElementById(id);
+  if(el){el.style.display='none';el.classList.remove('active');}
+}
 function show(id) { var el=document.getElementById(id); if(el){el.classList.add('active');} }
-function showBlock(id) { var el=document.getElementById(id); if(el){el.style.display='block';el.classList.add('active');} }
+function showBlock(id) {
+  var el=document.getElementById(id);
+  if(el){
+    el.style.display='block';
+    el.classList.add('active');
+    if(id==='calcScreen') {
+      document.body.style.overflow='auto';
+    }
+  }
+}
 function showFlex(id) { var el=document.getElementById(id); if(el){el.style.display='flex';el.classList.add('active');} }
 
 // ══════════════════════════════════════════════════════
@@ -878,8 +960,12 @@ function doLogin() {
     document.getElementById('lErr').style.display='block';
   }
 }
-document.getElementById('lPass').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
-document.getElementById('lEmail').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
+document.addEventListener('DOMContentLoaded', function() {
+  var lp = document.getElementById('lPass');
+  var le = document.getElementById('lEmail');
+  if(lp) lp.addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
+  if(le) le.addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
+});
 
 // ══════════════════════════════════════════════════════
 // CALC INIT
@@ -889,7 +975,7 @@ function initCalc() {
   calcInited = true;
   updateRemovalDisplay();
   // render product panes 1-6 only (preparations has fixed removal card)
-  for(var s=4;s<=6;s++) renderProductPane(s); // panes 1-3 rendered fresh in goStep
+  for(var s=5;s<=6;s++) renderProductPane(s); // panes 1-4 rendered fresh in goStep
   recalc();
   goStep(0);
 }
@@ -911,6 +997,7 @@ function goStep(n) {
   if(n===1) renderFloorPane();
   if(n===2) renderWallPane();
   if(n===3) renderUnitsPane();
+  if(n===4) renderElectricalPane();
   if(n===7) buildSummary();
   updateAreaHints();
 }
@@ -926,7 +1013,7 @@ function calcDims() {
     document.getElementById('dimStats').style.display='grid';
     document.getElementById('sFloor').textContent=d.floor.toFixed(2)+' m²';
     document.getElementById('sWall').textContent=d.walls.toFixed(2)+' m²';
-    document.getElementById('sVol').textContent=d.vol.toFixed(2)+' m³';
+
   } else { document.getElementById('dimStats').style.display='none'; }
   updateAreaHints();
   // Update selected floor product qty to match new area
@@ -1158,10 +1245,10 @@ function handleDelBtn(btn) { delItem(btn.getAttribute('data-cat'), btn.getAttrib
 
 function addItem(cat,id) {
   var p=findProd(cat,id); if(!p) return;
-  var qty=parseFloat(document.getElementById('qi_'+cat+'_'+id).value)||1;
+  var qEl=document.getElementById('qi_'+cat+'_'+id);
+  var qty=qEl ? (parseFloat(qEl.value)||1) : 1;
   if(!sel[cat]) sel[cat]={};
-  var dp=getDisplayPrice(p.price);
-  sel[cat][id]={id:p.id,name:p.name,brand:p.brand,unit:p.unit,price:dp,basePrice:p.price,qty:qty};
+  sel[cat][id]={id:p.id,name:p.name,brand:p.brand,unit:p.unit,price:p.price,qty:qty};
   if(cat==='floor_tiles'||cat==='floor_lvt') {
     var g=document.getElementById('grid_floor_active'); if(g) renderProductGrid(cat,'grid_floor_active');
   } else { renderProductGrid(cat); }
@@ -1277,6 +1364,177 @@ function selectWallCat(cat, silent) {
   }
   if(ss) ss.style.display = 'block';
   if(!silent) { wallScope=''; recalc(); }
+}
+
+// ══════════════════════════════════════════════════════
+// ELECTRICAL
+// ══════════════════════════════════════════════════════
+function renderElectricalPane() {
+  var pane = document.getElementById('pane4');
+  if(!pane) return;
+  var d = getDims();
+
+  // Spotlights qty
+  var spotQty = (sel['electrical_lighting'] && sel['electrical_lighting']['spotlights']) ? sel['electrical_lighting']['spotlights'].qty : 0;
+  // UFH selected?
+  var ufhSel = sel['electrical_heating'] && sel['electrical_heating']['eh1'];
+  // Ventilation selected?
+  var ventSel = sel['electrical_ventilation'] && sel['electrical_ventilation']['ev1'];
+  // Shaving point selected?
+  var shavSel = sel['electrical_shaving'] && sel['electrical_shaving']['es1'];
+
+  var html = '<div class="pane-title">&#9889; Electrical</div>'
+    + '<div class="pane-sub">Lighting, heating, ventilation and power points</div>'
+    + '<div class="divider"></div>'
+    + '<div style="background:#1a1a0e;border:1px solid rgba(212,168,71,0.25);border-radius:6px;padding:10px 14px;margin-bottom:20px;font-size:11px;color:#888;line-height:1.6">'
+      + '&#9432; <b style="color:#d4a847">Prices shown are for the unit only.</b> All installation, wiring, and connection costs are included in the overall project cost.'
+    + '</div>'
+
+    // ── SPOTLIGHTS ──
+    + '<div class="sec-title">Spotlights (IP65)</div>'
+    + '<div style="background:#1a1a1a;border:'+(spotQty>0?'1px solid #d4a847':'1px solid #252525')+';border-radius:8px;padding:16px 18px;margin-bottom:8px">'
+      + '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">'
+        + '<div>'
+          + '<div style="font-size:14px;font-weight:600;color:#ddd;margin-bottom:3px">IP65 Recessed Spotlights</div>'
+          + '<div style="font-size:11px;color:#555">Supply & fit · IP65 waterproof · LED · Wiring included · <b style="color:#d4a847">£65 per spotlight</b></div>'
+        + '</div>'
+        + '<div style="display:flex;align-items:center;gap:10px">'
+          + '<div style="font-size:11px;color:#888">Qty:</div>'
+          + '<button onclick="changeSpotQty(-1)" style="background:#1e1e1e;border:1px solid #333;color:#fff;width:32px;height:32px;border-radius:4px;font-size:16px;cursor:pointer">&#8722;</button>'
+          + '<span style="font-size:18px;font-weight:700;color:#fff;min-width:28px;text-align:center" id="spotQtyDisplay">'+spotQty+'</span>'
+          + '<button onclick="changeSpotQty(1)" style="background:#d4a847;border:none;color:#111;width:32px;height:32px;border-radius:4px;font-size:16px;cursor:pointer;font-weight:700">+</button>'
+        + '</div>'
+        + '<div style="font-size:18px;font-weight:700;color:#d4a847" id="spotTotalDisplay">'+(spotQty>0?fmt(spotQty*65):'£0')+'</div>'
+      + '</div>'
+    + '</div>'
+
+    // ── LED MIRRORS ──
+    + '<div class="sec-title" style="margin-top:20px">LED Illuminated Mirror</div>'
+    + '<div style="background:#1a1a0e;border:1px solid rgba(212,168,71,0.15);border-radius:6px;padding:8px 14px;margin-bottom:12px;font-size:11px;color:#888">'
+      + 'Prices shown are from Bathroom Mountain. Installation £150 is added to each mirror.'
+    + '</div>'
+    + '<div class="prod-grid" id="grid_electrical_lighting"></div>'
+
+    // ── UFH ──
+    + '<div class="sec-title" style="margin-top:20px">Underfloor Heating</div>'
+    + '<div style="background:#1a1a1a;border:'+(ufhSel?'1px solid #d4a847':'1px solid #252525')+';border-radius:8px;padding:16px 18px;margin-bottom:8px;cursor:pointer" onclick="toggleElectrical(\'electrical_heating\',\'eh1\')">'
+      + '<div style="display:flex;justify-content:space-between;align-items:center">'
+        + '<div>'
+          + '<div style="font-size:14px;font-weight:600;color:#ddd;margin-bottom:3px">Electric Underfloor Heating</div>'
+          + '<div style="font-size:11px;color:#555">Heating mat + thermostat + full installation · Based on floor area'+(d.floor>0?' ('+d.floor.toFixed(2)+' m²)':'')+'</div>'
+          + '<div style="font-size:13px;font-weight:700;color:#d4a847;margin-top:6px">£200/m²'+(d.floor>0?' — Total: '+fmt(d.floor*200):'')+'</div>'
+        + '</div>'
+        + (ufhSel?'<span style="font-size:13px;color:#d4a847;font-weight:600">&#10003; Selected</span>':'<span style="font-size:12px;color:#555;border:1px solid #333;padding:4px 10px;border-radius:4px">Add</span>')
+      + '</div>'
+    + '</div>'
+
+    // ── VENTILATION ──
+    + '<div class="sec-title" style="margin-top:20px">Ventilation</div>'
+    + '<div style="background:#1a1a1a;border:'+(ventSel?'1px solid #d4a847':'1px solid #252525')+';border-radius:8px;padding:16px 18px;margin-bottom:8px;cursor:pointer" onclick="toggleElectrical(\'electrical_ventilation\',\'ev1\')">'
+      + '<div style="display:flex;justify-content:space-between;align-items:center">'
+        + '<div>'
+          + '<div style="font-size:14px;font-weight:600;color:#ddd;margin-bottom:3px">Extractor Fan — Supply & Fit</div>'
+          + '<div style="font-size:11px;color:#555">Timer + humidity sensor · Ducted to outside · IP44 · Wiring included</div>'
+          + '<div style="font-size:13px;font-weight:700;color:#d4a847;margin-top:6px">£450 — fixed price</div>'
+        + '</div>'
+        + (ventSel?'<span style="font-size:13px;color:#d4a847;font-weight:600">&#10003; Selected</span>':'<span style="font-size:12px;color:#555;border:1px solid #333;padding:4px 10px;border-radius:4px">Add</span>')
+      + '</div>'
+    + '</div>'
+
+    // ── SHAVING POINT ──
+    + '<div class="sec-title" style="margin-top:20px">Shaving & Charging Point</div>'
+    + '<div style="background:#1a1a1a;border:'+(shavSel?'1px solid #d4a847':'1px solid #252525')+';border-radius:8px;padding:16px 18px;margin-bottom:8px;cursor:pointer" onclick="toggleElectrical(\'electrical_shaving\',\'es1\')">'
+      + '<div style="display:flex;justify-content:space-between;align-items:center">'
+        + '<div>'
+          + '<div style="font-size:14px;font-weight:600;color:#ddd;margin-bottom:3px">Shaving Point / USB Socket IP44</div>'
+          + '<div style="font-size:11px;color:#555">IP44 rated · Includes USB port · Zone 2 safe · Wiring included</div>'
+          + '<div style="font-size:13px;font-weight:700;color:#d4a847;margin-top:6px">£100 — fixed price</div>'
+        + '</div>'
+        + (shavSel?'<span style="font-size:13px;color:#d4a847;font-weight:600">&#10003; Selected</span>':'<span style="font-size:12px;color:#555;border:1px solid #333;padding:4px 10px;border-radius:4px">Add</span>')
+      + '</div>'
+    + '</div>';
+
+  pane.innerHTML = html;
+  renderElectricalMirrors();
+}
+
+function renderElectricalMirrors() {
+  var container = document.getElementById('grid_electrical_lighting');
+  if(!container) return;
+  var prods = catalog['electrical_lighting'] || [];
+  var html = '';
+  for(var i=0; i<prods.length; i++) {
+    var p = prods[i];
+    var isOther = !!p.isOther;
+    var s = sel['electrical_lighting'] && sel['electrical_lighting'][p.id];
+    html += '<div class="prod-card'+(s?' sel':'')+'" style="padding:12px;cursor:pointer;'+(isOther?'border-style:dashed':'')+'" '
+      +'data-ecat="electrical_lighting" data-eid="'+p.id+'" onclick="pgElecClick(this)">';
+    html += '<div class="prod-brand">'+p.brand+'</div>';
+    html += '<div class="prod-name">'+p.name+'</div>';
+    if(p.desc) html += '<div class="prod-desc">'+p.desc+'</div>';
+    html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">';
+    if(isOther) {
+      html += '<span style="font-size:13px;color:#d4a847;font-weight:600">Labour only</span>';
+    } else {
+      html += '<span style="font-size:15px;font-weight:700;color:#fff">'+fmt(p.price)+'<small style="font-size:10px;color:#555;font-weight:400"> /unit</small></span>';
+    }
+    if(s) html += '<span style="font-size:11px;color:#d4a847">&#10003; Selected</span>';
+    html += '</div>';
+    if(p.url) html += '<button onclick="event.stopPropagation();try{window.open(\''+p.url+'\',\'_blank\')}catch(e){}" style="background:none;border:1px solid #333;color:#888;padding:5px 10px;font-size:10px;border-radius:4px;cursor:pointer;width:100%;margin-top:6px">Details &#x2197;</button>';
+    html += '</div>';
+  }
+  container.innerHTML = html;
+}
+
+function pgElecClick(el) {
+  var cat = el.getAttribute('data-ecat');
+  var id  = el.getAttribute('data-eid');
+  if(sel[cat] && sel[cat][id]) {
+    delete sel[cat][id];
+  } else {
+    var p = findProd(cat, id); if(!p) return;
+    if(!sel[cat]) sel[cat]={};
+    sel[cat][id]={id:p.id,name:p.name,brand:p.brand||'',unit:'pcs',price:p.price,install:p.install||150,qty:1,isOther:!!p.isOther};
+  }
+  renderElectricalMirrors();
+  recalc();
+}
+
+function toggleElectrical(cat, id) {
+  var p = findProd(cat, id); if(!p) return;
+  var d = getDims();
+  if(sel[cat] && sel[cat][id]) {
+    delete sel[cat][id];
+  } else {
+    if(!sel[cat]) sel[cat]={};
+    if(cat==='electrical_heating') {
+      sel[cat][id]={id:p.id,name:p.name,brand:'Devi',unit:'m²',price:0,install:200,qty:d.floor||1,area:d.floor||1};
+    } else if(cat==='electrical_ventilation') {
+      sel[cat][id]={id:p.id,name:p.name,brand:'Vent-Axia',unit:'pcs',price:0,install:450,qty:1};
+    } else if(cat==='electrical_shaving') {
+      sel[cat][id]={id:p.id,name:p.name,brand:'MK Electric',unit:'pcs',price:0,install:100,qty:1};
+    }
+  }
+  renderElectricalPane();
+  recalc();
+}
+
+function changeSpotQty(delta) {
+  var current = (sel['electrical_lighting'] && sel['electrical_lighting']['spotlights']) ? sel['electrical_lighting']['spotlights'].qty : 0;
+  var newQty = Math.max(0, current + delta);
+  if(newQty === 0) {
+    if(sel['electrical_lighting']) delete sel['electrical_lighting']['spotlights'];
+  } else {
+    if(!sel['electrical_lighting']) sel['electrical_lighting']={};
+    sel['electrical_lighting']['spotlights'] = {id:'spotlights',name:'IP65 Recessed Spotlights',brand:'',unit:'pcs',price:65,install:0,qty:newQty};
+  }
+  var disp = document.getElementById('spotQtyDisplay');
+  var tot  = document.getElementById('spotTotalDisplay');
+  if(disp) disp.textContent = newQty;
+  if(tot)  tot.textContent  = newQty>0 ? fmt(newQty*65) : '£0';
+  // update border
+  var card = disp ? disp.closest('[style*="border"]') : null;
+  recalc();
 }
 
 function setWallScope(scope, silent) {
@@ -1493,9 +1751,11 @@ function handleUnitToggle(cat, id) {
 }
 
 
+var _recalcTimer = null;
 function recalc() {
+  if(!document.getElementById('topTotal')) return;
   var cfg=getSettings();
-  var allCats=['floor_tiles','floor_lvt','wall_tiles','wall_panels','units_toilet','units_shower','units_enclosure','units_bath','units_basin','units_taps','electrical','ceiling','finishes'];
+  var allCats=['floor_tiles','floor_lvt','wall_tiles','wall_panels','units_toilet','units_shower','units_enclosure','units_bath','units_basin','units_taps','electrical_lighting','electrical_heating','electrical_ventilation','electrical_shaving','ceiling','finishes'];
   var net=0;
   var breakdown={};
   for(var i=0;i<allCats.length;i++){
@@ -1531,7 +1791,7 @@ function recalc() {
   var bhtml='';
   var scopeLabel = wallScope==='all'?'All Walls':wallScope==='half'?'Half + Wet Area':wallScope==='wet'?'Wet Area Only':'';
   var wallSuffix = scopeLabel ? ' ('+scopeLabel+')' : '';
-  var catNames={floor_tiles:'Floor – Tiles',floor_lvt:'Floor – LVT',wall_tiles:'Walls – Tiles'+wallSuffix,wall_panels:'Walls – Panels'+wallSuffix,units_toilet:'Toilet',units_shower:'Shower',units_enclosure:'Shower Enclosure',units_bath:'Bath',units_basin:'Basin & Vanity',units_taps:'Taps & Brassware',electrical:'Electrical',ceiling:'Ceiling',finishes:'Finishes'};
+  var catNames={floor_tiles:'Floor – Tiles',floor_lvt:'Floor – LVT',wall_tiles:'Walls – Tiles'+wallSuffix,wall_panels:'Walls – Panels'+wallSuffix,units_toilet:'Toilet',units_shower:'Shower',units_enclosure:'Shower Enclosure',units_bath:'Bath',units_basin:'Basin & Vanity',units_taps:'Taps & Brassware',electrical_lighting:'LED Mirrors & Lighting',electrical_heating:'Underfloor Heating',electrical_ventilation:'Ventilation',electrical_shaving:'Shaving Point',ceiling:'Ceiling',finishes:'Finishes'};
   for(var k in breakdown){
     if(breakdown[k]>0){
       var stepNet=breakdown[k]*(1+cfg.margin/100);
@@ -1555,8 +1815,8 @@ function buildSummary() {
   var cfg=t.cfg;
   var scopeLabel = wallScope==='all'?'All Walls':wallScope==='half'?'Half + Wet Area':wallScope==='wet'?'Wet Area Only':'';
   var wallSuffix = scopeLabel ? ' ('+scopeLabel+')' : '';
-  var catNames={floor_tiles:'Floor – Tiles',floor_lvt:'Floor – LVT',wall_tiles:'Walls – Tiles'+wallSuffix,wall_panels:'Walls – Panels'+wallSuffix,units_toilet:'Toilet',units_shower:'Shower',units_enclosure:'Shower Enclosure',units_bath:'Bath',units_basin:'Basin & Vanity',units_taps:'Taps & Brassware',electrical:'Electrical',ceiling:'Ceiling',finishes:'Finishes'};
-  var allCats=['floor_tiles','floor_lvt','wall_tiles','wall_panels','units_toilet','units_shower','units_enclosure','units_bath','units_basin','units_taps','electrical','ceiling','finishes'];
+  var catNames={floor_tiles:'Floor – Tiles',floor_lvt:'Floor – LVT',wall_tiles:'Walls – Tiles'+wallSuffix,wall_panels:'Walls – Panels'+wallSuffix,units_toilet:'Toilet',units_shower:'Shower',units_enclosure:'Shower Enclosure',units_bath:'Bath',units_basin:'Basin & Vanity',units_taps:'Taps & Brassware',electrical_lighting:'LED Mirrors & Lighting',electrical_heating:'Underfloor Heating',electrical_ventilation:'Ventilation',electrical_shaving:'Shaving Point',ceiling:'Ceiling',finishes:'Finishes'};
+  var allCats=['floor_tiles','floor_lvt','wall_tiles','wall_panels','units_toilet','units_shower','units_enclosure','units_bath','units_basin','units_taps','electrical_lighting','electrical_heating','electrical_ventilation','electrical_shaving','ceiling','finishes'];
 
   var html='';
 
@@ -1655,8 +1915,8 @@ function exportPDF() {
   var coName=companies[0]?companies[0].name:'RenoCalc';
   var scopeLabel = wallScope==='all'?'All Walls':wallScope==='half'?'Half + Wet Area':wallScope==='wet'?'Wet Area Only':'';
   var wallSuffix = scopeLabel ? ' ('+scopeLabel+')' : '';
-  var catNames={floor_tiles:'Floor – Tiles',floor_lvt:'Floor – LVT',wall_tiles:'Walls – Tiles'+wallSuffix,wall_panels:'Walls – Panels'+wallSuffix,units_toilet:'Toilet',units_shower:'Shower',units_enclosure:'Shower Enclosure',units_bath:'Bath',units_basin:'Basin & Vanity',units_taps:'Taps & Brassware',electrical:'Electrical',ceiling:'Ceiling',finishes:'Finishes'};
-  var allCats=['floor_tiles','floor_lvt','wall_tiles','wall_panels','units_toilet','units_shower','units_enclosure','units_bath','units_basin','units_taps','electrical','ceiling','finishes'];
+  var catNames={floor_tiles:'Floor – Tiles',floor_lvt:'Floor – LVT',wall_tiles:'Walls – Tiles'+wallSuffix,wall_panels:'Walls – Panels'+wallSuffix,units_toilet:'Toilet',units_shower:'Shower',units_enclosure:'Shower Enclosure',units_bath:'Bath',units_basin:'Basin & Vanity',units_taps:'Taps & Brassware',electrical_lighting:'LED Mirrors & Lighting',electrical_heating:'Underfloor Heating',electrical_ventilation:'Ventilation',electrical_shaving:'Shaving Point',ceiling:'Ceiling',finishes:'Finishes'};
+  var allCats=['floor_tiles','floor_lvt','wall_tiles','wall_panels','units_toilet','units_shower','units_enclosure','units_bath','units_basin','units_taps','electrical_lighting','electrical_heating','electrical_ventilation','electrical_shaving','ceiling','finishes'];
   var rows='';
   for(var i=0;i<allCats.length;i++){
     var cat=allCats[i];
@@ -1729,7 +1989,7 @@ function renderAdminProducts() {
   var cats=['preparations','floor','walls','units','electrical','ceiling','finishes'];
   var scopeLabel = wallScope==='all'?'All Walls':wallScope==='half'?'Half + Wet Area':wallScope==='wet'?'Wet Area Only':'';
   var wallSuffix = scopeLabel ? ' ('+scopeLabel+')' : '';
-  var catNames={floor_tiles:'Floor – Tiles',floor_lvt:'Floor – LVT',wall_tiles:'Walls – Tiles'+wallSuffix,wall_panels:'Walls – Panels'+wallSuffix,units_toilet:'Toilet',units_shower:'Shower',units_enclosure:'Shower Enclosure',units_bath:'Bath',units_basin:'Basin & Vanity',units_taps:'Taps & Brassware',electrical:'Electrical',ceiling:'Ceiling',finishes:'Finishes'};
+  var catNames={floor_tiles:'Floor – Tiles',floor_lvt:'Floor – LVT',wall_tiles:'Walls – Tiles'+wallSuffix,wall_panels:'Walls – Panels'+wallSuffix,units_toilet:'Toilet',units_shower:'Shower',units_enclosure:'Shower Enclosure',units_bath:'Bath',units_basin:'Basin & Vanity',units_taps:'Taps & Brassware',electrical_lighting:'LED Mirrors & Lighting',electrical_heating:'Underfloor Heating',electrical_ventilation:'Ventilation',electrical_shaving:'Shaving Point',ceiling:'Ceiling',finishes:'Finishes'};
   var html='';
   for(var c=0;c<cats.length;c++){
     var cat=cats[c];
@@ -1775,7 +2035,7 @@ function addProduct() {
   catalog[cat].push(prod);
   renderAdminProducts();
   // refresh product grid if pane exists
-  var stepMap={floor_tiles:1,floor_lvt:1,wall_tiles:2,wall_panels:2,units_toilet:3,units_shower:3,units_enclosure:3,units_bath:3,units_basin:3,units_taps:3,electrical:4,ceiling:5,finishes:6};
+  var stepMap={floor_tiles:1,floor_lvt:1,wall_tiles:2,wall_panels:2,units_toilet:3,units_shower:3,units_enclosure:3,units_bath:3,units_basin:3,units_taps:3,electrical_lighting:4,electrical_heating:4,electrical_ventilation:4,electrical_shaving:4,ceiling:5,finishes:6};
   var si=stepMap[cat];
   if(cat==='floor_tiles'||cat==='floor_lvt') {
     var g=document.getElementById('grid_floor_active');
