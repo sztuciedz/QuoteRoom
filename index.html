@@ -1493,11 +1493,6 @@ function handleUnitToggle(cat, id) {
 }
 
 
-var _recalcTimer = null;
-function recalc() {
-  clearTimeout(_recalcTimer);
-  _recalcTimer = setTimeout(recalc, 50);
-}
 function recalc() {
   var cfg=getSettings();
   var allCats=['floor_tiles','floor_lvt','wall_tiles','wall_panels','units_toilet','units_shower','units_enclosure','units_bath','units_basin','units_taps','electrical','ceiling','finishes'];
