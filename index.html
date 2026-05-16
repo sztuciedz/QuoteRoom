@@ -19,7 +19,7 @@ input::placeholder, textarea::placeholder { color: #555; }
 #landingScreen { display: none; }
 #landingScreen.active { display: block; }
 #loginScreen { display: none; align-items: center; justify-content: center; min-height: 100vh; background: #111; }
-#loginScreen.active { position: fixed; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; z-index: 500; }
+#loginScreen.active { display: flex; }
 
 /* ══════════════════════════════════════
    LANDING PAGE
@@ -90,10 +90,10 @@ input::placeholder, textarea::placeholder { color: #555; }
 /* ══════════════════════════════════════
    CALCULATOR
 ══════════════════════════════════════ */
-#calcScreen { background: #111; }
+#calcScreen { background: #111; min-height: 100vh; }
 #calcScreen.active { position: fixed; top: 0; left: 0; right: 0; bottom: 0; overflow-y: auto; z-index: 500; }
 #adminScreen.active { position: fixed; top: 0; left: 0; right: 0; bottom: 0; overflow-y: auto; z-index: 500; }
-#loginScreen.active { position: fixed; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; z-index: 500; }
+#loginScreen.active { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 500; }
 #topBar { background: #1a1a1a; border-bottom: 1px solid #252525; padding: 0 16px; height: 54px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
 .topBar-logo { font-size: 18px; font-weight: 800; color: var(--accent); }
 .topBar-right { display: flex; align-items: center; gap: 14px; }
@@ -102,12 +102,12 @@ input::placeholder, textarea::placeholder { color: #555; }
 .total-box .lbl { font-size: 10px; color: #555; }
 .btn-sm { background: none; border: 1px solid #333; color: #777; padding: 6px 12px; font-size: 12px; border-radius: 4px; }
 
-#stepNav { background: #1a1a1a; border-bottom: 1px solid #252525; display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; position: sticky; top: 54px; z-index: 99; }
+#stepNav { background: #1a1a1a; border-bottom: 1px solid #252525; display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
 #stepNav::-webkit-scrollbar { display: none; }
 .snav-btn { flex-shrink: 0; padding: 13px 15px; border: none; background: none; color: #555; font-size: 12px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; }
 .snav-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
 
-#mainContent { padding: 24px 16px 90px; max-width: 820px; margin: 0 auto; }
+#mainContent { padding: 24px 16px 120px; max-width: 820px; margin: 0 auto; }
 .pane-title { font-size: 26px; font-weight: 700; margin-bottom: 6px; }
 .pane-sub { font-size: 13px; color: #666; margin-bottom: 24px; }
 .divider { height: 1px; background: linear-gradient(90deg, rgba(212,168,71,0.3), transparent); margin-bottom: 28px; }
@@ -141,16 +141,16 @@ input::placeholder, textarea::placeholder { color: #555; }
 .area-hint { background: #1a1a1a; border: 1px solid #252525; border-radius: 6px; padding: 10px 14px; margin-bottom: 16px; font-size: 12px; color: #777; display: none; }
 
 /* TOTAL SIDEBAR */
-
-#costPanel 
-
-
-
-
-
+#costPanel { width: 200px; position: fixed; top: 54px; right: 0; bottom: 64px; background: #1a1a1a; border-left: 1px solid #252525; padding: 18px 14px; overflow-y: auto; z-index: 90; }
+#costPanel .cp-title { font-size: 9px; color: #444; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 14px; }
+.cp-step { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #1e1e1e; }
+.cp-step-name { font-size: 9px; color: #444; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3px; }
+.cp-step-val { font-size: 13px; font-weight: 600; color: #aaa; }
+.cp-grand-label { font-size: 9px; color: #888; letter-spacing: 0.06em; text-transform: uppercase; margin-top: 14px; margin-bottom: 4px; }
+.cp-grand { font-size: 24px; font-weight: 700; color: var(--accent); }
 
 /* BOTTOM NAV */
-#bottomNav { position: fixed; bottom: 0; left: 0; right: 0; background: #1a1a1a; border-top: 1px solid #252525; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; z-index: 9999; }
+#bottomNav { position: fixed; bottom: 0; left: 0; right: 0; background: #1a1a1a; border-top: 1px solid #252525; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; z-index: 100; }
 .btn-prev { background: none; border: 1px solid #333; color: #777; padding: 12px 24px; font-size: 13px; border-radius: 6px; }
 .btn-prev:disabled { opacity: 0.25; cursor: default; }
 .btn-next { background: var(--accent); border: none; color: #111; padding: 12px 28px; font-size: 13px; font-weight: 700; border-radius: 6px; }
@@ -181,7 +181,7 @@ input::placeholder, textarea::placeholder { color: #555; }
 
 /* ADMIN */
 #adminScreen { background: #111; min-height: 100vh; display: none; }
-#adminScreen.active { position: fixed; top: 0; left: 0; right: 0; bottom: 0; overflow-y: auto; z-index: 500; }
+#adminScreen.active { display: block; }
 .admin-topbar { background: #1a1a1a; border-bottom: 1px solid #252525; height: 54px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; }
 .admin-tabs { display: flex; background: #1a1a1a; border-bottom: 1px solid #252525; overflow-x: auto; }
 .atab { background: none; border: none; border-bottom: 3px solid transparent; color: #555; padding: 13px 18px; font-size: 13px; cursor: pointer; white-space: nowrap; }
@@ -195,11 +195,10 @@ input::placeholder, textarea::placeholder { color: #555; }
 @media (max-width: 640px) {
   .grid2, .grid3 { grid-template-columns: 1fr; }
   .stat-row { grid-template-columns: 1fr 1fr; }
-  
+  #costPanel { display: none; }
   .hero h1 { font-size: 28px; }
 }
 </style>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
 
@@ -394,11 +393,19 @@ input::placeholder, textarea::placeholder { color: #555; }
     <!-- PANE 7: SUMMARY + CONTACT -->
     <div id="pane7" style="display:none"><div id="summaryContent"></div></div>
 
+    <!-- COST PANEL -->
+  <div id="costPanel">
+    <div class="cp-title">Estimate Breakdown</div>
+    <div id="cpBreakdown"></div>
+    <div class="cp-grand-label">TOTAL (INC. VAT)</div>
+    <div class="cp-grand" id="cpGrand">£0</div>
   </div>
 
-
+  <div id="bottomNav">
+    <button class="btn-prev" id="btnPrev" onclick="prevStep()" disabled>← Back</button>
+    <button class="btn-next" id="btnNext" onclick="nextOrFinish()">Next →</button>
+  </div>
 </div>
-
 
 <!-- ══════════════════════════════════════
      ADMIN
@@ -469,7 +476,6 @@ input::placeholder, textarea::placeholder { color: #555; }
             <div style="font-size:11px;color:#555;margin-top:2px">Tick if your company is VAT registered. VAT (20%) will be shown separately in the client quote.</div>
           </div>
         </div>
-        <div class="field" style="margin-bottom:16px"><label>Notification Email <span style="color:#555;font-size:10px">(enquiries sent here)</span></label><input type="email" id="a_notify" placeholder="your@email.com" style="background:#111;border:1px solid #333;color:#fff;padding:11px 13px;font-size:14px;border-radius:6px;width:100%"></div>
         <div class="grid2" style="max-width:380px">
           <div class="field"><label>VAT Rate (%)</label><input type="number" id="a_vat" min="0" max="100" value="20"></div>
           <div class="field"><label>Company Margin (%)</label><input type="number" id="a_margin" min="0" max="100"></div>
@@ -516,7 +522,7 @@ function recalcDebounced(){clearTimeout(_rt);_rt=setTimeout(recalc,80);}
 // DATA
 // ══════════════════════════════════════════════════════
 var companies = [
-  { id:'co1', name:'RenoMaster Pro', email:'admin@demo.com', password:'admin123', vat:20, margin:15, vatRegistered:true, notifyEmail:'florembuilder@gmail.com' }
+  { id:'co1', name:'RenoMaster Pro', email:'admin@demo.com', password:'admin123', vat:20, margin:15, vatRegistered:true }
 ];
 
 // Products: price = material + labour combined (what client sees)
@@ -900,7 +906,6 @@ function goLanding() {
 function startCalc() {
   hide('landingScreen'); hide('loginScreen'); hide('adminScreen');
   showBlock('calcScreen');
-  var bn=document.getElementById('bottomNav'); if(bn) bn.style.display='flex';
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
   setTimeout(function(){ window.scrollTo({top:0,left:0,behavior:'instant'}); }, 10);
@@ -992,9 +997,8 @@ function goStep(n) {
   for(var j=0;j<btns.length;j++) btns[j].classList.toggle('active',j===n);
   document.getElementById('btnPrev').disabled = n===0;
   var bn=document.getElementById('btnNext');
-  bn.style.display = n===7 ? 'none' : 'block';
+  bn.textContent = n===7 ? 'Export PDF' : 'Next →';
   currentStep=n;
-  var cs=document.getElementById('calcScreen'); if(cs) cs.scrollTop=0;
   if(n===1) renderFloorPane();
   if(n===2) renderWallPane();
   if(n===3) renderUnitsPane();
@@ -1004,7 +1008,7 @@ function goStep(n) {
   if(n===7) buildSummary();
   updateAreaHints();
 }
-function nextOrFinish() { if(currentStep!==7) goStep(currentStep+1); }
+function nextOrFinish() { if(currentStep===7) exportPDF(); else goStep(currentStep+1); }
 function prevStep() { if(currentStep>0) goStep(currentStep-1); }
 
 // ══════════════════════════════════════════════════════
@@ -1823,7 +1827,9 @@ function recalc() {
   var gross = subtotal + vatAmount;
 
   var topEl = document.getElementById('topTotal');
+  var cpEl  = document.getElementById('cpGrand');
   if(topEl) topEl.textContent = fmt(subtotal);
+  if(cpEl)  cpEl.textContent  = fmt(subtotal);
 
   // Cost panel breakdown
   var catNames = {
@@ -1850,7 +1856,8 @@ function recalc() {
     var pLabel = prepSelected===0 ? 'Strip-out + Prep' : 'Prep Only';
     bhtml = '<div class="cp-step"><div class="cp-step-name">'+pLabel+'</div><div class="cp-step-val">'+fmt(prepPrices[prepSelected])+'</div></div>' + bhtml;
   }
-
+  var cpBreak = document.getElementById('cpBreakdown');
+  if(cpBreak) cpBreak.innerHTML = bhtml;
 
   return {net:net, withMargin:withMargin, prepWithMargin:prepWithMargin,
           subtotal:subtotal, vatAmount:vatAmount, gross:gross,
@@ -2155,7 +2162,7 @@ function buildSummary() {
     + '</div>'
 
     + '<div id="cf_error" style="color:#e07070;font-size:12px;margin-bottom:10px;display:none"></div>'
-    + '<button onclick="sendContact()" style="background:var(--accent);border:none;color:#111;padding:14px 28px;font-size:14px;font-weight:700;border-radius:6px;width:100%;cursor:pointer">Send Enquiry &#8594;</button>'
+    + '<button onclick="sendContact()" style="background:var(--accent);border:none;color:#111;padding:14px 28px;font-size:14px;font-weight:700;border-radius:6px;width:100%;cursor:pointer">Request Free Site Visit &#8594;</button>'
   + '</div>'
   + '<div id="contactSent" style="display:none;text-align:center;padding:32px;background:#1a1a1a;border:1px solid rgba(212,168,71,0.3);border-radius:10px;margin-top:20px">'
     + '<div style="font-size:36px;margin-bottom:12px">&#10003;</div>'
@@ -2168,21 +2175,20 @@ function buildSummary() {
 }
 
 function sendContact() {
-  var name     = document.getElementById('cf_name')     ? document.getElementById('cf_name').value.trim()     : '';
-  var phone    = document.getElementById('cf_phone')    ? document.getElementById('cf_phone').value.trim()    : '';
-  var email    = document.getElementById('cf_email')    ? document.getElementById('cf_email').value.trim()    : '';
-  var housenum = document.getElementById('cf_housenum') ? document.getElementById('cf_housenum').value.trim() : '';
-  var street   = document.getElementById('cf_street')   ? document.getElementById('cf_street').value.trim()   : '';
-  var postcode = document.getElementById('cf_postcode') ? document.getElementById('cf_postcode').value.trim().toUpperCase() : '';
-  var city     = document.getElementById('cf_city')     ? document.getElementById('cf_city').value            : '';
-  var consent  = document.getElementById('cf_consent')  ? document.getElementById('cf_consent').checked       : false;
-  var notes    = document.getElementById('cf_notes')    ? document.getElementById('cf_notes').value.trim()    : '';
+  var name     = document.getElementById('cf_name')    ? document.getElementById('cf_name').value.trim()     : '';
+  var phone    = document.getElementById('cf_phone')   ? document.getElementById('cf_phone').value.trim()    : '';
+  var email    = document.getElementById('cf_email')   ? document.getElementById('cf_email').value.trim()    : '';
+  var housenum = document.getElementById('cf_housenum')? document.getElementById('cf_housenum').value.trim() : '';
+  var street   = document.getElementById('cf_street')  ? document.getElementById('cf_street').value.trim()   : '';
+  var postcode = document.getElementById('cf_postcode')? document.getElementById('cf_postcode').value.trim() : '';
+  var city     = document.getElementById('cf_city')    ? document.getElementById('cf_city').value            : '';
+  var consent  = document.getElementById('cf_consent') ? document.getElementById('cf_consent').checked       : false;
   var errEl    = document.getElementById('cf_error');
 
   var missing = [];
   if(!name)     missing.push('Name');
   if(!phone)    missing.push('Phone');
-  if(!email || !email.includes('@')) missing.push('Valid Email');
+  if(!email)    missing.push('Email');
   if(!housenum) missing.push('House Number');
   if(!street)   missing.push('Street');
   if(!postcode) missing.push('Postcode');
@@ -2190,95 +2196,17 @@ function sendContact() {
   if(!consent)  missing.push('Please tick the consent box');
 
   if(missing.length) {
-    if(errEl) { errEl.style.display='block'; errEl.textContent='Please complete: ' + missing.join(', ') + '.'; }
+    if(errEl) { errEl.style.display='block'; errEl.textContent='Please complete: '+missing.join(', ')+'.'; }
     return;
   }
-  if(errEl) errEl.style.display = 'none';
+  if(errEl) errEl.style.display='none';
 
-  // Build items summary for email
-  var t = recalc();
-  var catLabels = {
-    floor_tiles:'Floor Tiles', floor_lvt:'Floor LVT',
-    wall_tiles:'Wall Tiles', wall_panels:'Wall Panels', wall_finish:'Wall Plaster & Paint',
-    units_toilet:'Toilet', units_shower:'Shower', units_enclosure:'Shower Enclosure',
-    units_bath:'Bath', units_basin:'Basin & Vanity', units_taps:'Taps',
-    electrical_lighting:'Lighting', electrical_heating:'Underfloor Heating',
-    electrical_ventilation:'Extractor Fan', electrical_shaving:'Shaving Point',
-    ceiling:'Ceiling', finishes:'Finishes'
-  };
-  var allCats = ['floor_tiles','floor_lvt','wall_tiles','wall_panels','wall_finish',
-    'units_toilet','units_shower','units_enclosure','units_bath','units_basin','units_taps',
-    'electrical_lighting','electrical_heating','electrical_ventilation','electrical_shaving',
-    'ceiling','finishes'];
-
-  var itemLines = [];
-  if(prepSelected >= 0) {
-    itemLines.push((prepSelected===0?'Full Strip-out + Preparations':'Room Preparations Only') + ' — £' + prepPrices[prepSelected]);
-  }
-  allCats.forEach(function(cat) {
-    var items = sel[cat] ? Object.values(sel[cat]) : [];
-    items.forEach(function(item) {
-      var matCost = (item.price||0)*(item.qty||1);
-      var labCost = item.labour&&item.area ? item.labour*item.area : (item.install||0)*(item.qty||1);
-      var gross = (matCost+labCost+(item.extraFixings||0))*(1+t.cfg.margin/100)*(t.cfg.vatRegistered?1+t.cfg.vat/100:1);
-      itemLines.push((catLabels[cat]||cat)+': '+item.name+' — £'+Math.round(gross));
-    });
-  });
-
-  var d = getDims();
-  var templateParams = {
-    client_name:    name,
-    client_phone:   phone,
-    client_email:   email,
-    client_address: housenum + ' ' + street + ', ' + postcode + ', ' + city,
-    client_notes:   notes || 'None',
-    room_dims:      d.l+'m x '+d.w+'m x '+d.h+'m ('+d.floor.toFixed(2)+' m² floor)',
-    items_list:     itemLines.join('\n'),
-    total_estimate: '£'+Math.round(t.subtotal)+' excl. VAT'+(t.cfg.vatRegistered?' (£'+Math.round(t.gross)+' incl. VAT)':''),
-    to_email:       (companies[0] && companies[0].notifyEmail) ? companies[0].notifyEmail : ''
-  };
-
-  // Show loading state
-  var btn = document.querySelector('#contactBox button');
-  if(btn) { btn.textContent = 'Sending...'; btn.disabled = true; }
-
-  // EmailJS - replace with your actual service/template IDs
-  // ── EmailJS Setup ──────────────────────────────────────
-  // 1. Register free at emailjs.com
-  // 2. Add Email Service (Gmail) → copy Service ID
-  // 3. Create Template with variables: client_name, client_phone,
-  //    client_email, client_address, room_dims, items_list,
-  //    total_estimate, client_notes, to_email
-  // 4. Copy Public Key from Account → API Keys
-  // Replace the 3 values below:
-  var EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';
-  var EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';
-  var EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
-  // ────────────────────────────────────────────────────────
-
-  if(typeof emailjs !== 'undefined') {
-    emailjs.init(EMAILJS_PUBLIC_KEY);
-    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
-      .then(function() {
-        showContactSuccess();
-      }, function(error) {
-        // Fallback - show success anyway (log error)
-        console.log('Email error:', error);
-        showContactSuccess();
-      });
-  } else {
-    // EmailJS not loaded - show success (for testing)
-    showContactSuccess();
-  }
-}
-
-function showContactSuccess() {
   var box  = document.getElementById('contactBox');
   var sent = document.getElementById('contactSent');
   if(box)  box.style.display  = 'none';
   if(sent) sent.style.display = 'block';
+  // TODO: send via API/email
 }
-
 
 
 // ══════════════════════════════════════════════════════
@@ -2448,7 +2376,6 @@ function loadAdminRates(){
   document.getElementById('a_removal').value=prepPrices[0];
   document.getElementById('a_preponly').value=prepPrices[1];
   document.getElementById('a_vatReg').checked=cfg.vatRegistered;
-  var ne=document.getElementById('a_notify'); if(ne) ne.value=(currentCo&&currentCo.notifyEmail)||'';
 }
 
 function saveRates(){
@@ -2458,11 +2385,10 @@ function saveRates(){
   prepPrices[0]=parseFloat(document.getElementById('a_removal').value)||450;
   prepPrices[1]=parseFloat(document.getElementById('a_preponly').value)||200;
   var vatReg=document.getElementById('a_vatReg').checked;
-  var notifyEl=document.getElementById('a_notify'); var notifyEmail=notifyEl?notifyEl.value.trim():'';
   for(var i=0;i<companies.length;i++){
     if(currentCo&&companies[i].id===currentCo.id){
-      companies[i].vat=vat; companies[i].margin=margin; companies[i].vatRegistered=vatReg; companies[i].notifyEmail=notifyEmail;
-      currentCo.vat=vat; currentCo.margin=margin; currentCo.vatRegistered=vatReg; currentCo.notifyEmail=notifyEmail;
+      companies[i].vat=vat; companies[i].margin=margin; companies[i].vatRegistered=vatReg;
+      currentCo.vat=vat; currentCo.margin=margin; currentCo.vatRegistered=vatReg;
     }
   }
   updateRemovalDisplay();
@@ -2530,9 +2456,5 @@ renderProductGrid = function(cat, gridId) {
   }
 };
 </script>
-<div id="bottomNav" style="display:none">
-  <button class="btn-prev" id="btnPrev" onclick="prevStep()" disabled>← Back</button>
-  <button class="btn-next" id="btnNext" onclick="nextOrFinish()">Next →</button>
-</div>
 </body>
 </html>
