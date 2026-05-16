@@ -7,6 +7,7 @@
 <meta name="description" content="Free bathroom renovation cost estimator. Calculate tiles, fixtures, plumbing, electrical and labour in minutes. Get a detailed estimation quote online — no registration required.">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
+:root { --accent: #d4a847; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: #111; color: #fff; min-height: 100vh; }
 button { font-family: inherit; cursor: pointer; }
 input, select, textarea { font-family: inherit; }
@@ -24,29 +25,29 @@ input::placeholder, textarea::placeholder { color: #555; }
    LANDING PAGE
 ══════════════════════════════════════ */
 .land-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; background: rgba(17,17,17,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid #222; height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; }
-.land-logo { font-size: 22px; font-weight: 800; color: #d4a847; letter-spacing: -0.02em; }
+.land-logo { font-size: 22px; font-weight: 800; color: var(--accent); letter-spacing: -0.02em; }
 .land-nav-right { display: flex; gap: 12px; align-items: center; }
 .btn-outline { background: none; border: 1px solid #444; color: #aaa; padding: 8px 16px; font-size: 13px; border-radius: 6px; }
-.btn-outline:hover { border-color: #d4a847; color: #d4a847; }
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); }
 
 /* HERO */
-.hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 100px 24px 60px; background: radial-gradient(ellipse at 50% 0%, rgba(212,168,71,0.12) 0%, transparent 70%), #111; }
+.hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 80px 24px 32px; background: radial-gradient(ellipse at 50% 0%, rgba(212,168,71,0.12) 0%, transparent 70%), #111; }
 .hero-inner { max-width: 700px; }
-.hero-badge { display: inline-block; background: rgba(212,168,71,0.15); border: 1px solid rgba(212,168,71,0.3); color: #d4a847; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 6px 14px; border-radius: 20px; margin-bottom: 28px; }
+.hero-badge { display: inline-block; background: rgba(212,168,71,0.15); border: 1px solid rgba(212,168,71,0.3); color: var(--accent); font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 6px 14px; border-radius: 20px; margin-bottom: 28px; }
 .hero h1 { font-size: clamp(32px, 6vw, 56px); font-weight: 800; line-height: 1.1; margin-bottom: 20px; letter-spacing: -0.02em; }
-.hero h1 span { color: #d4a847; }
+.hero h1 span { color: var(--accent); }
 .hero p { font-size: clamp(15px, 2.5vw, 18px); color: #888; line-height: 1.7; margin-bottom: 36px; max-width: 560px; margin-left: auto; margin-right: auto; }
-.btn-hero { background: #d4a847; border: none; color: #111; padding: 16px 36px; font-size: 16px; font-weight: 700; border-radius: 8px; display: inline-block; }
+.btn-hero { background: var(--accent); border: none; color: #111; padding: 16px 36px; font-size: 16px; font-weight: 700; border-radius: 8px; display: inline-block; }
 .btn-hero:hover { background: #e8c060; }
 .hero-note { font-size: 12px; color: #555; margin-top: 14px; }
 
 /* HOW IT WORKS */
-.section { padding: 80px 24px; max-width: 960px; margin: 0 auto; }
-.section-label { font-size: 11px; color: #d4a847; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 12px; }
+.section { padding: 48px 24px; max-width: 960px; margin: 0 auto; }
+.section-label { font-size: 11px; color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 12px; }
 .section h2 { font-size: clamp(24px, 4vw, 36px); font-weight: 700; margin-bottom: 48px; }
 .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
 .step-card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 10px; padding: 24px 20px; }
-.step-num { width: 36px; height: 36px; background: rgba(212,168,71,0.15); border: 1px solid rgba(212,168,71,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #d4a847; margin-bottom: 14px; }
+.step-num { width: 36px; height: 36px; background: rgba(212,168,71,0.15); border: 1px solid rgba(212,168,71,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: var(--accent); margin-bottom: 14px; }
 .step-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
 .step-card p { font-size: 13px; color: #666; line-height: 1.5; }
 
@@ -75,13 +76,13 @@ input::placeholder, textarea::placeholder { color: #555; }
    LOGIN
 ══════════════════════════════════════ */
 .login-box { background: #1a1a1a; border: 1px solid #2a2a2a; padding: 40px; width: 340px; border-radius: 10px; }
-.login-box h1 { font-size: 26px; font-weight: 800; color: #d4a847; margin-bottom: 6px; }
+.login-box h1 { font-size: 26px; font-weight: 800; color: var(--accent); margin-bottom: 6px; }
 .login-box p { color: #666; font-size: 13px; margin-bottom: 28px; }
 .field { margin-bottom: 16px; }
 .field label { display: block; font-size: 10px; color: #777; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 7px; }
 .field input, .field select, .field textarea { width: 100%; background: #111; border: 1px solid #333; color: #fff; padding: 11px 13px; font-size: 14px; border-radius: 6px; }
 .field textarea { min-height: 80px; resize: vertical; }
-.btn-gold { background: #d4a847; border: none; color: #111; padding: 13px 24px; font-size: 14px; font-weight: 700; width: 100%; border-radius: 6px; }
+.btn-gold { background: var(--accent); border: none; color: #111; padding: 13px 24px; font-size: 14px; font-weight: 700; width: 100%; border-radius: 6px; }
 .err { color: #e07070; font-size: 12px; margin-bottom: 12px; }
 .back-link { text-align: center; margin-top: 16px; }
 .back-link button { background: none; border: none; color: #555; font-size: 12px; text-decoration: underline; }
@@ -94,38 +95,38 @@ input::placeholder, textarea::placeholder { color: #555; }
 #adminScreen.active { position: fixed; top: 0; left: 0; right: 0; bottom: 0; overflow-y: auto; z-index: 500; }
 #loginScreen.active { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 500; }
 #topBar { background: #1a1a1a; border-bottom: 1px solid #252525; padding: 0 16px; height: 54px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-.topBar-logo { font-size: 18px; font-weight: 800; color: #d4a847; }
+.topBar-logo { font-size: 18px; font-weight: 800; color: var(--accent); }
 .topBar-right { display: flex; align-items: center; gap: 14px; }
 .total-box { text-align: right; }
-.total-box .amt { font-size: 20px; font-weight: 700; color: #d4a847; }
+.total-box .amt { font-size: 20px; font-weight: 700; color: var(--accent); }
 .total-box .lbl { font-size: 10px; color: #555; }
 .btn-sm { background: none; border: 1px solid #333; color: #777; padding: 6px 12px; font-size: 12px; border-radius: 4px; }
 
 #stepNav { background: #1a1a1a; border-bottom: 1px solid #252525; display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
 #stepNav::-webkit-scrollbar { display: none; }
 .snav-btn { flex-shrink: 0; padding: 13px 15px; border: none; background: none; color: #555; font-size: 12px; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; }
-.snav-btn.active { color: #d4a847; border-bottom-color: #d4a847; }
+.snav-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
 
 #mainContent { padding: 24px 16px 120px; max-width: 820px; margin: 0 auto; }
 .pane-title { font-size: 26px; font-weight: 700; margin-bottom: 6px; }
 .pane-sub { font-size: 13px; color: #666; margin-bottom: 24px; }
 .divider { height: 1px; background: linear-gradient(90deg, rgba(212,168,71,0.3), transparent); margin-bottom: 28px; }
 
-.sec-title { font-size: 10px; color: #d4a847; letter-spacing: 0.12em; text-transform: uppercase; margin: 22px 0 12px; }
+.sec-title { font-size: 10px; color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase; margin: 22px 0 12px; }
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
 
 .stat-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 16px 0 24px; }
 .stat-box { background: #1e1e1e; border: 1px solid #2a2a2a; padding: 14px 16px; border-radius: 8px; }
 .stat-box .sl { font-size: 10px; color: #555; text-transform: uppercase; margin-bottom: 5px; }
-.stat-box .sv { font-size: 21px; font-weight: 700; color: #d4a847; }
+.stat-box .sv { font-size: 21px; font-weight: 700; color: var(--accent); }
 
 /* PRODUCT CARDS */
 .prod-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; margin-bottom: 8px; }
 .prod-card { background: #1a1a1a; border: 1px solid #252525; border-radius: 8px; padding: 14px; transition: border-color 0.15s; }
 .prod-card:hover { border-color: #3a3a3a; }
-.prod-card.sel { border-color: #d4a847; background: #1e1a0e; }
-.prod-brand { font-size: 10px; color: #d4a847; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3px; }
+.prod-card.sel { border-color: var(--accent); background: #1e1a0e; }
+.prod-brand { font-size: 10px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3px; }
 .prod-name { font-size: 13px; color: #bbb; line-height: 1.4; margin-bottom: 10px; }
 .prod-desc { font-size: 11px; color: #555; margin-bottom: 10px; line-height: 1.4; }
 .prod-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
@@ -133,10 +134,10 @@ input::placeholder, textarea::placeholder { color: #555; }
 .prod-price small { font-size: 10px; color: #555; font-weight: 400; }
 .prod-actions { display: flex; align-items: center; gap: 6px; }
 .qty-input { width: 50px; background: #111; border: 1px solid #333; color: #fff; padding: 6px; font-size: 13px; text-align: center; border-radius: 4px; }
-.btn-add { background: #d4a847; border: none; color: #111; padding: 7px 13px; font-size: 12px; font-weight: 700; border-radius: 4px; }
-.btn-upd { background: rgba(212,168,71,0.15); border: 1px solid rgba(212,168,71,0.35); color: #d4a847; padding: 6px 10px; font-size: 12px; border-radius: 4px; }
+.btn-add { background: var(--accent); border: none; color: #111; padding: 7px 13px; font-size: 12px; font-weight: 700; border-radius: 4px; }
+.btn-upd { background: rgba(212,168,71,0.15); border: 1px solid rgba(212,168,71,0.35); color: var(--accent); padding: 6px 10px; font-size: 12px; border-radius: 4px; }
 .btn-del { background: rgba(224,112,112,0.15); border: 1px solid rgba(224,112,112,0.35); color: #e07070; padding: 6px 10px; font-size: 12px; border-radius: 4px; }
-.prod-sel-info { margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(212,168,71,0.25); display: flex; justify-content: space-between; font-size: 11px; color: #d4a847; }
+.prod-sel-info { margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(212,168,71,0.25); display: flex; justify-content: space-between; font-size: 11px; color: var(--accent); }
 .area-hint { background: #1a1a1a; border: 1px solid #252525; border-radius: 6px; padding: 10px 14px; margin-bottom: 16px; font-size: 12px; color: #777; display: none; }
 
 /* TOTAL SIDEBAR */
@@ -146,19 +147,19 @@ input::placeholder, textarea::placeholder { color: #555; }
 .cp-step-name { font-size: 9px; color: #444; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3px; }
 .cp-step-val { font-size: 13px; font-weight: 600; color: #aaa; }
 .cp-grand-label { font-size: 9px; color: #888; letter-spacing: 0.06em; text-transform: uppercase; margin-top: 14px; margin-bottom: 4px; }
-.cp-grand { font-size: 24px; font-weight: 700; color: #d4a847; }
+.cp-grand { font-size: 24px; font-weight: 700; color: var(--accent); }
 
 /* BOTTOM NAV */
 #bottomNav { position: fixed; bottom: 0; left: 0; right: 0; background: #1a1a1a; border-top: 1px solid #252525; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; z-index: 100; }
 .btn-prev { background: none; border: 1px solid #333; color: #777; padding: 12px 24px; font-size: 13px; border-radius: 6px; }
 .btn-prev:disabled { opacity: 0.25; cursor: default; }
-.btn-next { background: #d4a847; border: none; color: #111; padding: 12px 28px; font-size: 13px; font-weight: 700; border-radius: 6px; }
+.btn-next { background: var(--accent); border: none; color: #111; padding: 12px 28px; font-size: 13px; font-weight: 700; border-radius: 6px; }
 
 /* SUMMARY & CONTACT */
 .sum-card { background: #1a1a1a; border: 1px solid #252525; border-radius: 8px; margin-bottom: 10px; overflow: hidden; }
 .sum-head { padding: 11px 16px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; }
 .sum-head .sl { font-size: 11px; font-weight: 600; color: #999; text-transform: uppercase; letter-spacing: 0.04em; }
-.sum-head .sv { font-size: 17px; font-weight: 700; color: #d4a847; }
+.sum-head .sv { font-size: 17px; font-weight: 700; color: var(--accent); }
 .sum-body { padding: 12px 16px; }
 .sum-line { display: flex; justify-content: space-between; font-size: 12px; color: #666; margin-bottom: 5px; }
 .sum-line .v { color: #999; }
@@ -167,7 +168,7 @@ input::placeholder, textarea::placeholder { color: #555; }
 .tot-row .v { color: #bbb; }
 .tot-grand { display: flex; justify-content: space-between; align-items: baseline; padding-top: 14px; margin-top: 6px; border-top: 2px solid rgba(212,168,71,0.3); }
 .tot-grand .l { font-size: 15px; font-weight: 600; color: #fff; }
-.tot-grand .v { font-size: 30px; font-weight: 700; color: #d4a847; }
+.tot-grand .v { font-size: 30px; font-weight: 700; color: var(--accent); }
 
 /* CONTACT FORM */
 .contact-box { background: linear-gradient(135deg, #1a1a0d, #1e1a0e); border: 1px solid rgba(212,168,71,0.25); border-radius: 10px; padding: 28px 24px; margin-top: 28px; }
@@ -175,7 +176,7 @@ input::placeholder, textarea::placeholder { color: #555; }
 .contact-box p { font-size: 13px; color: #777; margin-bottom: 22px; line-height: 1.5; }
 .contact-sent { text-align: center; padding: 28px; }
 .contact-sent .icon { font-size: 40px; margin-bottom: 12px; }
-.contact-sent h3 { font-size: 18px; color: #d4a847; margin-bottom: 6px; }
+.contact-sent h3 { font-size: 18px; color: var(--accent); margin-bottom: 6px; }
 .contact-sent p { font-size: 13px; color: #777; }
 
 /* ADMIN */
@@ -184,7 +185,7 @@ input::placeholder, textarea::placeholder { color: #555; }
 .admin-topbar { background: #1a1a1a; border-bottom: 1px solid #252525; height: 54px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; }
 .admin-tabs { display: flex; background: #1a1a1a; border-bottom: 1px solid #252525; overflow-x: auto; }
 .atab { background: none; border: none; border-bottom: 3px solid transparent; color: #555; padding: 13px 18px; font-size: 13px; cursor: pointer; white-space: nowrap; }
-.atab.active { color: #d4a847; border-bottom-color: #d4a847; }
+.atab.active { color: var(--accent); border-bottom-color: var(--accent); }
 .admin-body { max-width: 800px; margin: 0 auto; padding: 24px 16px 60px; }
 .admin-card { background: #1a1a1a; border: 1px solid #252525; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
 .admin-card h3 { font-size: 13px; font-weight: 600; color: #999; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 16px; }
@@ -390,16 +391,9 @@ input::placeholder, textarea::placeholder { color: #555; }
     <div id="pane6" style="display:none"></div>
 
     <!-- PANE 7: SUMMARY + CONTACT -->
-    <div id="pane7" style="display:none">
-      <div class="pane-title">📋 Estimation Summary</div>
-      <div class="pane-sub">Review your estimate and send an enquiry</div>
-      <div class="divider"></div>
-      <div id="summaryContent"></div>
-    </div>
+    <div id="pane7" style="display:none"><div id="summaryContent"></div></div>
 
-  </div>
-
-  <!-- COST PANEL -->
+    <!-- COST PANEL -->
   <div id="costPanel">
     <div class="cp-title">Estimate Breakdown</div>
     <div id="cpBreakdown"></div>
@@ -784,9 +778,18 @@ var catalog = {
      desc:'IP44 bathroom-rated shaver socket · Includes USB port · Zone 2 safe installation'},
   ],
   ceiling:[
-    {id:'c1',name:'Plasterboard Ceiling',brand:'Knauf',unit:'m²',price:120,desc:'Moisture-resistant plasterboard + frame + skim + paint'},
-    {id:'c2',name:'Stretch Ceiling White Matt',brand:'Barrisol',unit:'m²',price:280,desc:'PVC stretch film + perimeter profile + installation'},
-    {id:'c3',name:'White PVC Tongue & Groove',brand:'Cladco',unit:'m²',price:90,desc:'Waterproof PVC cladding panels + installation'},
+    {id:'c1',name:'Plasterboard + Skim + Paint',brand:'Knauf / Dulux',unit:'m²',price:0,install:140,
+     desc:'Moisture resistant boards · Skim coat · Dulux bathroom paint · Full ceiling service'},
+    {id:'c2',name:'Plastering + Skim + Paint',brand:'Dulux',unit:'m²',price:0,install:85,
+     desc:'Skim and level existing ceiling · Dulux specialist bathroom paint · No boarding required'},
+    {id:'c3',name:'Paint Only',brand:'Dulux',unit:'m²',price:0,install:40,
+     desc:'Dulux Bathroom+ paint · Mould & moisture resistant · 2 coats · Existing ceiling must be smooth'},
+    {id:'c4',name:'PVC Cladding Ceiling',brand:'Cladco',unit:'m²',price:0,install:60,
+     desc:'Low maintenance · No painting required · Waterproof · Clean modern look · + £400 fixed labour'},
+  ],
+  wall_finish:[
+    {id:'wf1',name:'Plastering + Paint',brand:'Dulux',unit:'m²',price:0,install:50,
+     desc:'Skim plaster + Dulux bathroom paint · Applied to unfinished wall areas · Moisture resistant'},
   ],
   finishes:[
     {id:'fi1',name:'Epoxy Grouting (all joints)',brand:'Mapei',unit:'m²',price:35,desc:'Mould-resistant epoxy grout, all tile joints'},
@@ -796,7 +799,9 @@ var catalog = {
   ]
 };
 
-var sel = { preparations:{}, floor_tiles:{}, floor_lvt:{}, wall_tiles:{}, wall_panels:{}, units_toilet:{}, units_shower:{}, units_enclosure:{}, units_bath:{}, units_basin:{}, units_taps:{}, electrical_lighting:{}, electrical_heating:{}, electrical_ventilation:{}, electrical_shaving:{}, ceiling:{}, finishes:{} };
+var sel = { preparations:{}, floor_tiles:{}, floor_lvt:{}, wall_tiles:{}, wall_panels:{}, units_toilet:{}, units_shower:{}, units_enclosure:{}, units_bath:{}, units_basin:{}, units_taps:{}, electrical_lighting:{}, electrical_heating:{}, electrical_ventilation:{}, electrical_shaving:{}, ceiling:{}, wall_finish:{}, finishes:{} };
+var ceilingAccordionOpen = false;
+var wallFinishAccordionOpen = false;
 var unitsCategory = '';
 var wallCategory = '';
 var wallScope = ''; // 'all', 'half', 'wet'
@@ -975,7 +980,7 @@ function initCalc() {
   calcInited = true;
   updateRemovalDisplay();
   // render product panes 1-6 only (preparations has fixed removal card)
-  for(var s=5;s<=6;s++) renderProductPane(s); // panes 1-4 rendered fresh in goStep
+  // panes 1-6 all rendered fresh in goStep // panes 1-4 rendered fresh in goStep
   recalc();
   goStep(0);
 }
@@ -998,6 +1003,8 @@ function goStep(n) {
   if(n===2) renderWallPane();
   if(n===3) renderUnitsPane();
   if(n===4) renderElectricalPane();
+  if(n===5) renderCeilingPane();
+  if(n===6) renderFinishesPane();
   if(n===7) buildSummary();
   updateAreaHints();
 }
@@ -1152,7 +1159,6 @@ function renderProductGrid(cat, gridId) {
   }
   var floorMode = (cat === 'floor_tiles' || cat === 'floor_lvt');
   var wallMode  = (cat === 'wall_tiles'  || cat === 'wall_panels');
-  var d = getDims(); var area = d.floor;
   var html = '';
   for(var i = 0; i < prods.length; i++) {
     var p = prods[i];
@@ -1161,47 +1167,35 @@ function renderProductGrid(cat, gridId) {
     var clickFn = wallMode ? 'pgWallClick' : 'pgFloorClick';
     html += '<div class="prod-card'+(s?' sel':'')+'" '
       +'style="padding:0;overflow:hidden;cursor:pointer;'+(isOther?'border-style:dashed':'')+'" '
-      +'data-cat="'+cat+'" data-id="'+p.id+'" '
-      +'onclick="'+clickFn+'(event,this)">';
+      +'data-cat="'+cat+'" data-id="'+p.id+'" onclick="'+clickFn+'(event,this)">';
+    // Image slot — always shown
+    html += '<div style="width:100%;height:130px;overflow:hidden;background:#1a1a1a;border-radius:8px 8px 0 0;display:flex;align-items:center;justify-content:center">';
     if(p.img) {
-      html += '<div style="width:100%;height:140px;overflow:hidden;background:#1a1a1a;border-radius:8px 8px 0 0">'
-        +'<img src="'+p.img+'" alt="tile" style="width:100%;height:100%;object-fit:cover" loading="lazy">'
-        +'</div>';
+      html += '<img src="'+p.img+'" alt="tile" loading="lazy" style="width:100%;height:100%;object-fit:cover">';
+    } else {
+      // SVG placeholder in accent color
+      html += '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" opacity="0.3"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M9 9v12"/></svg>';
     }
-    html += '<div style="padding:12px">';
+    html += '</div>';
+    html += '<div style="padding:10px">';
     html += '<div class="prod-brand">'+p.brand+'</div>';
     html += '<div class="prod-name">'+p.name+'</div>';
     if(p.desc) html += '<div class="prod-desc">'+p.desc+'</div>';
-    if(floorMode || wallMode) {
-      var effectiveArea = wallMode ? (typeof getWallArea==='function'?getWallArea():0) : area;
-      if(!isOther && effectiveArea>0) {
-        var ww = Math.ceil(effectiveArea*1.1*100)/100;
-        var al = wallMode?'Calculated area':'Your floor';
-        html += '<div style="font-size:10px;color:#888;margin:6px 0 4px">'
-          +al+': '+effectiveArea.toFixed(2)+' m&sup2; <span style="color:#d4a847">+ 10% = '+ww.toFixed(2)+' m&sup2;</span></div>';
-      }
-      html += '<div style="display:flex;justify-content:space-between;align-items:center;margin:6px 0 8px">';
-      if(isOther) {
-        html += '<span style="font-size:13px;color:#d4a847;font-weight:600">Labour cost only</span>';
-      } else {
-        html += '<span style="font-size:16px;font-weight:700;color:#fff">'+fmt(p.price)+'<small style="font-size:10px;color:#555;font-weight:400">/m&sup2;</small></span>';
-      }
-      if(s) html += '<span style="font-size:11px;color:#d4a847">&#10003; Selected</span>';
-      html += '</div>';
+    // Price + selected indicator
+    html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">';
+    if(isOther) {
+      html += '<span style="font-size:12px;color:var(--accent);font-weight:600">Labour cost only</span>';
+    } else if(floorMode || wallMode) {
+      html += '<span style="font-size:15px;font-weight:700;color:#fff">'+fmt(p.price)+'<small style="font-size:10px;color:#555;font-weight:400">/m²</small></span>';
     } else {
-      html += '<div class="prod-footer">';
-      if(isOther) {
-        html += '<span style="font-size:13px;color:#d4a847;font-weight:600">Labour cost only</span>';
-      } else {
-        html += '<div class="prod-price">'+fmt(p.price)+'<small>/'+p.unit+'</small></div>';
-      }
-      html += '</div>';
-      if(s) html += '<div class="prod-sel-info"><span>'+s.qty+' '+p.unit+'</span><span>'+(isOther?'TBC':fmt(p.price*s.qty))+'</span></div>';
+      html += '<span style="font-size:15px;font-weight:700;color:#fff">'+fmt(p.price)+'<small style="font-size:10px;color:#555;font-weight:400">/'+p.unit+'</small></span>';
     }
+    if(s) html += '<span style="font-size:11px;color:var(--accent)">&#10003; Selected</span>';
+    html += '</div>';
+    // Details button
     if(p.url) {
-      html += '<button onclick="event.stopPropagation();window.open(\''+p.url+'\',\'_blank\')" '
-        +'style="background:none;border:1px solid #333;color:#888;padding:5px 10px;font-size:10px;'
-        +'border-radius:4px;cursor:pointer;width:100%;margin-top:6px">'
+      html += '<button onclick="event.stopPropagation();try{window.open(\''+p.url+'\',\'_blank\')}catch(e){}" '
+        +'style="background:none;border:1px solid #333;color:#888;padding:5px 10px;font-size:10px;border-radius:4px;cursor:pointer;width:100%;margin-top:6px">'
         +'Details &#x2197;</button>';
     }
     html += '</div></div>';
@@ -1373,89 +1367,93 @@ function renderElectricalPane() {
   var pane = document.getElementById('pane4');
   if(!pane) return;
   var d = getDims();
-
-  // Spotlights qty
   var spotQty = (sel['electrical_lighting'] && sel['electrical_lighting']['spotlights']) ? sel['electrical_lighting']['spotlights'].qty : 0;
-  // UFH selected?
-  var ufhSel = sel['electrical_heating'] && sel['electrical_heating']['eh1'];
-  // Ventilation selected?
+  var ufhSel  = sel['electrical_heating']    && sel['electrical_heating']['eh1'];
   var ventSel = sel['electrical_ventilation'] && sel['electrical_ventilation']['ev1'];
-  // Shaving point selected?
-  var shavSel = sel['electrical_shaving'] && sel['electrical_shaving']['es1'];
+  var shavSel = sel['electrical_shaving']    && sel['electrical_shaving']['es1'];
+  var mirrorItems = Object.values(sel['electrical_lighting']||{}).filter(function(i){return i.id!=='spotlights';});
+  var selMirrorName = mirrorItems.length>0 ? mirrorItems[0] : null;
 
   var html = '<div class="pane-title">&#9889; Electrical</div>'
     + '<div class="pane-sub">Lighting, heating, ventilation and power points</div>'
     + '<div class="divider"></div>'
     + '<div style="background:#1a1a0e;border:1px solid rgba(212,168,71,0.25);border-radius:6px;padding:10px 14px;margin-bottom:20px;font-size:11px;color:#888;line-height:1.6">'
-      + '&#9432; <b style="color:#d4a847">Prices shown are for the unit only.</b> All installation, wiring, and connection costs are included in the overall project cost.'
+      + '&#9432; <b style="color:var(--accent)">All prices include supply and full installation.</b>'
     + '</div>'
 
-    // ── SPOTLIGHTS ──
+    // SPOTLIGHTS
     + '<div class="sec-title">Spotlights (IP65)</div>'
-    + '<div style="background:#1a1a1a;border:'+(spotQty>0?'1px solid #d4a847':'1px solid #252525')+';border-radius:8px;padding:16px 18px;margin-bottom:8px">'
-      + '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">'
-        + '<div>'
+    + '<div style="background:#1a1a1a;border:1px solid '+(spotQty>0?'#d4a847':'#252525')+';border-radius:8px;padding:14px 16px;margin-bottom:8px">'
+      + '<div style="display:flex;align-items:center;gap:14px">'
+        + '<span style="flex-shrink:0">'+svgIcon('spotlight',32)+'</span>'
+        + '<div style="flex:1">'
           + '<div style="font-size:14px;font-weight:600;color:#ddd;margin-bottom:3px">IP65 Recessed Spotlights</div>'
-          + '<div style="font-size:11px;color:#555">Supply & fit · IP65 waterproof · LED · Wiring included · <b style="color:#d4a847">£65 per spotlight</b></div>'
+          + '<div style="font-size:11px;color:#555">Waterproof · LED · Wiring included · <b style="color:var(--accent)">£65 per spotlight</b></div>'
         + '</div>'
-        + '<div style="display:flex;align-items:center;gap:10px">'
-          + '<div style="font-size:11px;color:#888">Qty:</div>'
-          + '<button onclick="changeSpotQty(-1)" style="background:#1e1e1e;border:1px solid #333;color:#fff;width:32px;height:32px;border-radius:4px;font-size:16px;cursor:pointer">&#8722;</button>'
-          + '<span style="font-size:18px;font-weight:700;color:#fff;min-width:28px;text-align:center" id="spotQtyDisplay">'+spotQty+'</span>'
-          + '<button onclick="changeSpotQty(1)" style="background:#d4a847;border:none;color:#111;width:32px;height:32px;border-radius:4px;font-size:16px;cursor:pointer;font-weight:700">+</button>'
+        + '<div style="display:flex;align-items:center;gap:8px">'
+          + '<button onclick="changeSpotQty(-1)" style="background:#1e1e1e;border:1px solid #333;color:#fff;width:30px;height:30px;border-radius:4px;font-size:18px;cursor:pointer;line-height:1">&#8722;</button>'
+          + '<span style="font-size:18px;font-weight:700;color:#fff;min-width:24px;text-align:center" id="spotQtyDisplay">'+spotQty+'</span>'
+          + '<button onclick="changeSpotQty(1)" style="background:var(--accent);border:none;color:#111;width:30px;height:30px;border-radius:4px;font-size:18px;cursor:pointer;font-weight:700;line-height:1">+</button>'
         + '</div>'
-        + '<div style="font-size:18px;font-weight:700;color:#d4a847" id="spotTotalDisplay">'+(spotQty>0?fmt(spotQty*65):'£0')+'</div>'
+        + '<div style="font-size:17px;font-weight:700;color:var(--accent);min-width:50px;text-align:right" id="spotTotalDisplay">'+(spotQty>0?fmt(spotQty*65):'£0')+'</div>'
       + '</div>'
     + '</div>'
 
-    // ── LED MIRRORS ──
+    // LED MIRROR ACCORDION
     + '<div class="sec-title" style="margin-top:20px">LED Illuminated Mirror</div>'
-    + '<div style="background:#1a1a0e;border:1px solid rgba(212,168,71,0.15);border-radius:6px;padding:8px 14px;margin-bottom:12px;font-size:11px;color:#888">'
-      + 'Prices shown are from Bathroom Mountain. Installation £150 is added to each mirror.'
+    + '<div style="border:1px solid '+(mirrorAccordionOpen?'#d4a847':selMirrorName?'rgba(212,168,71,0.4)':'#252525')+';border-radius:8px;overflow:hidden;background:#1a1a1a;margin-bottom:8px">'
+      + '<div onclick="toggleMirrorAccordion()" style="display:flex;align-items:center;gap:14px;padding:14px 16px;cursor:pointer">'
+        + '<span style="flex-shrink:0">'+svgIcon('mirror',28)+'</span>'
+        + '<div style="flex:1">'
+          + '<div style="font-size:14px;font-weight:600;color:'+(selMirrorName?'var(--accent)':'#ccc')+'">LED Illuminated Mirror</div>'
+          + '<div style="font-size:11px;color:#555;margin-top:1px">'+(selMirrorName?'&#10003; '+selMirrorName.name:'Optional — choose from 6 styles')+'</div>'
+        + '</div>'
+        + (selMirrorName?'<span style="font-size:10px;background:rgba(212,168,71,0.15);border:1px solid rgba(212,168,71,0.3);color:var(--accent);padding:3px 8px;border-radius:12px">Selected</span>':'')
+        + '<span style="color:#555;font-size:18px;margin-left:8px">'+(mirrorAccordionOpen?'&#8722;':'&#43;')+'</span>'
+      + '</div>'
+      + (mirrorAccordionOpen
+        ? '<div style="padding:0 12px 14px;border-top:1px solid #252525"><div style="font-size:10px;color:#888;padding:8px 0 10px">Prices from Bathroom Mountain · £150 installation included</div><div class="prod-grid" id="grid_electrical_lighting"></div></div>'
+        : '')
     + '</div>'
-    + '<div class="prod-grid" id="grid_electrical_lighting"></div>'
 
-    // ── UFH ──
+    // UFH
     + '<div class="sec-title" style="margin-top:20px">Underfloor Heating</div>'
-    + '<div style="background:#1a1a1a;border:'+(ufhSel?'1px solid #d4a847':'1px solid #252525')+';border-radius:8px;padding:16px 18px;margin-bottom:8px;cursor:pointer" onclick="toggleElectrical(\'electrical_heating\',\'eh1\')">'
-      + '<div style="display:flex;justify-content:space-between;align-items:center">'
-        + '<div>'
-          + '<div style="font-size:14px;font-weight:600;color:#ddd;margin-bottom:3px">Electric Underfloor Heating</div>'
-          + '<div style="font-size:11px;color:#555">Heating mat + thermostat + full installation · Based on floor area'+(d.floor>0?' ('+d.floor.toFixed(2)+' m²)':'')+'</div>'
-          + '<div style="font-size:13px;font-weight:700;color:#d4a847;margin-top:6px">£200/m²'+(d.floor>0?' — Total: '+fmt(d.floor*200):'')+'</div>'
-        + '</div>'
-        + (ufhSel?'<span style="font-size:13px;color:#d4a847;font-weight:600">&#10003; Selected</span>':'<span style="font-size:12px;color:#555;border:1px solid #333;padding:4px 10px;border-radius:4px">Add</span>')
+    + '<div style="background:#1a1a1a;border:1px solid '+(ufhSel?'#d4a847':'#252525')+';border-radius:8px;padding:14px 16px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:14px" onclick="toggleElectrical(\'electrical_heating\',\'eh1\')">'
+      + '<span style="flex-shrink:0">'+svgIcon('underfloor',32)+'</span>'
+      + '<div style="flex:1">'
+        + '<div style="font-size:14px;font-weight:600;color:#ddd;margin-bottom:3px">Electric Underfloor Heating</div>'
+        + '<div style="font-size:11px;color:#555">Heating mat + thermostat + full installation'+(d.floor>0?' · floor area: '+d.floor.toFixed(2)+' m²':'')+'</div>'
+        + '<div style="font-size:13px;font-weight:700;color:var(--accent);margin-top:6px">£200/m²'+(d.floor>0?' — Total: '+fmt(d.floor*200):'')+'</div>'
       + '</div>'
+      + (ufhSel?'<span style="font-size:13px;color:var(--accent);font-weight:600">&#10003; Added</span>':'<span style="font-size:11px;color:#555;border:1px solid #333;padding:3px 8px;border-radius:4px">Add</span>')
     + '</div>'
 
-    // ── VENTILATION ──
+    // VENTILATION
     + '<div class="sec-title" style="margin-top:20px">Ventilation</div>'
-    + '<div style="background:#1a1a1a;border:'+(ventSel?'1px solid #d4a847':'1px solid #252525')+';border-radius:8px;padding:16px 18px;margin-bottom:8px;cursor:pointer" onclick="toggleElectrical(\'electrical_ventilation\',\'ev1\')">'
-      + '<div style="display:flex;justify-content:space-between;align-items:center">'
-        + '<div>'
-          + '<div style="font-size:14px;font-weight:600;color:#ddd;margin-bottom:3px">Extractor Fan — Supply & Fit</div>'
-          + '<div style="font-size:11px;color:#555">Timer + humidity sensor · Ducted to outside · IP44 · Wiring included</div>'
-          + '<div style="font-size:13px;font-weight:700;color:#d4a847;margin-top:6px">£450 — fixed price</div>'
-        + '</div>'
-        + (ventSel?'<span style="font-size:13px;color:#d4a847;font-weight:600">&#10003; Selected</span>':'<span style="font-size:12px;color:#555;border:1px solid #333;padding:4px 10px;border-radius:4px">Add</span>')
+    + '<div style="background:#1a1a1a;border:1px solid '+(ventSel?'#d4a847':'#252525')+';border-radius:8px;padding:14px 16px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:14px" onclick="toggleElectrical(\'electrical_ventilation\',\'ev1\')">'
+      + '<span style="flex-shrink:0">'+svgIcon('extractor',32)+'</span>'
+      + '<div style="flex:1">'
+        + '<div style="font-size:14px;font-weight:600;color:#ddd;margin-bottom:3px">Extractor Fan — Supply & Fit</div>'
+        + '<div style="font-size:11px;color:#555">Ducted to outside · IP44 · Wiring included</div>'
+        + '<div style="font-size:13px;font-weight:700;color:var(--accent);margin-top:6px">£450 fixed price</div>'
       + '</div>'
+      + (ventSel?'<span style="font-size:13px;color:var(--accent);font-weight:600">&#10003; Added</span>':'<span style="font-size:11px;color:#555;border:1px solid #333;padding:3px 8px;border-radius:4px">Add</span>')
     + '</div>'
 
-    // ── SHAVING POINT ──
+    // SHAVING POINT
     + '<div class="sec-title" style="margin-top:20px">Shaving & Charging Point</div>'
-    + '<div style="background:#1a1a1a;border:'+(shavSel?'1px solid #d4a847':'1px solid #252525')+';border-radius:8px;padding:16px 18px;margin-bottom:8px;cursor:pointer" onclick="toggleElectrical(\'electrical_shaving\',\'es1\')">'
-      + '<div style="display:flex;justify-content:space-between;align-items:center">'
-        + '<div>'
-          + '<div style="font-size:14px;font-weight:600;color:#ddd;margin-bottom:3px">Shaving Point / USB Socket IP44</div>'
-          + '<div style="font-size:11px;color:#555">IP44 rated · Includes USB port · Zone 2 safe · Wiring included</div>'
-          + '<div style="font-size:13px;font-weight:700;color:#d4a847;margin-top:6px">£100 — fixed price</div>'
-        + '</div>'
-        + (shavSel?'<span style="font-size:13px;color:#d4a847;font-weight:600">&#10003; Selected</span>':'<span style="font-size:12px;color:#555;border:1px solid #333;padding:4px 10px;border-radius:4px">Add</span>')
+    + '<div style="background:#1a1a1a;border:1px solid '+(shavSel?'#d4a847':'#252525')+';border-radius:8px;padding:14px 16px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:14px" onclick="toggleElectrical(\'electrical_shaving\',\'es1\')">'
+      + '<span style="flex-shrink:0">'+svgIcon('socket',32)+'</span>'
+      + '<div style="flex:1">'
+        + '<div style="font-size:14px;font-weight:600;color:#ddd;margin-bottom:3px">Shaving Point / USB Socket IP44</div>'
+        + '<div style="font-size:11px;color:#555">IP44 rated · Includes USB port · Zone 2 safe · Wiring included</div>'
+        + '<div style="font-size:13px;font-weight:700;color:var(--accent);margin-top:6px">£100 fixed price</div>'
       + '</div>'
+      + (shavSel?'<span style="font-size:13px;color:var(--accent);font-weight:600">&#10003; Added</span>':'<span style="font-size:11px;color:#555;border:1px solid #333;padding:3px 8px;border-radius:4px">Add</span>')
     + '</div>';
 
   pane.innerHTML = html;
-  renderElectricalMirrors();
+  if(mirrorAccordionOpen) renderElectricalMirrors();
 }
 
 function renderElectricalMirrors() {
@@ -1474,32 +1472,59 @@ function renderElectricalMirrors() {
     if(p.desc) html += '<div class="prod-desc">'+p.desc+'</div>';
     html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">';
     if(isOther) {
-      html += '<span style="font-size:13px;color:#d4a847;font-weight:600">Labour only</span>';
+      html += '<span style="font-size:13px;color:var(--accent);font-weight:600">Labour only</span>';
     } else {
       html += '<span style="font-size:15px;font-weight:700;color:#fff">'+fmt(p.price)+'<small style="font-size:10px;color:#555;font-weight:400"> /unit</small></span>';
     }
-    if(s) html += '<span style="font-size:11px;color:#d4a847">&#10003; Selected</span>';
+    if(s) html += '<span style="font-size:11px;color:var(--accent)">&#10003; Selected</span>';
     html += '</div>';
-    if(p.url) html += '<button onclick="event.stopPropagation();try{window.open(\''+p.url+'\',\'_blank\')}catch(e){}" style="background:none;border:1px solid #333;color:#888;padding:5px 10px;font-size:10px;border-radius:4px;cursor:pointer;width:100%;margin-top:6px">Details &#x2197;</button>';
+    if(p.url) {
+      html += '<button data-url="'+p.url+'" onclick="event.stopPropagation();handleDetailsBtn(this)" '
+        +'style="background:none;border:1px solid #333;color:#888;padding:5px 10px;font-size:10px;border-radius:4px;cursor:pointer;width:100%;margin-top:6px">'
+        +'Details &#x2197;</button>';
+    }
     html += '</div>';
   }
   container.innerHTML = html;
 }
 
+function toggleMirrorAccordion() {
+  mirrorAccordionOpen = !mirrorAccordionOpen;
+  renderElectricalPane();
+  if(mirrorAccordionOpen) {
+    setTimeout(function(){
+      var g = document.getElementById('grid_electrical_lighting');
+      if(g) renderElectricalMirrors();
+    }, 20);
+  }
+}
+
 function pgElecClick(el) {
   var cat = el.getAttribute('data-ecat');
   var id  = el.getAttribute('data-eid');
+  if(!cat || !id) return;
   if(sel[cat] && sel[cat][id]) {
     delete sel[cat][id];
   } else {
+    // Radio - only one mirror at a time
+    var oldMirrors = {};
+    if(sel[cat]) {
+      Object.keys(sel[cat]).forEach(function(k){ if(k!=='spotlights') oldMirrors[k]=true; });
+      Object.keys(oldMirrors).forEach(function(k){ delete sel[cat][k]; });
+    }
     var p = findProd(cat, id); if(!p) return;
     if(!sel[cat]) sel[cat]={};
     sel[cat][id]={id:p.id,name:p.name,brand:p.brand||'',unit:'pcs',price:p.price,install:p.install||150,qty:1,isOther:!!p.isOther};
   }
   renderElectricalMirrors();
+  // Update mirror accordion header to show selected name
+  renderElectricalPane();
   recalc();
 }
 
+function handleElecToggle(el) {
+  toggleElectrical(el.getAttribute("data-ecat"), el.getAttribute("data-eid"));
+}
 function toggleElectrical(cat, id) {
   var p = findProd(cat, id); if(!p) return;
   var d = getDims();
@@ -1599,309 +1624,590 @@ function selectWallProduct(cat, id, deselect) {
 // ══════════════════════════════════════════════════════
 // UNITS
 // ══════════════════════════════════════════════════════
+// ── SVG ICONS (stroke = current accent color) ──
+function svgIcon(name, size) {
+  size = size || 24;
+  var s = size+'px';
+  var icons = {
+    toilet: '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8v2H8zM6 5h12c.6 4 1 8-2 11H10C7 16 6.4 9 6 5z"/><path d="M9 16v3m6-3v3M7 19h10"/></svg>',
+    shower: '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l8-8"/><path d="M12 12c0-4 3-8 8-8"/><path d="M20 4c0 3-3 6-8 8"/><circle cx="9" cy="18" r=".5" fill="var(--accent)"/><circle cx="12" cy="20" r=".5" fill="var(--accent)"/><circle cx="6" cy="20" r=".5" fill="var(--accent)"/></svg>',
+    enclosure: '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M9 9v12"/><path d="M9 6V3"/></svg>',
+    bath: '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16v3a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4v-3z"/><path d="M6 12V6a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v1"/><path d="M8 20v2M16 20v2"/></svg>',
+    basin: '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11h16v3a6 6 0 0 1-6 6h-4a6 6 0 0 1-6-6v-3z"/><path d="M12 5v6M10 7l2-2 2 2"/><path d="M2 11h20"/></svg>',
+    mirror: '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="18" rx="2"/><path d="M9 21h6M12 21v1"/><circle cx="12" cy="11" r="4"/><path d="M9 8l1 1M15 8l-1 1"/></svg>',
+    lighting: '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="4"/><path d="M12 2v2M12 18v2M4.2 4.2l1.4 1.4M18.4 4.2l-1.4 1.4M2 10h2M20 10h2"/><path d="M9 18h6v2a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-2z"/></svg>',
+    heating: '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18M3 17h18"/><path d="M6 17v-4M10 17V9M14 17v-6M18 17v-3"/><path d="M6 9c0-2 2-3 2-5M10 5c0-2 2-3 2-5M14 7c0-2 2-3 2-5"/></svg>',
+    ventilation: '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2a7 7 0 0 1 5 2c1 1 1 3-1 4l-4 1"/><path d="M22 12a7 7 0 0 1-2 5c-1 1-3 1-4-1l-1-4"/><path d="M12 22a7 7 0 0 1-5-2c-1-1-1-3 1-4l4-1"/><path d="M2 12a7 7 0 0 1 2-5c1-1 3-1 4 1l1 4"/></svg>',
+    socket: '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="10" r="1.5"/><circle cx="15" cy="10" r="1.5"/><path d="M9 14h6"/></svg>',
+    ceiling: '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>',
+    paint: '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/><path d="M8 7h8M8 12h8M8 17h5"/></svg>',
+    cladding: '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="4" rx="1"/><rect x="2" y="10" width="20" height="4" rx="1"/><rect x="2" y="17" width="20" height="4" rx="1"/></svg>',
+    plaster: '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>',
+    silicone: '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 20V10l6-8 6 8v10"/><path d="M6 14h12"/><circle cx="12" cy="17" r="1" fill="var(--accent)"/></svg>',
+    tap: '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h8"/><path d="M12 8v8"/><path d="M12 10h6a2 2 0 0 1 2 2v0a2 2 0 0 1-2 2h-6"/><path d="M15 18v2M15 4v2"/></svg>',
+    spotlight: '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3"/><path d="M12 11v3"/><path d="M8 20h8l-1-6H9l-1 6z"/><path d="M6 6l2 2M18 6l-2 2M12 2v2"/></svg>',
+    underfloor: '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18h18M3 21h18"/><path d="M5 18V9M9 18V6M13 18V9M17 18V6M21 18V9"/><path d="M5 6c0-1.5 2-2.5 2-4M9 3c0 1.5 2 2.5 2 4M13 6c0-1.5 2-2.5 2-4"/></svg>',
+    extractor: '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M12 2C10 2 8 4 9 7l3 5"/><path d="M21.5 7.5C20 6 17.5 6.5 16 9l-4 3"/><path d="M21.5 16.5C22 14 20 12 17 12.5l-5 0.5"/><path d="M12 22C14 22 16 20 15 17l-3-5"/><path d="M2.5 16.5C4 18 6.5 17.5 8 15l4-3"/><path d="M2.5 7.5C2 10 4 12 7 11.5l5-0.5"/></svg>'
+  };
+  return icons[name] || '';
+}
+
 var UNIT_CATS = [
-  {id:'units_toilet',    label:'Toilet',              img:'',  desc:'WC options for every bathroom style'},
-  {id:'units_shower',    label:'Shower',              img:'', desc:'Valves, heads & electric showers'},
-  {id:'units_enclosure', label:'Shower Enclosure',    img:'', desc:'Walk-in, quadrant & wetroom enclosures'},
-  {id:'units_bath',      label:'Bath',                img:'', desc:'Acrylic, freestanding & shower baths'},
-  {id:'units_basin',     label:'Basin & Vanity',      img:'', desc:'Vanity units & basin options'}
+  {id:'units_toilet',    label:'Toilet',           icon:'toilet',     desc:'WC options for every style'},
+  {id:'units_shower',    label:'Shower',            icon:'shower',     desc:'Valves, heads & electric showers'},
+  {id:'units_enclosure', label:'Shower Enclosure',  icon:'enclosure',  desc:'Walk-in, quadrant & wetroom'},
+  {id:'units_bath',      label:'Bath',              icon:'bath',       desc:'Acrylic, freestanding & shower baths'},
+  {id:'units_basin',     label:'Basin & Vanity',    icon:'basin',      desc:'Vanity units & basin options'}
 ];
+
+var unitsOpenCat = '';
+var mirrorAccordionOpen = false; // which accordion is open
 
 function hasUnitSelection(catId) {
   return sel[catId] && Object.keys(sel[catId]).length > 0;
 }
 
+function getSelectedUnitName(catId) {
+  if(!sel[catId]) return null;
+  var items = Object.values(sel[catId]);
+  return items.length > 0 ? items[0].name : null;
+}
+
 function renderUnitsPane() {
   var pane = document.getElementById('pane3');
   if(!pane) return;
+
   var html = '<div class="pane-title">&#128703; Units</div>'
-    + '<div class="pane-sub">Select sanitaryware and fixtures for your bathroom</div>'
+    + '<div class="pane-sub">Select sanitaryware and fixtures</div>'
     + '<div class="divider"></div>'
     + '<div style="background:#1a1a0e;border:1px solid rgba(212,168,71,0.25);border-radius:6px;padding:10px 14px;margin-bottom:20px;font-size:11px;color:#888;line-height:1.6">'
-      + '&#9432; <b style="color:#d4a847">Prices shown are for the unit only.</b> Installation, plumbing connections and all necessary accessories are included in the overall project cost.'
-    + '</div>'
-    + '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:24px">';
+      + '&#9432; <b style="color:#d4a847">Prices shown are for the unit only.</b> Installation, plumbing and all accessories are included in the overall project cost.'
+    + '</div>';
 
   UNIT_CATS.forEach(function(cat) {
-    var has = hasUnitSelection(cat.id);
-    // also check taps if bath or basin
-    var hasTaps = (cat.id==='units_bath'||cat.id==='units_basin') && hasUnitSelection('units_taps');
-    html += '<div data-ucat="' + cat.id + '" onclick="handleUnitCatBtn(this)" style="background:#1a1a1a;border:2px solid '+(has?'#d4a847':'#252525')+';border-radius:8px;cursor:pointer;overflow:hidden;transition:border-color 0.15s">'
-      + '<div style="height:80px;overflow:hidden"><img src="' + cat.img + '" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display=\'none\'"></div>'
-      + '<div style="padding:8px 10px">'
-        + '<div style="font-size:12px;font-weight:600;color:'+(has?'#d4a847':'#ccc')+'">' + (has?'&#10003; ':'') + cat.label + '</div>'
-        + '<div style="font-size:10px;color:#555;margin-top:2px;line-height:1.3">' + cat.desc + '</div>'
-      + '</div>'
-    + '</div>';
+    var isOpen = unitsOpenCat === cat.id;
+    var selName = getSelectedUnitName(cat.id);
+    var hasSel = !!selName;
+
+    html += '<div style="margin-bottom:8px;border:1px solid '+(isOpen?'#d4a847':hasSel?'rgba(212,168,71,0.4)':'#252525')+';border-radius:8px;overflow:hidden;background:#1a1a1a">';
+
+    // Accordion header
+    html += '<div onclick="toggleUnitAccordion(\''+cat.id+'\')" style="display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer">'
+      + '<span style="display:flex;align-items:center;justify-content:center;width:36px;height:36px;flex-shrink:0">'+svgIcon(cat.icon,22)+'</span>'
+      + '<div style="flex:1">'
+        + '<div style="font-size:13px;font-weight:600;color:'+(hasSel?'#d4a847':'#ccc')+'">'+cat.label+'</div>'
+        + '<div style="font-size:10px;color:#555;margin-top:1px">'+(selName ? '&#10003; '+selName : cat.desc)+'</div>'
+      + '</div>';
+
+    // Selected product mini badge
+    if(hasSel) {
+      html += '<span style="font-size:10px;background:rgba(212,168,71,0.15);border:1px solid rgba(212,168,71,0.3);color:#d4a847;padding:3px 8px;border-radius:12px;white-space:nowrap">Selected</span>';
+    }
+    html += '<span style="color:#555;font-size:16px;margin-left:8px">'+(isOpen?'&#8722;':'&#43;')+'</span>';
+    html += '</div>';
+
+    // Accordion body
+    if(isOpen) {
+      html += '<div style="padding:0 12px 14px;border-top:1px solid #252525">';
+      var prods = catalog[cat.id] || [];
+      for(var i=0; i<prods.length; i++) {
+        var p = prods[i];
+        var s = sel[cat.id] && sel[cat.id][p.id];
+        var isOther = !!p.isOther;
+        // Product row with image placeholder
+        html += '<div onclick="handleUnitToggle(\''+cat.id+'\',\''+p.id+'\')" style="display:flex;align-items:center;gap:12px;padding:10px;margin-top:6px;border-radius:8px;cursor:pointer;background:'+(s?'rgba(212,168,71,0.08)':'#141414')+';border:1px solid '+(s?'rgba(212,168,71,0.4)':'#1e1e1e')+'">';
+        // Image slot
+        html += '<div style="width:72px;height:72px;border-radius:6px;overflow:hidden;flex-shrink:0;background:#1e1e1e;display:flex;align-items:center;justify-content:center;border:1px solid #2a2a2a">';
+        if(p.img) html += '<img src="'+p.img+'" style="width:100%;height:100%;object-fit:cover" loading="lazy">';
+        else html += svgIcon(cat.icon==='units_toilet'?'toilet':cat.icon==='units_shower'?'shower':cat.icon==='units_enclosure'?'enclosure':cat.icon==='units_bath'?'bath':'basin', 28);
+        html += '</div>';
+        html += '<div style="flex:1;min-width:0">'
+          + '<div style="font-size:13px;font-weight:600;color:'+(s?'#d4a847':'#ccc')+';line-height:1.3">'+p.name+'</div>'
+          + (p.desc ? '<div style="font-size:10px;color:#555;margin-top:3px;line-height:1.4">'+p.desc+'</div>' : '')
+        + '</div>'
+        + '<div style="text-align:right;flex-shrink:0">'
+          + (isOther
+            ? '<div style="font-size:11px;color:#d4a847">Labour only</div>'
+            : '<div style="font-size:15px;font-weight:700;color:'+(s?'#d4a847':'#fff')+'">'+fmt(p.price)+'</div>')
+          + (s ? '<div style="font-size:9px;color:#d4a847;margin-top:2px">&#10003;</div>' : '')
+        + '</div>';
+        if(p.url) html += '<button onclick="event.stopPropagation();try{window.open(\''+p.url+'\',\'_blank\')}catch(e){}" style="background:none;border:1px solid #333;color:#777;padding:5px 8px;font-size:10px;border-radius:4px;cursor:pointer;flex-shrink:0">&#x2197;</button>';
+        html += '</div>';
+      }
+
+      // Taps sub-section for bath and basin
+      if(cat.id==='units_bath'||cat.id==='units_basin') {
+        var hasBathSel = hasUnitSelection(cat.id);
+        if(hasBathSel) {
+          html += '<div style="margin-top:14px;padding-top:12px;border-top:1px solid #252525">'
+            + '<div style="font-size:9px;color:#d4a847;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px">Add a Tap</div>';
+          var taps = catalog['units_taps'] || [];
+          for(var j=0; j<taps.length; j++) {
+            var tp = taps[j];
+            var ts = sel['units_taps'] && sel['units_taps'][tp.id];
+            html += '<div onclick="handleUnitToggle(\'units_taps\',\''+tp.id+'\')" style="display:flex;align-items:center;gap:12px;padding:9px 10px;margin-bottom:4px;border-radius:6px;cursor:pointer;background:'+(ts?'rgba(212,168,71,0.08)':'#141414')+';border:1px solid '+(ts?'rgba(212,168,71,0.4)':'#1e1e1e')+'">'
+              + '<div style="flex:1"><div style="font-size:12px;color:'+(ts?'#d4a847':'#ccc')+'">'+tp.name+'</div>'+(tp.desc?'<div style="font-size:10px;color:#555;margin-top:1px">'+tp.desc+'</div>':'')+'</div>'
+              + '<div style="font-size:14px;font-weight:700;color:'+(ts?'#d4a847':'#fff')+'">'+fmt(tp.price)+'</div>'
+              + (ts?'<span style="font-size:10px;color:#d4a847">&#10003;</span>':'')
+              + '</div>';
+          }
+          html += '</div>';
+        }
+      }
+      html += '</div>';
+    }
+    html += '</div>';
   });
 
-  html += '</div>'
-    + '<div id="unitProductSection" style="display:none">'
-      + '<div class="sec-title" id="unitProductTitle">Select a product</div>'
-      + '<div class="prod-grid" id="grid_unit_active"></div>'
-      + '<div id="tapSection" style="display:none;margin-top:24px">'
-        + '<div class="sec-title">Add a Tap</div>'
-        + '<div style="background:#1a1a0e;border:1px solid rgba(212,168,71,0.2);border-radius:6px;padding:8px 14px;margin-bottom:12px;font-size:11px;color:#888">Select a tap to go with your ' + (unitsCategory==='units_bath'?'bath':'basin') + '</div>'
-        + '<div class="prod-grid" id="grid_taps"></div>'
-      + '</div>'
-    + '</div>';
-
   pane.innerHTML = html;
-  if(unitsCategory) showUnitProducts(unitsCategory, true);
 }
 
-function handleUnitCatBtn(btn) {
-  unitsCategory = btn.getAttribute('data-ucat');
-  showUnitProducts(unitsCategory);
-}
-
-function showUnitProducts(cat, silent) {
-  var section = document.getElementById('unitProductSection');
-  var title   = document.getElementById('unitProductTitle');
-  var catInfo = UNIT_CATS.filter(function(c){return c.id===cat;})[0];
-  if(title && catInfo) title.textContent = catInfo.label + ' — choose an option';
-  if(section) section.style.display = 'block';
-  renderUnitGrid(cat, 'grid_unit_active');
-  // Show tap selector for bath and basin
-  var tapSection = document.getElementById('tapSection');
-  if(tapSection) {
-    var showTaps = (cat==='units_bath' || cat==='units_basin') && hasUnitSelection(cat);
-    tapSection.style.display = showTaps ? 'block' : 'none';
-    if(showTaps) renderUnitGrid('units_taps', 'grid_taps');
+function toggleUnitAccordion(catId) {
+  unitsOpenCat = (unitsOpenCat === catId) ? '' : catId;
+  renderUnitsPane();
+  // Scroll to opened section
+  if(unitsOpenCat) {
+    setTimeout(function(){
+      var pane = document.getElementById('pane3');
+      if(pane) pane.scrollIntoView({behavior:'smooth', block:'start'});
+    }, 50);
   }
-}
-
-function renderUnitGrid(cat, gridId) {
-  var container = document.getElementById(gridId);
-  if(!container) return;
-  var prods = catalog[cat] || [];
-  if(!prods.length) { container.innerHTML='<p style="color:#444;font-size:13px">No products yet.</p>'; return; }
-  var html = '';
-  for(var i=0; i<prods.length; i++) {
-    var p = prods[i];
-    var s = sel[cat] && sel[cat][p.id];
-    var isOther = !!p.isOther;
-    html += '<div class="prod-card'+(s?' sel':'')+'" '
-      +'style="padding:0;overflow:hidden;cursor:pointer;'+(isOther?'border-style:dashed':'')+'" '
-      +'data-ucat="'+cat+'" data-uid="'+p.id+'" onclick="pgUnitClick(event,this)">';
-    if(p.img) {
-      html += '<div style="width:100%;height:120px;overflow:hidden;background:#1a1a1a;border-radius:8px 8px 0 0">'
-        +'<img src="'+p.img+'" alt="unit" style="width:100%;height:100%;object-fit:cover" loading="lazy">'
-        +'</div>';
-    } else if(isOther) {
-      html += '<div style="height:60px;background:#1e1e1e;border-radius:8px 8px 0 0;display:flex;align-items:center;justify-content:center;font-size:24px">&#128230;</div>';
-    }
-    html += '<div style="padding:11px">';
-    html += '<div class="prod-brand">'+(p.brand||'')+'</div>';
-    html += '<div class="prod-name">'+p.name+'</div>';
-    if(p.desc) html += '<div class="prod-desc">'+p.desc+'</div>';
-    html += '<div style="display:flex;justify-content:space-between;align-items:center;margin:8px 0">';
-    if(isOther) {
-      html += '<span style="font-size:12px;color:#d4a847;font-weight:600">Labour only</span>';
-    } else {
-      html += '<span style="font-size:15px;font-weight:700;color:#fff">'+fmt(p.price)+'<small style="font-size:10px;color:#555;font-weight:400"> /unit</small></span>';
-    }
-    if(s) html += '<span style="font-size:12px;color:#d4a847;font-weight:600">&#10003; Selected</span>';
-    html += '</div>';
-    if(p.url) {
-      html += '<button onclick="event.stopPropagation();window.open(\''+p.url+'\',\'_blank\')" '
-        +'style="background:none;border:1px solid #333;color:#888;padding:5px 10px;font-size:10px;'
-        +'border-radius:4px;cursor:pointer;width:100%;margin-top:4px">'
-        +'Details &#x2197;</button>';
-    }
-    html += '</div></div>';
-  }
-  container.innerHTML = html;
-}
-
-function pgUnitClick(ev, el) {
-  var cat = el.getAttribute('data-ucat');
-  var id  = el.getAttribute('data-uid');
-  handleUnitToggle(cat, id);
 }
 
 function handleUnitToggle(cat, id) {
+  // Radio select — clicking selected item deselects, clicking new clears old
   if(sel[cat] && sel[cat][id]) {
+    // deselect
     delete sel[cat][id];
     if((cat==='units_bath'||cat==='units_basin') && !hasUnitSelection(cat)) {
       sel['units_taps'] = {};
     }
   } else {
+    // Clear ALL previous selections in this category (radio behaviour)
+    sel[cat] = {};
     var p = findProd(cat, id); if(!p) return;
-    if(!sel[cat]) sel[cat]={};
-    sel[cat][id]={id:p.id,name:p.name,brand:p.brand||'',unit:'pcs',price:p.price,install:p.install||0,qty:1,isOther:!!p.isOther};
+    sel[cat][id] = {id:p.id, name:p.name, brand:p.brand||'', unit:'pcs',
+      price:p.price, install:p.install||0, qty:1, isOther:!!p.isOther};
   }
-  renderUnitGrid(cat, 'grid_unit_active');
-  var tapSection = document.getElementById('tapSection');
-  if(tapSection) {
-    var showTaps = (cat==='units_bath'||cat==='units_basin') && hasUnitSelection(cat);
-    tapSection.style.display = showTaps ? 'block' : 'none';
-    if(showTaps) renderUnitGrid('units_taps','grid_taps');
-  }
-  if(cat==='units_taps') renderUnitGrid('units_taps','grid_taps');
-  // Refresh category card borders
-  UNIT_CATS.forEach(function(uc) {
-    var has = hasUnitSelection(uc.id);
-    var cards = document.querySelectorAll('[data-ucat="'+uc.id+'"]');
-    cards.forEach(function(c){ c.style.borderColor = has?'#d4a847':'#252525'; });
-  });
-  // Just refresh grids, not full pane
-  showUnitProducts(cat, true);
+  renderUnitsPane();
   recalc();
 }
 
 
-var _recalcTimer = null;
+// ══════════════════════════════════════════════════════
+// SUMMARY
+// ══════════════════════════════════════════════════════
 function recalc() {
-  if(!document.getElementById('topTotal')) return;
-  var cfg=getSettings();
-  var allCats=['floor_tiles','floor_lvt','wall_tiles','wall_panels','units_toilet','units_shower','units_enclosure','units_bath','units_basin','units_taps','electrical_lighting','electrical_heating','electrical_ventilation','electrical_shaving','ceiling','finishes'];
-  var net=0;
-  var breakdown={};
-  for(var i=0;i<allCats.length;i++){
-    var cat=allCats[i];
-    var items=sel[cat]?Object.values(sel[cat]):[];
-    var catTotal=0;
-    for(var j=0;j<items.length;j++) {
-      var item=items[j];
-      // materials
-      catTotal += item.price * item.qty;
-      // labour/install for floor & wall (per m²)
-      if(item.labour && item.area) {
-        catTotal += item.labour * item.area;
-      }
-      // install cost for units (fixed per item)
-      if(item.install) catTotal += item.install * item.qty;
-      // fixed extras e.g. panel fixings £300
+  if(!document.getElementById('topTotal')) return {net:0,withMargin:0,prepWithMargin:0,subtotal:0,vatAmount:0,gross:0,breakdown:{},cfg:{vat:20,margin:15,vatRegistered:true}};
+  var cfg = getSettings();
+  var allCats = ['floor_tiles','floor_lvt','wall_tiles','wall_panels',
+    'units_toilet','units_shower','units_enclosure','units_bath','units_basin','units_taps',
+    'electrical_lighting','electrical_heating','electrical_ventilation','electrical_shaving',
+    'ceiling','finishes'];
+  var net = 0;
+  var breakdown = {};
+  for(var i=0; i<allCats.length; i++) {
+    var cat = allCats[i];
+    var items = sel[cat] ? Object.values(sel[cat]) : [];
+    var catTotal = 0;
+    for(var j=0; j<items.length; j++) {
+      var item = items[j];
+      catTotal += (item.price||0) * (item.qty||1);
+      if(item.labour && item.area) catTotal += item.labour * item.area;
+      if(item.install) catTotal += item.install * (item.qty||1);
       if(item.extraFixings) catTotal += item.extraFixings;
     }
-    net+=catTotal;
-    breakdown[cat]=catTotal;
+    net += catTotal;
+    breakdown[cat] = catTotal;
   }
   var withMargin = net * (1 + cfg.margin/100);
-  var prepWithMargin = prepSelected >= 0 ? prepPrices[prepSelected] : 0; // fixed price, no margin
+  var prepWithMargin = prepSelected >= 0 ? prepPrices[prepSelected] : 0;
   var subtotal = withMargin + prepWithMargin;
   var vatAmount = cfg.vatRegistered ? subtotal * (cfg.vat/100) : 0;
   var gross = subtotal + vatAmount;
 
-  document.getElementById('topTotal').textContent = fmt(subtotal);
-  document.getElementById('cpGrand').textContent = fmt(subtotal);
+  var topEl = document.getElementById('topTotal');
+  var cpEl  = document.getElementById('cpGrand');
+  if(topEl) topEl.textContent = fmt(subtotal);
+  if(cpEl)  cpEl.textContent  = fmt(subtotal);
 
-  // cost panel breakdown (ex VAT)
-  var bhtml='';
-  var scopeLabel = wallScope==='all'?'All Walls':wallScope==='half'?'Half + Wet Area':wallScope==='wet'?'Wet Area Only':'';
-  var wallSuffix = scopeLabel ? ' ('+scopeLabel+')' : '';
-  var catNames={floor_tiles:'Floor – Tiles',floor_lvt:'Floor – LVT',wall_tiles:'Walls – Tiles'+wallSuffix,wall_panels:'Walls – Panels'+wallSuffix,units_toilet:'Toilet',units_shower:'Shower',units_enclosure:'Shower Enclosure',units_bath:'Bath',units_basin:'Basin & Vanity',units_taps:'Taps & Brassware',electrical_lighting:'LED Mirrors & Lighting',electrical_heating:'Underfloor Heating',electrical_ventilation:'Ventilation',electrical_shaving:'Shaving Point',ceiling:'Ceiling',finishes:'Finishes'};
-  for(var k in breakdown){
-    if(breakdown[k]>0){
-      var stepNet=breakdown[k]*(1+cfg.margin/100);
-      bhtml+='<div class="cp-step"><div class="cp-step-name">'+catNames[k]+'</div><div class="cp-step-val">'+fmt(stepNet)+'</div></div>';
+  // Cost panel breakdown
+  var catNames = {
+    floor_tiles:'Floor – Tiles', floor_lvt:'Floor – LVT',
+    wall_tiles:'Walls – Tiles', wall_panels:'Walls – Panels',
+    units_toilet:'Toilet', units_shower:'Shower', units_enclosure:'Shower Enclosure',
+    units_bath:'Bath', units_basin:'Basin & Vanity', units_taps:'Taps',
+    electrical_lighting:'Lighting', electrical_heating:'Underfloor Heating',
+    electrical_ventilation:'Ventilation', electrical_shaving:'Shaving Point',
+    ceiling:'Ceiling', finishes:'Finishes'
+  };
+  var wallSuffix = wallScope==='all'?' (All Walls)':wallScope==='half'?' (Half+Wet)':wallScope==='wet'?' (Wet Area)':'';
+  catNames['wall_tiles'] = 'Walls – Tiles'+wallSuffix;
+  catNames['wall_panels'] = 'Walls – Panels'+wallSuffix;
+
+  var bhtml = '';
+  for(var k in breakdown) {
+    if(breakdown[k] > 0) {
+      var stepNet = breakdown[k] * (1 + cfg.margin/100);
+      bhtml += '<div class="cp-step"><div class="cp-step-name">'+(catNames[k]||k)+'</div><div class="cp-step-val">'+fmt(stepNet)+'</div></div>';
     }
   }
-  if(prepSelected >= 0){
-    var pLabel=prepSelected===0?'Strip-out + Prep':'Prep Only';
-    bhtml='<div class="cp-step"><div class="cp-step-name">'+pLabel+'</div><div class="cp-step-val">'+fmt(prepPrices[prepSelected])+'</div></div>'+bhtml;
+  if(prepSelected >= 0) {
+    var pLabel = prepSelected===0 ? 'Strip-out + Prep' : 'Prep Only';
+    bhtml = '<div class="cp-step"><div class="cp-step-name">'+pLabel+'</div><div class="cp-step-val">'+fmt(prepPrices[prepSelected])+'</div></div>' + bhtml;
   }
-  document.getElementById('cpBreakdown').innerHTML=bhtml;
-  return {net:net, withMargin:withMargin, prepWithMargin:prepWithMargin, subtotal:subtotal, vatAmount:vatAmount, gross:gross, breakdown:breakdown, cfg:cfg};
+  var cpBreak = document.getElementById('cpBreakdown');
+  if(cpBreak) cpBreak.innerHTML = bhtml;
+
+  return {net:net, withMargin:withMargin, prepWithMargin:prepWithMargin,
+          subtotal:subtotal, vatAmount:vatAmount, gross:gross,
+          breakdown:breakdown, cfg:cfg};
 }
 
 // ══════════════════════════════════════════════════════
-// SUMMARY
+// CEILING
 // ══════════════════════════════════════════════════════
-function buildSummary() {
-  var t=recalc();
-  var d=getDims();
-  var cfg=t.cfg;
-  var scopeLabel = wallScope==='all'?'All Walls':wallScope==='half'?'Half + Wet Area':wallScope==='wet'?'Wet Area Only':'';
-  var wallSuffix = scopeLabel ? ' ('+scopeLabel+')' : '';
-  var catNames={floor_tiles:'Floor – Tiles',floor_lvt:'Floor – LVT',wall_tiles:'Walls – Tiles'+wallSuffix,wall_panels:'Walls – Panels'+wallSuffix,units_toilet:'Toilet',units_shower:'Shower',units_enclosure:'Shower Enclosure',units_bath:'Bath',units_basin:'Basin & Vanity',units_taps:'Taps & Brassware',electrical_lighting:'LED Mirrors & Lighting',electrical_heating:'Underfloor Heating',electrical_ventilation:'Ventilation',electrical_shaving:'Shaving Point',ceiling:'Ceiling',finishes:'Finishes'};
-  var allCats=['floor_tiles','floor_lvt','wall_tiles','wall_panels','units_toilet','units_shower','units_enclosure','units_bath','units_basin','units_taps','electrical_lighting','electrical_heating','electrical_ventilation','electrical_shaving','ceiling','finishes'];
+var CEILING_OPTIONS = [
+  {id:'c1', label:'Plasterboard + Skim + Paint', icon:'ceiling', price:'£140/m²',
+   detail:'Moisture resistant boards · Skim coat · Dulux bathroom specialist paint'},
+  {id:'c2', label:'Plastering + Skim + Paint',   icon:'plaster', price:'£85/m²',
+   detail:'Skim and level existing ceiling · Dulux bathroom paint · No boarding needed'},
+  {id:'c3', label:'Paint Only',                   icon:'paint',   price:'£40/m²',
+   detail:'Dulux Bathroom+ · Mould resistant · 2 coats · Ceiling must be smooth'},
+  {id:'c4', label:'PVC Cladding',                 icon:'cladding',price:'£60/m² + £400 labour',
+   detail:'No painting · Waterproof · Low maintenance · Clean modern finish'},
+];
 
-  var html='';
+function renderCeilingPane() {
+  var pane = document.getElementById('pane5');
+  if(!pane) return;
+  var d = getDims();
+  var area = d.floor;
+  var selCeil = sel['ceiling'] ? Object.values(sel['ceiling'])[0] : null;
 
-  // DISCLAIMER BANNER
-  html+='<div style="background:rgba(212,168,71,0.08);border:1px solid rgba(212,168,71,0.25);border-radius:8px;padding:14px 18px;margin-bottom:20px;font-size:12px;line-height:1.6;color:#aaa">'
-    +'<b style="color:#d4a847">⚠ Estimation Quote — Not a Binding Offer</b><br>'
-    +'This estimate is provided for indicative purposes only and does not constitute a formal quotation, offer or contract. '
-    +'Figures are based on typical material and labour costs and may vary depending on site conditions, structural factors and final product selections. '
-    +'A precise, binding quote will be issued by our team following an on-site visit and full assessment of your project.'
-    +'</div>';
+  var html = '<div class="pane-title">&#11014; Ceiling</div>'
+    + '<div class="pane-sub">Choose your ceiling finish</div>'
+    + '<div class="divider"></div>'
+    + '<div style="background:#1a1a0e;border:1px solid rgba(212,168,71,0.25);border-radius:6px;padding:10px 14px;margin-bottom:20px;font-size:11px;color:#888;line-height:1.6">'
+      + '&#9432; All prices per m² of ceiling area. <b style="color:var(--accent)">Dulux specialist bathroom paints</b> used throughout.'
+    + '</div>';
 
-  // room info
-  if(d.floor>0) {
-    html+='<div class="sum-card" style="margin-bottom:16px"><div class="sum-head"><span class="sl">Room Parameters</span></div>'
-      +'<div class="sum-body"><div style="display:flex;gap:24px;flex-wrap:wrap">'
-      +'<span style="font-size:13px;color:#888">Floor area: <b style="color:#fff">'+d.floor.toFixed(2)+' m²</b></span>'
-      +'<span style="font-size:13px;color:#888">Wall area: <b style="color:#fff">'+d.walls.toFixed(2)+' m²</b></span>'
-      +'<span style="font-size:13px;color:#888">Ceiling height: <b style="color:#fff">'+d.h+' m</b></span>'
-      +'</div></div></div>';
+    html += '<div class="sec-title">Ceiling Finish</div>';
+
+  CEILING_OPTIONS.forEach(function(opt) {
+    var p = findProd('ceiling', opt.id);
+    if(!p) return;
+    var isSel = selCeil && selCeil.id === opt.id;
+    var totalPrice = area > 0 ? (opt.id==='c4' ? fmt(area*60+400) : fmt(area*p.install)) : '';
+    html += '<div onclick="selectCeilingOption(\''+opt.id+'\')" style="background:#1a1a1a;border:1px solid '+(isSel?'#d4a847':'#252525')+';border-radius:8px;padding:14px 16px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:14px">'
+      + '<span style="flex-shrink:0">'+svgIcon(opt.icon,28)+'</span>'
+      + '<div style="flex:1">'
+        + '<div style="font-size:13px;font-weight:600;color:'+(isSel?'var(--accent)':'#ddd')+'">'+opt.label+'</div>'
+        + '<div style="font-size:11px;color:#555;margin-top:2px">'+opt.detail+'</div>'
+        + '<div style="font-size:12px;font-weight:700;color:var(--accent);margin-top:4px">'+opt.price+(area>0?' — '+totalPrice:'')+'</div>'
+      + '</div>'
+      + (isSel?'<span style="font-size:13px;color:var(--accent);font-weight:600">&#10003;</span>':'')
+    + '</div>';
+  });
+
+  pane.innerHTML = html;
+}
+
+function selectCeilingOption(id) {
+  var p = findProd('ceiling', id);
+  if(!p) return;
+  var d = getDims(); var area = d.floor||1;
+  // Radio - clear previous
+  sel['ceiling'] = {};
+  var install = p.install;
+  var extra = id==='c4' ? 400 : 0;
+  sel['ceiling'][id] = {id:p.id, name:p.name, brand:p.brand, unit:'m²',
+    price:0, install:install, qty:area, area:area, extraFixings:extra};
+  renderCeilingPane();
+  recalc();
+}
+
+function toggleWallFinish() {
+  var p = findProd('wall_finish','wf1'); if(!p) return;
+  var d = getDims();
+  var untiledArea = wallScope==='half' ? Math.max(0,(d.walls/2)-4) : Math.max(0,d.walls-10);
+  if(sel['wall_finish'] && sel['wall_finish']['wf1']) {
+    sel['wall_finish'] = {};
+  } else {
+    sel['wall_finish'] = {};
+    sel['wall_finish']['wf1'] = {id:'wf1',name:'Plaster + Paint — Remaining Walls',brand:'Dulux',
+      unit:'m²',price:0,install:50,qty:untiledArea||1,area:untiledArea||1};
+  }
+  renderCeilingPane();
+  recalc();
+}
+
+// ══════════════════════════════════════════════════════
+// FINISHES
+// ══════════════════════════════════════════════════════
+function renderFinishesPane() {
+  var pane = document.getElementById('pane6');
+  if(!pane) return;
+  var d = getDims();
+
+  var selSilicone   = sel['finishes'] && sel['finishes']['fi_sil'];
+  var selWaterproof = sel['finishes'] && sel['finishes']['fi_wp'];
+  var selGlass      = sel['finishes'] && sel['finishes']['fi_glass'];
+  var selWallFin    = sel['wall_finish'] && sel['wall_finish']['wf1'];
+
+  var html = '<div class="pane-title">&#10022; Finishes</div>'
+    + '<div class="pane-sub">Additional finishes and surface treatments</div>'
+    + '<div class="divider"></div>'
+    + '<div style="background:#1a1a0e;border:1px solid rgba(212,168,71,0.25);border-radius:6px;padding:10px 14px;margin-bottom:20px;font-size:11px;color:#888;line-height:1.6">'
+      + '&#9432; <b style="color:var(--accent)">Grout and tile silicone are included</b> in the tiling cost. The items below are optional upgrades.'
+    + '</div>';
+
+  // Wall Plaster + Paint (only if half or wet area walls selected)
+  if(wallScope === 'half' || wallScope === 'wet') {
+    var untiledArea = wallScope==='half'
+      ? Math.max(0, (d.walls/2) - 4).toFixed(2)
+      : Math.max(0, d.walls - 10).toFixed(2);
+    html += '<div class="sec-title">Untiled Wall Areas</div>'
+      + finishCard('fi_wf', selWallFin, 'plaster',
+          'Plaster + Paint — Remaining Walls',
+          'Skim plaster + Dulux bathroom paint · Approx. '+untiledArea+' m² untiled area · Moisture resistant',
+          '£50/m² — '+fmt(parseFloat(untiledArea)*50));
   }
 
-  // prep line
-  if(prepSelected >= 0) {
-    var pg=prepPrices[prepSelected]*(1+cfg.margin/100)*(1+cfg.vat/100);
-    var pLabel=prepSelected===0?'Full Bathroom Strip-out + Preparations':'Room Preparations Only';
-    html+='<div class="sum-card"><div class="sum-head"><span class="sl">Preparations</span><span class="sv">'+fmt(pg)+'</span></div>'
-      +'<div class="sum-body"><div class="sum-line"><span>'+pLabel+'</span><span class="v">'+fmt(pg)+'</span></div></div></div>';
-  }
+  // Waterproofing upgrade
+  html += '<div class="sec-title" style="margin-top:4px">Waterproofing</div>'
+    + finishCard('fi_wp', selWaterproof, 'plaster',
+        'Waterproofing Upgrade — Tanking Membrane',
+        'Additional membrane layer behind wet area tiles · Schluter or similar · Extra leak protection',
+        '£150 fixed');
 
-  for(var i=0;i<allCats.length;i++){
-    var cat=allCats[i];
-    var items=sel[cat]?Object.values(sel[cat]):[];
-    if(!items.length) continue;
-    var catNet=0; for(var j=0;j<items.length;j++) catNet+=items[j].price*items[j].qty;
-    var catGross=catNet*(1+cfg.margin/100)*(1+cfg.vat/100);
-    html+='<div class="sum-card"><div class="sum-head"><span class="sl">'+catNames[cat]+'</span><span class="sv">'+fmt(catGross)+'</span></div>'
-      +'<div class="sum-body">';
-    for(var k=0;k<items.length;k++){
-      var it=items[k];
-      html+='<div class="sum-line"><span>'+it.name+' <span style="color:#333">× '+it.qty+' '+it.unit+'</span></span><span class="v">'+fmt(it.price*it.qty*(1+cfg.margin/100)*(1+cfg.vat/100))+'</span></div>';
+  // Silicone
+  html += '<div class="sec-title" style="margin-top:4px">Sealants</div>'
+    + finishCard('fi_sil', selSilicone, 'silicone',
+        'Sanitary Silicone — Full Bathroom Reseal',
+        'All joints around bath, shower, basin & WC · Anti-mould · 5-year protection',
+        '£120 fixed');
+
+  // Glass sealant
+  html += finishCard('fi_glass', selGlass, 'enclosure',
+      'Shower Glass Sealant',
+      'Hydrophobic treatment · Repels limescale · Easier cleaning · Lasts 2-3 years',
+      '£80 fixed');
+
+  pane.innerHTML = html;
+}
+
+function finishCard(id, isSelected, icon, title, desc, price) {
+  return '<div onclick="toggleFinish(\''+id+'\')" style="background:#1a1a1a;border:1px solid '+(isSelected?'#d4a847':'#252525')+';border-radius:8px;padding:14px 16px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:14px">'
+    + '<span style="flex-shrink:0">'+svgIcon(icon,28)+'</span>'
+    + '<div style="flex:1">'
+      + '<div style="font-size:13px;font-weight:600;color:'+(isSelected?'var(--accent)':'#ddd')+'">'+title+'</div>'
+      + '<div style="font-size:11px;color:#555;margin-top:2px">'+desc+'</div>'
+      + '<div style="font-size:12px;font-weight:700;color:var(--accent);margin-top:4px">'+price+'</div>'
+    + '</div>'
+    + (isSelected?'<span style="font-size:13px;color:var(--accent);font-weight:600">&#10003; Added</span>':'<span style="font-size:11px;color:#555;border:1px solid #333;padding:3px 8px;border-radius:4px">Add</span>')
+  + '</div>';
+}
+
+function toggleFinish(id) {
+  if(!sel['finishes']) sel['finishes']={};
+  var d = getDims();
+  if(id === 'fi_wf') {
+    // wall finish goes in wall_finish sel
+    if(sel['wall_finish'] && sel['wall_finish']['wf1']) {
+      sel['wall_finish'] = {};
+    } else {
+      var untiledArea = wallScope==='half' ? Math.max(0,(d.walls/2)-4) : Math.max(0,d.walls-10);
+      sel['wall_finish'] = {'wf1':{id:'wf1',name:'Plaster + Paint — Remaining Walls',brand:'Dulux',unit:'m²',price:0,install:50,qty:untiledArea||1,area:untiledArea||1}};
     }
-    html+='</div></div>';
+  } else {
+    if(sel['finishes'][id]) { delete sel['finishes'][id]; }
+    else {
+      var prices = {fi_sil:120, fi_wp:150, fi_glass:80};
+      var names  = {fi_sil:'Sanitary Silicone Reseal', fi_wp:'Waterproofing Upgrade', fi_glass:'Shower Glass Sealant'};
+      sel['finishes'][id] = {id:id,name:names[id]||id,brand:'',unit:'pcs',price:0,install:prices[id]||0,qty:1};
+    }
+  }
+  renderFinishesPane();
+  recalc();
+}
+
+
+
+function buildSummary() {
+  var t = recalc();
+  var d = getDims();
+  var cfg = t.cfg;
+
+  var catLabels = {
+    preparations:'Preparations',
+    floor_tiles:'Floor — Tiles', floor_lvt:'Floor — LVT',
+    wall_tiles:'Walls — Tiles', wall_panels:'Walls — Panels',
+    wall_finish:'Wall Plaster & Paint',
+    units_toilet:'Toilet', units_shower:'Shower',
+    units_enclosure:'Shower Enclosure', units_bath:'Bath',
+    units_basin:'Basin & Vanity', units_taps:'Taps',
+    electrical_lighting:'Lighting', electrical_heating:'Underfloor Heating',
+    electrical_ventilation:'Extractor Fan', electrical_shaving:'Shaving Point',
+    ceiling:'Ceiling', finishes:'Finishes'
+  };
+
+  var allCats = ['floor_tiles','floor_lvt','wall_tiles','wall_panels','wall_finish',
+    'units_toilet','units_shower','units_enclosure','units_bath','units_basin','units_taps',
+    'electrical_lighting','electrical_heating','electrical_ventilation','electrical_shaving',
+    'ceiling','finishes'];
+
+  var html = '<div class="pane-title">&#128203; Your Estimate</div>'
+    + '<div class="pane-sub">Summary of selected items</div>'
+    + '<div class="divider"></div>';
+
+  // Room info bar
+  if(d.floor > 0) {
+    html += '<div style="background:#1a1a1a;border:1px solid #252525;border-radius:8px;padding:12px 16px;margin-bottom:16px;display:flex;gap:24px;flex-wrap:wrap">'
+      + '<span style="font-size:12px;color:#888">Floor: <b style="color:#fff">'+d.floor.toFixed(2)+' m²</b></span>'
+      + '<span style="font-size:12px;color:#888">Walls: <b style="color:#fff">'+d.walls.toFixed(2)+' m²</b></span>'
+      + '<span style="font-size:12px;color:#888">Height: <b style="color:#fff">'+d.h+' m</b></span>'
+    + '</div>';
   }
 
-  html+='<div class="totals-card">'
-    +'<div class="tot-row"><span>Subtotal (excl. VAT)</span><span class="v">'+fmt(t.subtotal)+'</span></div>'
-    +(t.cfg.vatRegistered
-      ?'<div class="tot-row"><span>VAT ('+t.cfg.vat+'%)</span><span class="v">'+fmt(t.vatAmount)+'</span></div>'
-       +'<div class="tot-grand"><span class="l">TOTAL INC. VAT</span><span class="v">'+fmt(t.gross)+'</span></div>'
-      :'<div class="tot-row" style="color:#555;font-size:11px">VAT not applicable</div>'
-       +'<div class="tot-grand"><span class="l">TOTAL</span><span class="v">'+fmt(t.gross)+'</span></div>'
-    )
-    +'</div>';
+  // Preparations
+  if(prepSelected >= 0) {
+    var prepLabel = prepSelected===0 ? 'Full Bathroom Strip-out + Preparations' : 'Room Preparations Only';
+    html += '<div style="background:#1a1a1a;border:1px solid #252525;border-radius:8px;margin-bottom:8px;overflow:hidden">'
+      + '<div style="display:flex;align-items:center;gap:12px;padding:12px 14px">'
+        + '<div style="width:52px;height:52px;background:#141414;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0">'+svgIcon('plaster',24)+'</div>'
+        + '<div style="flex:1"><div style="font-size:13px;font-weight:600;color:#ccc">'+prepLabel+'</div><div style="font-size:11px;color:#555">Fixed price</div></div>'
+        + '<div style="font-size:15px;font-weight:700;color:var(--accent)">'+fmt(prepPrices[prepSelected])+'</div>'
+      + '</div>'
+    + '</div>';
+  }
 
-  // CONTACT FORM
-  html+='<div class="contact-box" id="contactBox">'
-    +'<h3>🎯 Happy with the estimate? Let\'s get started.</h3>'
-    +'<p>Leave your details below and one of our qualified specialists will contact you within 24 hours to arrange a free on-site visit, discuss the full scope of work and provide you with a precise, binding quote.<br><br>'
-    +'<span style="color:#888;font-size:12px">Please note: this estimate is indicative only and is not a binding offer. The final price will be confirmed after our specialist has visited the site and assessed all details.</span></p>'
-    +'<div class="grid2">'
-    +'<div class="field"><label>Full Name</label><input type="text" id="cf_name" placeholder="John Smith"></div>'
-    +'<div class="field"><label>Phone Number</label><input type="tel" id="cf_phone" placeholder="+44 7700 000000"></div>'
-    +'<div class="field"><label>Email Address</label><input type="email" id="cf_email" placeholder="john@email.com"></div>'
-    +'<div class="field"><label>Town / Area</label><input type="text" id="cf_city" placeholder="e.g. London, Manchester"></div>'
-    +'</div>'
-    +'<div class="field"><label>Additional Information (optional)</label><textarea id="cf_msg" placeholder="Preferred start date, any specific requirements or questions..."></textarea></div>'
-    +'<button class="btn-gold" style="margin-top:4px" onclick="sendContact()">Send Enquiry →</button>'
-    +'</div>'
-    +'<div class="contact-sent" id="contactSent" style="display:none">'
-    +'<div class="icon">✅</div>'
-    +'<h3>Enquiry sent!</h3>'
-    +'<p>Thank you. One of our specialists will be in touch within 24 hours to arrange your free on-site visit and discuss the details of your project.</p>'
-    +'</div>';
+  // All categories
+  allCats.forEach(function(cat) {
+    var items = sel[cat] ? Object.values(sel[cat]) : [];
+    if(!items.length) return;
+    items.forEach(function(item) {
+      var matCost = (item.price||0)*(item.qty||1);
+      var labCost = item.labour&&item.area ? item.labour*item.area : (item.install||0)*(item.qty||1);
+      var extras  = item.extraFixings||0;
+      var itemNet = matCost + labCost + extras;
+      var itemGross = itemNet*(1+cfg.margin/100)*(cfg.vatRegistered?1+cfg.vat/100:1);
+      // Get icon for category
+      var iconMap = {floor_tiles:'ceiling',floor_lvt:'ceiling',wall_tiles:'ceiling',wall_panels:'cladding',
+        wall_finish:'plaster',units_toilet:'toilet',units_shower:'shower',units_enclosure:'enclosure',
+        units_bath:'bath',units_basin:'basin',units_taps:'tap',
+        electrical_lighting:'spotlight',electrical_heating:'underfloor',
+        electrical_ventilation:'extractor',electrical_shaving:'socket',
+        ceiling:'paint',finishes:'silicone'};
+      var iconName = iconMap[cat]||'plaster';
+      html += '<div style="background:#1a1a1a;border:1px solid #252525;border-radius:8px;margin-bottom:8px;overflow:hidden">'
+        + '<div style="display:flex;align-items:center;gap:12px;padding:12px 14px">';
+      // Thumbnail
+      html += '<div style="width:52px;height:52px;background:#141414;border-radius:6px;overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center">';
+      if(item.img) html += '<img src="'+item.img+'" style="width:100%;height:100%;object-fit:cover">';
+      else html += svgIcon(iconName, 24);
+      html += '</div>';
+      html += '<div style="flex:1">'
+        + '<div style="font-size:11px;color:#555;text-transform:uppercase;letter-spacing:0.05em">'+(catLabels[cat]||cat)+'</div>'
+        + '<div style="font-size:13px;font-weight:600;color:#ccc;margin-top:2px">'+item.name+'</div>'
+        + (item.qty&&item.unit&&item.qty>1?'<div style="font-size:10px;color:#444;margin-top:1px">'+item.qty.toFixed(2)+' '+item.unit+'</div>':'')
+      + '</div>'
+      + '<div style="font-size:15px;font-weight:700;color:var(--accent)">'+fmt(itemGross)+'</div>'
+      + '</div></div>';
+    });
+  });
 
-  document.getElementById('summaryContent').innerHTML=html;
+  // Totals card
+  html += '<div style="background:#1a1a1a;border:1px solid #252525;border-radius:8px;padding:16px 18px;margin-top:8px">'
+    + '<div style="display:flex;justify-content:space-between;font-size:13px;color:#888;margin-bottom:6px"><span>Subtotal excl. VAT</span><span>'+fmt(t.subtotal)+'</span></div>';
+  if(cfg.vatRegistered) {
+    html += '<div style="display:flex;justify-content:space-between;font-size:13px;color:#888;margin-bottom:10px"><span>VAT ('+cfg.vat+'%)</span><span>'+fmt(t.vatAmount)+'</span></div>';
+  }
+  html += '<div style="display:flex;justify-content:space-between;align-items:baseline;padding-top:10px;border-top:1px solid #333">'
+    + '<span style="font-size:14px;font-weight:600;color:#fff">TOTAL</span>'
+    + '<span style="font-size:28px;font-weight:800;color:var(--accent)">'+fmt(t.gross)+'</span>'
+  + '</div></div>';
+
+  // Contact form
+  html += '<div style="background:linear-gradient(135deg,#1a1a0e,#1e1a0e);border:1px solid rgba(212,168,71,0.25);border-radius:10px;padding:24px;margin-top:20px" id="contactBox">'
+    + '<h3 style="font-size:17px;font-weight:700;color:#fff;margin-bottom:6px">Happy with your estimate?</h3>'
+    + '<p style="font-size:13px;color:#888;margin-bottom:20px;line-height:1.5">Fill in your details and one of our experts will visit your property — free of charge — to go through the details and finalise the quote.</p>'
+
+    + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">'
+      + '<div class="field"><label>First & Last Name *</label><input id="cf_name" type="text" placeholder="John Smith"></div>'
+      + '<div class="field"><label>Phone *</label><input id="cf_phone" type="tel" placeholder="+44 7700 000000"></div>'
+      + '<div class="field"><label>Email *</label><input id="cf_email" type="email" placeholder="john@email.com"></div>'
+      + '<div class="field"><label>House Number *</label><input id="cf_housenum" type="text" placeholder="42"></div>'
+      + '<div class="field"><label>Street Name *</label><input id="cf_street" type="text" placeholder="Cardiff Road"></div>'
+      + '<div class="field"><label>Postcode *</label><input id="cf_postcode" type="text" placeholder="CF10 1AA" style="text-transform:uppercase"></div>'
+    + '</div>'
+    + '<div class="field" style="margin-bottom:16px"><label>City / Area *</label>'
+      + '<select id="cf_city" style="width:100%;background:#111;border:1px solid #333;color:#fff;padding:11px 13px;font-size:14px;border-radius:6px">'
+        + '<option value="">— Select your area —</option>'
+        + '<option>Cardiff</option><option>Cardiff Bay</option><option>Cardiff North</option>'
+        + '<option>Newport</option><option>Caerphilly</option><option>Pontypridd</option>'
+        + '<option>Barry</option><option>Penarth</option><option>Bridgend</option>'
+        + '<option>Merthyr Tydfil</option><option>Cwmbran</option><option>Aberdare</option>'
+        + '<option>Other South Wales</option>'
+      + '</select>'
+    + '</div>'
+    + '<div class="field" style="margin-bottom:16px"><label>Additional Notes</label><textarea id="cf_notes" placeholder="Any specific requirements, access notes, preferred visit times..." style="min-height:70px"></textarea></div>'
+
+    // Consent checkbox
+    + '<div style="display:flex;align-items:flex-start;gap:10px;background:#141414;border:1px solid #252525;border-radius:6px;padding:12px;margin-bottom:16px">'
+      + '<input type="checkbox" id="cf_consent" style="width:18px;height:18px;margin-top:1px;accent-color:var(--accent);flex-shrink:0;cursor:pointer">'
+      + '<label for="cf_consent" style="font-size:12px;color:#888;line-height:1.5;cursor:pointer">'
+        + 'I agree to be contacted by a member of the team to arrange a <b style="color:#ccc">free no-obligation site visit</b> at my property. I understand this estimate is indicative and a final quote will be provided after the visit.'
+      + '</label>'
+    + '</div>'
+
+    + '<div id="cf_error" style="color:#e07070;font-size:12px;margin-bottom:10px;display:none"></div>'
+    + '<button onclick="sendContact()" style="background:var(--accent);border:none;color:#111;padding:14px 28px;font-size:14px;font-weight:700;border-radius:6px;width:100%;cursor:pointer">Request Free Site Visit &#8594;</button>'
+  + '</div>'
+  + '<div id="contactSent" style="display:none;text-align:center;padding:32px;background:#1a1a1a;border:1px solid rgba(212,168,71,0.3);border-radius:10px;margin-top:20px">'
+    + '<div style="font-size:36px;margin-bottom:12px">&#10003;</div>'
+    + '<div style="font-size:18px;font-weight:700;color:var(--accent);margin-bottom:8px">Request Sent!</div>'
+    + '<div style="font-size:13px;color:#888;line-height:1.5">Thank you. One of our experts will be in touch within 24 hours to arrange your free site visit.</div>'
+  + '</div>';
+
+  var sc = document.getElementById('summaryContent');
+  if(sc) sc.innerHTML = html;
 }
 
 function sendContact() {
-  var name=document.getElementById('cf_name').value.trim();
-  var phone=document.getElementById('cf_phone').value.trim();
-  if(!name||!phone){ alert('Please enter your name and phone number'); return; }
-  document.getElementById('contactBox').style.display='none';
-  document.getElementById('contactSent').style.display='block';
-  // In production: send via fetch/API here
+  var name     = document.getElementById('cf_name')    ? document.getElementById('cf_name').value.trim()     : '';
+  var phone    = document.getElementById('cf_phone')   ? document.getElementById('cf_phone').value.trim()    : '';
+  var email    = document.getElementById('cf_email')   ? document.getElementById('cf_email').value.trim()    : '';
+  var housenum = document.getElementById('cf_housenum')? document.getElementById('cf_housenum').value.trim() : '';
+  var street   = document.getElementById('cf_street')  ? document.getElementById('cf_street').value.trim()   : '';
+  var postcode = document.getElementById('cf_postcode')? document.getElementById('cf_postcode').value.trim() : '';
+  var city     = document.getElementById('cf_city')    ? document.getElementById('cf_city').value            : '';
+  var consent  = document.getElementById('cf_consent') ? document.getElementById('cf_consent').checked       : false;
+  var errEl    = document.getElementById('cf_error');
+
+  var missing = [];
+  if(!name)     missing.push('Name');
+  if(!phone)    missing.push('Phone');
+  if(!email)    missing.push('Email');
+  if(!housenum) missing.push('House Number');
+  if(!street)   missing.push('Street');
+  if(!postcode) missing.push('Postcode');
+  if(!city)     missing.push('City / Area');
+  if(!consent)  missing.push('Please tick the consent box');
+
+  if(missing.length) {
+    if(errEl) { errEl.style.display='block'; errEl.textContent='Please complete: '+missing.join(', ')+'.'; }
+    return;
+  }
+  if(errEl) errEl.style.display='none';
+
+  var box  = document.getElementById('contactBox');
+  var sent = document.getElementById('contactSent');
+  if(box)  box.style.display  = 'none';
+  if(sent) sent.style.display = 'block';
+  // TODO: send via API/email
 }
+
 
 // ══════════════════════════════════════════════════════
 // PDF EXPORT
@@ -1915,8 +2221,8 @@ function exportPDF() {
   var coName=companies[0]?companies[0].name:'RenoCalc';
   var scopeLabel = wallScope==='all'?'All Walls':wallScope==='half'?'Half + Wet Area':wallScope==='wet'?'Wet Area Only':'';
   var wallSuffix = scopeLabel ? ' ('+scopeLabel+')' : '';
-  var catNames={floor_tiles:'Floor – Tiles',floor_lvt:'Floor – LVT',wall_tiles:'Walls – Tiles'+wallSuffix,wall_panels:'Walls – Panels'+wallSuffix,units_toilet:'Toilet',units_shower:'Shower',units_enclosure:'Shower Enclosure',units_bath:'Bath',units_basin:'Basin & Vanity',units_taps:'Taps & Brassware',electrical_lighting:'LED Mirrors & Lighting',electrical_heating:'Underfloor Heating',electrical_ventilation:'Ventilation',electrical_shaving:'Shaving Point',ceiling:'Ceiling',finishes:'Finishes'};
-  var allCats=['floor_tiles','floor_lvt','wall_tiles','wall_panels','units_toilet','units_shower','units_enclosure','units_bath','units_basin','units_taps','electrical_lighting','electrical_heating','electrical_ventilation','electrical_shaving','ceiling','finishes'];
+  var catNames={floor_tiles:'Floor – Tiles',floor_lvt:'Floor – LVT',wall_tiles:'Walls – Tiles'+wallSuffix,wall_panels:'Walls – Panels'+wallSuffix,units_toilet:'Toilet',units_shower:'Shower',units_enclosure:'Shower Enclosure',units_bath:'Bath',units_basin:'Basin & Vanity',units_taps:'Taps & Brassware',electrical_lighting:'LED Mirrors & Lighting',electrical_heating:'Underfloor Heating',electrical_ventilation:'Ventilation',electrical_shaving:'Shaving Point',ceiling:'Ceiling',wall_finish:'Wall Plaster & Paint',finishes:'Finishes'};
+  var allCats=['floor_tiles','floor_lvt','wall_tiles','wall_panels','units_toilet','units_shower','units_enclosure','units_bath','units_basin','units_taps','electrical_lighting','electrical_heating','electrical_ventilation','electrical_shaving','ceiling','wall_finish','finishes'];
   var rows='';
   for(var i=0;i<allCats.length;i++){
     var cat=allCats[i];
@@ -1989,7 +2295,7 @@ function renderAdminProducts() {
   var cats=['preparations','floor','walls','units','electrical','ceiling','finishes'];
   var scopeLabel = wallScope==='all'?'All Walls':wallScope==='half'?'Half + Wet Area':wallScope==='wet'?'Wet Area Only':'';
   var wallSuffix = scopeLabel ? ' ('+scopeLabel+')' : '';
-  var catNames={floor_tiles:'Floor – Tiles',floor_lvt:'Floor – LVT',wall_tiles:'Walls – Tiles'+wallSuffix,wall_panels:'Walls – Panels'+wallSuffix,units_toilet:'Toilet',units_shower:'Shower',units_enclosure:'Shower Enclosure',units_bath:'Bath',units_basin:'Basin & Vanity',units_taps:'Taps & Brassware',electrical_lighting:'LED Mirrors & Lighting',electrical_heating:'Underfloor Heating',electrical_ventilation:'Ventilation',electrical_shaving:'Shaving Point',ceiling:'Ceiling',finishes:'Finishes'};
+  var catNames={floor_tiles:'Floor – Tiles',floor_lvt:'Floor – LVT',wall_tiles:'Walls – Tiles'+wallSuffix,wall_panels:'Walls – Panels'+wallSuffix,units_toilet:'Toilet',units_shower:'Shower',units_enclosure:'Shower Enclosure',units_bath:'Bath',units_basin:'Basin & Vanity',units_taps:'Taps & Brassware',electrical_lighting:'LED Mirrors & Lighting',electrical_heating:'Underfloor Heating',electrical_ventilation:'Ventilation',electrical_shaving:'Shaving Point',ceiling:'Ceiling',wall_finish:'Wall Plaster & Paint',finishes:'Finishes'};
   var html='';
   for(var c=0;c<cats.length;c++){
     var cat=cats[c];
