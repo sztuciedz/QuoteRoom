@@ -2329,23 +2329,39 @@ function sendContact() {
     _subject:'New Enquiry - '+name+' - \xa3'+Math.round(t.gross)
   };
 
+  var sendData = {
+    access_key: '10bd3168-43da-44d7-bdec-efc30638095b',
+    subject:    'New Enquiry - ' + name + ' - \xa3' + Math.round(t.gross),
+    from_name:  'RenoCalc',
+    name:       name,
+    phone:      phone,
+    email:      email,
+    address:    housenum + ' ' + street + ', ' + postcode + ', ' + city,
+    room:       d.l + 'm x ' + d.w + 'm x ' + d.h + 'm',
+    items:      lines.join('\n'),
+    total:      '\xa3' + Math.round(t.subtotal) + ' excl VAT' + (t.cfg.vatRegistered ? ' / \xa3' + Math.round(t.gross) + ' incl VAT' : ''),
+    notes:      notes || '-'
+  };
+
   fetch('https://api.web3forms.com/submit', {
-    method: 'POST',
-    headers: {'Accept':'application/json','Content-Type':'application/json'},
-    body: JSON.stringify(Object.assign({access_key:'10bd3168-43da-44d7-bdec-efc30638095b'}, payload))
+    method:  'POST',
+    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+    body:    JSON.stringify(sendData)
   })
-  .then(function(r){ return r.json().then(function(d){return {ok:r.ok,data:d};}); })
-  .then(function(res){
-    if(res.ok) {
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    console.log('Web3Forms:', JSON.stringify(data));
+    if(data.success) {
       showContactSuccess();
     } else {
-      if(btn){btn.textContent='Send Enquiry \u2192';btn.disabled=false;}
-      if(errEl){errEl.style.display='block';errEl.textContent='Error: '+JSON.stringify(res.data);}
+      if(btn) { btn.textContent = 'Send Enquiry \u2192'; btn.disabled = false; }
+      if(errEl) { errEl.style.display = 'block'; errEl.textContent = 'Error: ' + (data.message || JSON.stringify(data)); }
     }
   })
-  .catch(function(e){
-    if(btn){btn.textContent='Send Enquiry \u2192';btn.disabled=false;}
-    if(errEl){errEl.style.display='block';errEl.textContent='Connection error: '+e.message;}
+  .catch(function(e) {
+    console.error('Fetch error:', e);
+    if(btn) { btn.textContent = 'Send Enquiry \u2192'; btn.disabled = false; }
+    if(errEl) { errEl.style.display = 'block'; errEl.textContent = 'Connection error: ' + e.message; }
   });
 }
 
