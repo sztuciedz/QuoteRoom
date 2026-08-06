@@ -171,7 +171,7 @@ input::placeholder, textarea::placeholder { color: #555; }
 
 /* ADMIN */
 #adminScreen { background: #111; min-height: 100vh; display: none; color: #fff; }
-#adminScreen.active { display: block; }
+#adminScreen.active { display: block; position: fixed; top: 0; left: 0; right: 0; bottom: 0; overflow-y: auto; z-index: 600; }
 .admin-topbar { background: #1a1a1a; border-bottom: 1px solid #252525; height: 54px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; }
 .admin-tabs { display: flex; background: #1a1a1a; border-bottom: 1px solid #252525; overflow-x: auto; }
 .atab { background: none; border: none; border-bottom: 3px solid transparent; color: #555; padding: 13px 18px; font-size: 13px; cursor: pointer; white-space: nowrap; }
@@ -896,12 +896,14 @@ function showLogin() {
 }
 function showAdminScreen() {
   hide('calcScreen'); hide('landingScreen');
+  var bn=document.getElementById('bottomNav'); if(bn) bn.style.display='none';
   showBlock('adminScreen');
   renderAdminProducts(); renderCompanyList(); loadAdminRates();
 }
 function backToCalc() {
   hide('adminScreen');
   showBlock('calcScreen');
+  var bn=document.getElementById('bottomNav'); if(bn) bn.style.display='flex';
 }
 function doLogout() {
   currentCo = null;
