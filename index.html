@@ -916,7 +916,15 @@ function showLogin() {
 function showAdminScreen() {
   hide('calcScreen'); hide('landingScreen');
   showBlock('adminScreen');
-  renderAdminProducts(); renderCompanyList(); loadAdminRates();
+  try {
+    renderAdminProducts();
+  } catch(e) { alert('renderAdminProducts error: ' + e.message); }
+  try {
+    renderCompanyList();
+  } catch(e) { alert('renderCompanyList error: ' + e.message); }
+  try {
+    loadAdminRates();
+  } catch(e) { alert('loadAdminRates error: ' + e.message); }
 }
 function backToCalc() {
   hide('adminScreen');
