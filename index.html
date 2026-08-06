@@ -201,6 +201,7 @@ input::placeholder, textarea::placeholder { color: #555; }
     <div class="land-logo">RenoCalc</div>
     <div class="land-nav-right">
       <button class="btn-outline" onclick="showLogin()">Staff Login</button>
+      <button class="btn-outline" onclick="testAdmin()" style="background:#d4a847;color:#111;margin-left:8px">Test Admin Direct</button>
       <button class="btn-hero" style="padding:9px 20px;font-size:13px;border-radius:6px" onclick="startCalc()">Get a Free Estimate →</button>
     </div>
   </nav>
@@ -487,6 +488,23 @@ input::placeholder, textarea::placeholder { color: #555; }
 </div>
 
 <script>
+function testAdmin() {
+  currentCo = companies[0];
+  var screens = ['landingScreen','calcScreen','loginScreen'];
+  screens.forEach(function(id){
+    var el=document.getElementById(id);
+    if(el){el.style.cssText='display:none!important';}
+  });
+  var admin = document.getElementById('adminScreen');
+  if(!admin) { alert('adminScreen element NOT FOUND'); return; }
+  admin.style.cssText = 'display:block!important;position:fixed!important;top:0!important;left:0!important;right:0!important;bottom:0!important;z-index:9999!important;overflow-y:auto!important;background:#111!important;';
+  admin.classList.add('active');
+  alert('Admin shown. If you see this but not admin content, check HTML structure.');
+  try { renderAdminProducts(); } catch(e) { alert('renderAdminProducts: '+e.message); }
+  try { loadAdminRates(); } catch(e) { alert('loadAdminRates: '+e.message); }
+  try { renderCompanyList(); } catch(e) { alert('renderCompanyList: '+e.message); }
+}
+
 // Global error guard
 window.addEventListener('error', function(e) {
   var b = document.getElementById('errBox');
@@ -895,28 +913,9 @@ function showLogin() {
   showFlex('loginScreen');
 }
 function showAdminScreen() {
-  // Force hide everything else
-  ['calcScreen','landingScreen','loginScreen'].forEach(function(id){
-    var el=document.getElementById(id);
-    if(el){el.style.display='none';el.style.visibility='hidden';el.classList.remove('active');}
-  });
-  var bn=document.getElementById('bottomNav');
-  if(bn) bn.style.display='none';
-  // Force show admin
-  var admin=document.getElementById('adminScreen');
-  if(admin){
-    admin.style.display='block';
-    admin.style.visibility='visible';
-    admin.style.position='fixed';
-    admin.style.top='0';
-    admin.style.left='0';
-    admin.style.right='0';
-    admin.style.bottom='0';
-    admin.style.zIndex='9999';
-    admin.style.overflowY='auto';
-    admin.style.background='#111';
-    admin.classList.add('active');
-  }
+  hide('calcScreen'); hide('landingScreen');
+  var bn=document.getElementById('bottomNav'); if(bn) bn.style.display='none';
+  showBlock('adminScreen');
   renderAdminProducts(); renderCompanyList(); loadAdminRates();
 }
 function backToCalc() {
