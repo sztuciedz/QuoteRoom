@@ -895,9 +895,28 @@ function showLogin() {
   showFlex('loginScreen');
 }
 function showAdminScreen() {
-  hide('calcScreen'); hide('landingScreen');
-  var bn=document.getElementById('bottomNav'); if(bn) bn.style.display='none';
-  showBlock('adminScreen');
+  // Force hide everything else
+  ['calcScreen','landingScreen','loginScreen'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el){el.style.display='none';el.style.visibility='hidden';el.classList.remove('active');}
+  });
+  var bn=document.getElementById('bottomNav');
+  if(bn) bn.style.display='none';
+  // Force show admin
+  var admin=document.getElementById('adminScreen');
+  if(admin){
+    admin.style.display='block';
+    admin.style.visibility='visible';
+    admin.style.position='fixed';
+    admin.style.top='0';
+    admin.style.left='0';
+    admin.style.right='0';
+    admin.style.bottom='0';
+    admin.style.zIndex='9999';
+    admin.style.overflowY='auto';
+    admin.style.background='#111';
+    admin.classList.add('active');
+  }
   renderAdminProducts(); renderCompanyList(); loadAdminRates();
 }
 function backToCalc() {
