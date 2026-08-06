@@ -957,6 +957,7 @@ function showFlex(id) { var el=document.getElementById(id); if(el){el.style.disp
 // LOGIN (admin/worker only)
 // ══════════════════════════════════════════════════════
 function doLogin() {
+  alert('doLogin called');
   var email = document.getElementById('lEmail').value.trim().toLowerCase();
   var pass = document.getElementById('lPass').value;
   var co = null;
