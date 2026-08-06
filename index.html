@@ -19,7 +19,7 @@ input::placeholder, textarea::placeholder { color: #555; }
 #landingScreen { display: none; }
 #landingScreen.active { display: block; }
 #loginScreen { display: none; align-items: center; justify-content: center; min-height: 100vh; background: #111; }
-#loginScreen.active { display: flex; }
+#loginScreen.active { display: flex; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 500; }
 
 /* ══════════════════════════════════════
    LANDING PAGE
@@ -92,7 +92,6 @@ input::placeholder, textarea::placeholder { color: #555; }
 ══════════════════════════════════════ */
 #calcScreen { background: #111; min-height: 100vh; }
 #calcScreen.active { position: fixed; top: 0; left: 0; right: 0; bottom: 0; overflow-y: auto; z-index: 500; }
-#loginScreen.active { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 500; }
 #topBar { background: #1a1a1a; border-bottom: 1px solid #252525; padding: 0 16px; height: 54px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
 .topBar-logo { font-size: 18px; font-weight: 800; color: var(--accent); }
 .topBar-right { display: flex; align-items: center; gap: 14px; }
@@ -916,15 +915,7 @@ function showLogin() {
 function showAdminScreen() {
   hide('calcScreen'); hide('landingScreen');
   showBlock('adminScreen');
-  try {
-    renderAdminProducts();
-  } catch(e) { alert('renderAdminProducts error: ' + e.message); }
-  try {
-    renderCompanyList();
-  } catch(e) { alert('renderCompanyList error: ' + e.message); }
-  try {
-    loadAdminRates();
-  } catch(e) { alert('loadAdminRates error: ' + e.message); }
+  renderAdminProducts(); renderCompanyList(); loadAdminRates();
 }
 function backToCalc() {
   hide('adminScreen');
@@ -957,7 +948,6 @@ function showFlex(id) { var el=document.getElementById(id); if(el){el.style.disp
 // LOGIN (admin/worker only)
 // ══════════════════════════════════════════════════════
 function doLogin() {
-  alert('doLogin called');
   var email = document.getElementById('lEmail').value.trim().toLowerCase();
   var pass = document.getElementById('lPass').value;
   var co = null;
