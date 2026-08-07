@@ -585,9 +585,21 @@ function loadFromFirebase(callback) {
   db.collection('renocalc').doc('data').get().then(function(doc) {
     if(doc.exists) {
       var data = doc.data();
-      if(data.catalog)   catalog   = data.catalog;
-      if(data.companies) companies = data.companies;
-      console.log('Loaded from Firebase');
+      // Only use Firebase catalog if it has actual products
+      var hasProducts = data.catalog && (
+        (data.catalog.floor_tiles && data.catalog.floor_tiles.length > 0) ||
+        (data.catalog.wall_tiles  && data.catalog.wall_tiles.length  > 0) ||
+        (data.catalog.units_toilet && data.catalog.units_toilet.length > 0)
+      );
+      if(hasProducts) {
+        catalog = data.catalog;
+        console.log('Loaded catalog from Firebase');
+      } else {
+        console.log('Firebase catalog empty — keeping defaults');
+      }
+      if(data.companies && data.companies.length > 0) {
+        companies = data.companies;
+      }
     } else {
       console.log('No Firebase data yet — using defaults');
     }
