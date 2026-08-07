@@ -3086,6 +3086,7 @@ function addProduct() {
   };
   if(!catalog[cat]) catalog[cat]=[];
   catalog[cat].push(prod);
+  saveToFirebase();
   renderAdminProducts();
   // refresh product grid if pane exists
   var stepMap={floor_tiles:1,floor_lvt:1,wall_tiles:2,wall_panels:2,units_toilet:3,units_shower:3,units_enclosure:3,units_bath:3,units_basin:3,units_taps:3,electrical_lighting:4,electrical_heating:4,electrical_ventilation:4,electrical_shaving:4,ceiling:5,finishes:6};
@@ -3105,6 +3106,7 @@ function addProduct() {
 
 function removeProd(cat,id){
   catalog[cat]=catalog[cat].filter(function(p){return p.id!==id;});
+  saveToFirebase();
   if(sel[cat]) delete sel[cat][id];
   renderAdminProducts();
   if(cat==='floor_tiles'||cat==='floor_lvt') {
@@ -3142,6 +3144,7 @@ function saveRates(){
   }
   updateRemovalDisplay();
   recalc();
+  saveToFirebase();
   var s=document.getElementById('ratesSaved');
   s.style.display='inline';
   setTimeout(function(){s.style.display='none';},2000);
