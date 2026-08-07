@@ -2925,81 +2925,142 @@ function aTab(n) {
 }
 
 function renderAdminProducts() {
-  var cats=['preparations','floor','walls','units','electrical','ceiling','finishes'];
-  var scopeLabel = wallScope==='all'?'All Walls':wallScope==='half'?'Half + Wet Area':wallScope==='wet'?'Wet Area Only':'';
-  var wallSuffix = scopeLabel ? ' ('+scopeLabel+')' : '';
-  var catNames={floor_tiles:'Floor – Tiles',floor_lvt:'Floor – LVT',wall_tiles:'Walls – Tiles'+wallSuffix,wall_panels:'Walls – Panels'+wallSuffix,units_toilet:'Toilet',units_shower:'Shower',units_enclosure:'Shower Enclosure',units_bath:'Bath',units_basin:'Basin & Vanity',units_taps:'Taps & Brassware',electrical_lighting:'LED Mirrors & Lighting',electrical_heating:'Underfloor Heating',electrical_ventilation:'Ventilation',electrical_shaving:'Shaving Point',ceiling:'Ceiling',wall_finish:'Wall Plaster & Paint',finishes:'Finishes'};
-  var html='';
-  for(var c=0;c<cats.length;c++){
-    var cat=cats[c];
-    html+='<div style="margin-bottom:20px"><div class="sec-title" style="margin-top:0">'+catNames[cat]+'</div>';
-    var prods=catalog[cat]||[];
-    if(!prods.length) { html+='<p style="color:#444;font-size:12px;padding:8px 0">No products yet</p>'; }
-    for(var i=0;i<prods.length;i++){
-      var p=prods[i];
-      var isFloor=(cat==='floor_tiles'||cat==='floor_lvt');
-      html+='<div class="prod-row-a">'
-        +'<div style="flex:1">'
-        +'<span style="font-size:12px;color:#ccc">'+p.name+'</span>'
-        +' <span style="font-size:10px;color:#555;margin-left:6px">'+p.brand+'</span>'
-        +' <span style="font-size:11px;color:#d4a847;margin-left:8px">'+fmt(getDisplayPrice(p.price))+'/'+p.unit+'</span>'
-        +(isFloor&&p.labour?' <span style="font-size:10px;color:#666;margin-left:6px">labour: '+fmt(p.labour)+'/m²</span>':'')
-        +(p.url?'<a href="'+p.url+'" target="_blank" style="font-size:10px;color:#888;margin-left:8px;text-decoration:none">↗ details</a>':'')
-        +'</div>'
-        +'<button class="btn-sm" style="color:#e07070;font-size:11px;flex-shrink:0" onclick="removeProd(\''+cat+'\',\''+p.id+'\')">Remove</button>'
-        +'</div>';
+  var cats = [
+    {id:'floor_tiles',     label:'Floor — Tiles'},
+    {id:'floor_lvt',       label:'Floor — LVT'},
+    {id:'wall_tiles',      label:'Wall Tiles'},
+    {id:'wall_panels',     label:'Wall Panels'},
+    {id:'units_toilet',    label:'Toilet'},
+    {id:'units_shower',    label:'Shower'},
+    {id:'units_enclosure', label:'Shower Enclosure'},
+    {id:'units_bath',      label:'Bath'},
+    {id:'units_basin',     label:'Basin & Vanity'},
+    {id:'units_taps',      label:'Taps'},
+    {id:'electrical_lighting',    label:'Lighting / LED Mirrors'},
+    {id:'electrical_heating',     label:'Underfloor Heating'},
+    {id:'electrical_ventilation', label:'Extractor Fan'},
+    {id:'electrical_shaving',     label:'Shaving Point'},
+    {id:'ceiling',         label:'Ceiling'},
+    {id:'wall_finish',     label:'Wall Plaster & Paint'},
+    {id:'finishes',        label:'Finishes'}
+  ];
+
+  var container = document.getElementById('adminProdList');
+  if(!container) return;
+  var html = '';
+
+  cats.forEach(function(cat) {
+    var prods = catalog[cat.id] || [];
+    var isFloorWall = ['floor_tiles','floor_lvt','wall_tiles','wall_panels'].indexOf(cat.id) >= 0;
+
+    html += '<div style="margin-bottom:24px">'
+      + '<div style="font-size:12px;font-weight:700;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #252525">'
+        + cat.label + ' <span style="color:#444;font-size:10px;font-weight:400">('+prods.length+')</span>'
+      + '</div>';
+
+    prods.forEach(function(p) {
+      html += '<div class="prod-row-a" id="row_'+cat.id+'_'+p.id+'">'
+        + '<div style="flex:1;min-width:0">'
+          + '<div style="font-size:12px;color:#ccc;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+p.name+'</div>'
+          + '<div style="font-size:10px;color:#555;margin-top:2px">'
+            + (p.brand ? p.brand+' · ' : '')
+            + '\xa3'+(p.price||0)+'/'+p.unit
+            + (p.labour ? ' · labour: \xa3'+p.labour+'/m\xb2' : '')
+            + (p.install ? ' · install: \xa3'+p.install : '')
+          + '</div>'
+        + '</div>'
+        + '<div style="display:flex;gap:6px;flex-shrink:0">'
+          + '<button class="btn-sm" style="color:var(--accent)" onclick="editProd(\''+cat.id+'\',\''+p.id+'\')">Edit</button>'
+          + '<button class="btn-sm" style="color:#e07070" onclick="removeProd(\''+cat.id+'\',\''+p.id+'\')">Remove</button>'
+        + '</div>'
+      + '</div>'
+      + '<div id="edit_'+cat.id+'_'+p.id+'" style="display:none;background:#141414;border:1px solid #252525;border-radius:6px;padding:14px;margin-bottom:8px">'
+        + '<div class="grid2">'
+          + '<div class="field"><label>Name</label><input id="ep_name_'+cat.id+'_'+p.id+'" value="'+p.name.replace(/"/g,'&quot;').replace(/'/g,'&#39;')+'"></div>'
+          + '<div class="field"><label>Brand</label><input id="ep_brand_'+cat.id+'_'+p.id+'" value="'+(p.brand||'').replace(/"/g,'&quot;')+'"></div>'
+          + '<div class="field"><label>Price (£)</label><input type="number" step="0.01" id="ep_price_'+cat.id+'_'+p.id+'" value="'+(p.price||0)+'"></div>'
+          + (isFloorWall ? '<div class="field"><label>Labour (£/m²)</label><input type="number" id="ep_labour_'+cat.id+'_'+p.id+'" value="'+(p.labour||0)+'"></div>' : '')
+          + (p.install !== undefined ? '<div class="field"><label>Install (£)</label><input type="number" id="ep_install_'+cat.id+'_'+p.id+'" value="'+(p.install||0)+'"></div>' : '')
+          + '<div class="field"><label>Image URL</label><input id="ep_img_'+cat.id+'_'+p.id+'" value="'+(p.img||'').replace(/"/g,'&quot;')+'"></div>'
+          + '<div class="field"><label>Product URL</label><input id="ep_url_'+cat.id+'_'+p.id+'" value="'+(p.url||'').replace(/"/g,'&quot;')+'"></div>'
+          + '<div class="field"><label>Description</label><input id="ep_desc_'+cat.id+'_'+p.id+'" value="'+(p.desc||'').replace(/"/g,'&quot;').replace(/'/g,'&#39;')+'"></div>'
+        + '</div>'
+        + '<div style="display:flex;gap:8px;margin-top:10px">'
+          + '<button class="btn-gold" style="padding:8px 16px;font-size:12px" onclick="saveProd(\''+cat.id+'\',\''+p.id+'\')">Save</button>'
+          + '<button class="btn-sm" onclick="cancelEdit(\''+cat.id+'\',\''+p.id+'\')">Cancel</button>'
+        + '</div>'
+      + '</div>';
+    });
+
+    // Add product button per category
+    html += '<button class="btn-sm" style="margin-top:4px;color:var(--accent)" onclick="addProductTocat(\''+cat.id+'\')">+ Add to '+cat.label+'</button>';
+    html += '</div>';
+  });
+
+  container.innerHTML = html;
+}
+
+function editProd(cat, id) {
+  document.querySelectorAll('[id^="edit_"]').forEach(function(el){ el.style.display='none'; });
+  var form = document.getElementById('edit_'+cat+'_'+id);
+  if(form) form.style.display = 'block';
+}
+
+function cancelEdit(cat, id) {
+  var form = document.getElementById('edit_'+cat+'_'+id);
+  if(form) form.style.display = 'none';
+}
+
+function saveProd(cat, id) {
+  var prods = catalog[cat] || [];
+  for(var i=0; i<prods.length; i++) {
+    if(prods[i].id === id) {
+      var g = function(field) { var el=document.getElementById('ep_'+field+'_'+cat+'_'+id); return el?el.value:null; };
+      if(g('name'))    prods[i].name    = g('name');
+      if(g('brand')!==null)  prods[i].brand   = g('brand');
+      if(g('price')!==null)  prods[i].price   = parseFloat(g('price'))||0;
+      if(g('labour')!==null) prods[i].labour  = parseFloat(g('labour'))||0;
+      if(g('install')!==null)prods[i].install = parseFloat(g('install'))||0;
+      if(g('img')!==null)    prods[i].img     = g('img');
+      if(g('url')!==null)    prods[i].url     = g('url');
+      if(g('desc')!==null)   prods[i].desc    = g('desc');
+      break;
     }
-    html+='</div>';
   }
-  document.getElementById('adminProdList').innerHTML=html;
+  renderAdminProducts();
+  showToast('Saved!');
 }
 
-function addProduct() {
-  var name=document.getElementById('np_name').value.trim();
-  var price=parseFloat(document.getElementById('np_price').value);
-  if(!name||!price){ alert('Please enter a name and price'); return; }
-  var cat=document.getElementById('np_cat').value;
-  var prod={
-    id:'p'+Date.now(),
-    name:name,
-    brand:document.getElementById('np_brand').value||'',
-    unit:document.getElementById('np_unit').value||'m²',
-    price:price,
-    labour:parseFloat(document.getElementById('np_labour').value)||100,
-    url:document.getElementById('np_url').value||'',
-    img:document.getElementById('np_img').value||'',
-    desc:document.getElementById('np_desc').value||''
-  };
+function removeProd(cat, id) {
+  if(!confirm('Remove this product?')) return;
+  catalog[cat] = (catalog[cat]||[]).filter(function(p){ return p.id!==id; });
+  renderAdminProducts();
+  showToast('Removed');
+}
+
+function addProductTocat(cat) {
+  var newId = cat+'_'+Date.now();
   if(!catalog[cat]) catalog[cat]=[];
-  catalog[cat].push(prod);
+  catalog[cat].push({id:newId,name:'New Product',brand:'',unit:'pcs',price:0,labour:0,install:0,img:'',url:'',desc:''});
   renderAdminProducts();
-  // refresh product grid if pane exists
-  var stepMap={floor_tiles:1,floor_lvt:1,wall_tiles:2,wall_panels:2,units_toilet:3,units_shower:3,units_enclosure:3,units_bath:3,units_basin:3,units_taps:3,electrical_lighting:4,electrical_heating:4,electrical_ventilation:4,electrical_shaving:4,ceiling:5,finishes:6};
-  var si=stepMap[cat];
-  if(cat==='floor_tiles'||cat==='floor_lvt') {
-    var g=document.getElementById('grid_floor_active');
-    if(g && floorCategory==='tiles' && cat==='floor_tiles') renderProductGrid('floor_tiles','grid_floor_active');
-    if(g && floorCategory==='lvt' && cat==='floor_lvt') renderProductGrid('floor_lvt','grid_floor_active');
-  } else if(cat==='wall_tiles'||cat==='wall_panels') {
-    var g=document.getElementById('grid_wall_active');
-    if(g && wallCategory==='tiles' && cat==='wall_tiles') renderProductGrid('wall_tiles','grid_wall_active');
-    if(g && wallCategory==='panels' && cat==='wall_panels') renderProductGrid('wall_panels','grid_wall_active');
-  } else { var g=document.getElementById('grid_'+cat); if(g) renderProductGrid(cat,'grid_'+cat); }
-  // clear fields
-  ['np_name','np_brand','np_price','np_labour','np_url','np_img','np_desc'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+  // Auto-open edit form for new product
+  setTimeout(function(){ editProd(cat, newId); }, 100);
 }
 
-function removeProd(cat,id){
-  catalog[cat]=catalog[cat].filter(function(p){return p.id!==id;});
-  if(sel[cat]) delete sel[cat][id];
-  renderAdminProducts();
-  if(cat==='floor_tiles'||cat==='floor_lvt') {
-    var g=document.getElementById('grid_floor_active'); if(g && floorCategory) renderProductGrid('floor_'+floorCategory,'grid_floor_active');
-  } else if(cat==='wall_tiles'||cat==='wall_panels') {
-    var g=document.getElementById('grid_wall_active'); if(g && wallCategory) renderProductGrid('wall_'+wallCategory,'grid_wall_active');
-  } else { var g=document.getElementById('grid_'+cat); if(g) renderProductGrid(cat,'grid_'+cat); }
-  recalc();
+function showToast(msg) {
+  var t = document.getElementById('adminToast');
+  if(!t) {
+    t = document.createElement('div');
+    t.id = 'adminToast';
+    t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--accent);color:#111;padding:10px 20px;border-radius:6px;font-size:13px;font-weight:700;z-index:9999;';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity = '1';
+  clearTimeout(t._to);
+  t._to = setTimeout(function(){ t.style.opacity='0'; }, 2000);
 }
+
 
 function loadAdminRates(){
   var cfg=getSettings();
