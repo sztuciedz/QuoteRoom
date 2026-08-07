@@ -189,6 +189,10 @@ input::placeholder, textarea::placeholder { color: #555; }
   .hero h1 { font-size: 28px; }
 }
 </style>
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
 </head>
 <body>
 
@@ -399,6 +403,7 @@ input::placeholder, textarea::placeholder { color: #555; }
     <div style="display:flex;gap:10px">
       <button class="btn-sm" onclick="backToCalc()">← Calculator</button>
       <button class="btn-sm" onclick="doLogout()">Logout</button>
+      <button class="btn-sm" style="color:#e07070" onclick="resetStorage()">Reset All</button>
     </div>
   </div>
   <div class="admin-tabs">
@@ -525,6 +530,95 @@ var companies = [
 ];
 
 // Products: price = material + labour combined (what client sees)
+// ── PERSISTENT STORAGE ──────────────────────────────
+var STORAGE_KEY = 'renocalc_data';
+
+function saveToStorage() { saveToFirebase(); return;
+  try {
+    var data = {
+      catalog:   catalog,
+      companies: companies
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch(e) { console.warn('Storage save failed:', e); }
+}
+
+function loadFromStorage() {
+  try {
+    var raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return;
+    var data = JSON.parse(raw);
+    if(data.catalog)   catalog   = data.catalog;
+    if(data.companies) companies = data.companies;
+  } catch(e) { console.warn('Storage load failed:', e); }
+}
+// ────────────────────────────────────────────────────
+
+
+// ── FIREBASE ─────────────────────────────────────────
+var firebaseConfig = {
+  apiKey:            "AIzaSyBk7iWVruq7XfsuXql04OYYpI2SCIdwUtA",
+  authDomain:        "quoteroom-d3cde.firebaseapp.com",
+  projectId:         "quoteroom-d3cde",
+  storageBucket:     "quoteroom-d3cde.firebasestorage.app",
+  messagingSenderId: "819573328182",
+  appId:             "1:819573328182:web:8b51a510f8721af4bc0b97"
+};
+var fbApp = firebase.initializeApp(firebaseConfig);
+var db  = firebase.firestore();
+var fbStorage = firebase.storage();
+
+function saveToFirebase() {
+  db.collection('renocalc').doc('data').set({
+    catalog:   catalog,
+    companies: companies,
+    updatedAt: new Date().toISOString()
+  }).then(function() {
+    showToast('Saved to cloud ☁');
+  }).catch(function(e) {
+    console.error('Firebase save error:', e);
+    showToast('Save failed: ' + e.message);
+  });
+}
+
+function loadFromFirebase(callback) {
+  db.collection('renocalc').doc('data').get().then(function(doc) {
+    if(doc.exists) {
+      var data = doc.data();
+      if(data.catalog)   catalog   = data.catalog;
+      if(data.companies) companies = data.companies;
+      console.log('Loaded from Firebase');
+    } else {
+      console.log('No Firebase data yet — using defaults');
+    }
+    if(callback) callback();
+  }).catch(function(e) {
+    console.error('Firebase load error:', e);
+    if(callback) callback();
+  });
+}
+
+function uploadImage(cat, id, file, callback) {
+  var ext = file.name.split('.').pop();
+  var path = 'products/' + cat + '/' + id + '.' + ext;
+  var ref = fbStorage.ref(path);
+  var task = ref.put(file);
+  task.on('state_changed',
+    function(snap) {
+      var pct = Math.round(snap.bytesTransferred/snap.totalBytes*100);
+      showToast('Uploading... ' + pct + '%');
+    },
+    function(e) { showToast('Upload failed: ' + e.message); },
+    function() {
+      ref.getDownloadURL().then(function(url) {
+        if(callback) callback(url);
+      });
+    }
+  );
+}
+// ─────────────────────────────────────────────────────
+
+
 var catalog = {
   preparations:[
     {id:'pr1',name:'Strip-out & demolition',brand:'Service',unit:'m²',price:45,desc:'Tile removal, rubble disposal, substrate preparation'},
@@ -532,12 +626,12 @@ var catalog = {
     {id:'pr3',name:'Wall preparation & plastering',brand:'Service',unit:'m²',price:55,desc:'Wall levelling, skimming and priming'},
   ],
   floor_tiles:[
-    {id:'ft1',name:'Carrera White Marble Effect Polished Porcelain',brand:'Tile Mountain',unit:'m²',price:19.95,labour:100,url:'https://www.tilemountain.co.uk/carrara-white-matt-marble-porcelain-floor-tile',img:'',desc:'800x800mm · Polished · Classic white marble veining'},
-    {id:'ft2',name:'Kayrak Anthracite Slate Effect Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:16.95,labour:100,url:'https://www.tilemountain.co.uk/kayrak-anthracite-slate-effect-matt-porcelain-wall-and-floor-tile',img:'',desc:'600x400mm · Matt · Slip resistant R10 · Natural slate look'},
-    {id:'ft3',name:'Beton Beige Concrete Effect Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:19.99,labour:100,url:'https://www.tilemountain.co.uk/beton-beige-concrete-effect-porcelain-floor-tile',img:'',desc:'600x600mm · Matt · Industrial concrete look · R9'},
-    {id:'ft4',name:'Carrera Gold Marble Effect Rectified Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:18.99,labour:100,url:'https://www.tilemountain.co.uk/carrera-gold-marble-effect-rectified-matt-porcelain-floor-tile',img:'',desc:'600x300mm · Rectified · Warm gold marble veining'},
-    {id:'ft5',name:'Terrazzo Grey & White Speckled Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:22.50,labour:100,url:'https://www.tilemountain.co.uk/alaskan-calacatta-white-marble-effect-polished-porcelain-floor-tile',img:'',desc:'600x600mm · Matt · Trendy terrazzo speckled finish'},
-    {id:'ft6',name:'Checkerboard Black & White Gloss Ceramic',brand:'Tile Mountain',unit:'m²',price:14.99,labour:100,url:'https://www.tilemountain.co.uk/trend-nacar-decor',img:'',desc:'200x200mm · Gloss · Classic retro checkerboard pattern'},
+    {id:'ft1',name:'Carrera White Marble Effect Polished Porcelain',brand:'Tile Mountain',unit:'m²',price:19.95,labour:100,url:'https://www.tilemountain.co.uk/floor-tiles',img:'',desc:'800x800mm · Polished · Classic white marble veining'},
+    {id:'ft2',name:'Kayrak Anthracite Slate Effect Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:16.95,labour:100,url:'https://www.tilemountain.co.uk/floor-tiles',img:'',desc:'600x400mm · Matt · Slip resistant R10 · Natural slate look'},
+    {id:'ft3',name:'Beton Beige Concrete Effect Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:19.99,labour:100,url:'https://www.tilemountain.co.uk/floor-tiles',img:'',desc:'600x600mm · Matt · Industrial concrete look · R9'},
+    {id:'ft4',name:'Carrera Gold Marble Effect Rectified Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:18.99,labour:100,url:'https://www.tilemountain.co.uk/floor-tiles',img:'',desc:'600x300mm · Rectified · Warm gold marble veining'},
+    {id:'ft5',name:'Terrazzo Grey & White Speckled Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:22.50,labour:100,url:'https://www.tilemountain.co.uk/floor-tiles',img:'',desc:'600x600mm · Matt · Trendy terrazzo speckled finish'},
+    {id:'ft6',name:'Checkerboard Black & White Gloss Ceramic',brand:'Tile Mountain',unit:'m²',price:14.99,labour:100,url:'https://www.tilemountain.co.uk/floor-tiles',img:'',desc:'200x200mm · Gloss · Classic retro checkerboard pattern'},
     {id:'ft7',name:'Calacatta White Large Format Polished Porcelain',brand:'Tile Mountain',unit:'m²',price:27.99,labour:100,url:'https://www.tilemountain.co.uk/floor-tiles',img:'',desc:'1200x600mm · Polished · Premium Calacatta marble look'},
     {id:'ft8',name:'Rustic Terracotta Effect Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:17.50,labour:100,url:'https://www.tilemountain.co.uk/floor-tiles',img:'',desc:'330x330mm · Matt · Warm Mediterranean terracotta feel'},
     {id:'ft9',name:'Midnight Black Honed Porcelain',brand:'Tile Mountain',unit:'m²',price:21.99,labour:100,url:'https://www.tilemountain.co.uk/floor-tiles',img:'',desc:'600x600mm · Honed · Bold all-black statement floor'},
@@ -558,22 +652,22 @@ var catalog = {
     {id:'fl_other',name:'OTHER — Supplied by Customer',brand:'',unit:'m²',price:0,labour:60,url:'',img:'',desc:'Labour cost only · Price on assessment · Rate slightly higher due to unknown LVT variables',isOther:true},
   ],
   wall_tiles:[
-    {id:'wt1',name:'Gloss White Metro Brick Ceramic',brand:'Tile Mountain',unit:'m²',price:12.99,labour:65,url:'https://www.tilemountain.co.uk/metro-white-wall-tile',img:'',desc:'200x100mm · Classic subway brick tile · Easy to clean'},
-    {id:'wt2',name:'Carrera White Marble Effect Gloss Ceramic',brand:'Tile Mountain',unit:'m²',price:17.99,labour:65,url:'https://www.tilemountain.co.uk/alaskan-calacatta-white-marble-effect-gloss-ceramic-wall-tile',img:'',desc:'300x600mm · Gloss · Marble effect · Bright & airy feel'},
-    {id:'wt3',name:'Sage Green Gloss Metro Ceramic',brand:'Tile Mountain',unit:'m²',price:14.99,labour:65,url:'https://www.tilemountain.co.uk/calacatta-gold-polished-marble-effect-porcelain-wall-and-floor-tile',img:'',desc:'200x100mm · Gloss · Trending sage green tone'},
-    {id:'wt4',name:'Calacatta White Large Format Gloss Porcelain',brand:'Tile Mountain',unit:'m²',price:24.99,labour:65,url:'https://www.tilemountain.co.uk/kayrak-anthracite-slate-effect-matt-porcelain-wall-and-floor-tile',img:'',desc:'600x1200mm · Polished · Premium large format · Minimal grout lines'},
-    {id:'wt5',name:'Concrete Light Grey Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:19.99,labour:65,url:'https://www.tilemountain.co.uk/wall-tiles',img:'',desc:'300x600mm · Matt · Urban industrial feel'},
-    {id:'wt6',name:'Zellige White Gloss Textured Ceramic',brand:'Tile Mountain',unit:'m²',price:29.99,labour:65,url:'https://www.tilemountain.co.uk/wall-tiles',img:'',desc:'100x100mm · Handmade-look · Artisan rippled surface'},
-    {id:'wt7',name:'Midnight Black Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:22.99,labour:65,url:'https://www.tilemountain.co.uk/wall-tiles',img:'',desc:'300x600mm · Matt · Bold statement wall'},
-    {id:'wt8',name:'Blush Pink Gloss Metro Ceramic',brand:'Tile Mountain',unit:'m²',price:14.99,labour:65,url:'https://www.tilemountain.co.uk/wall-tiles',img:'',desc:'200x100mm · Gloss · Warm blush pink · Trending colour'},
-    {id:'wt9',name:'Terrazzo Grey & White Speckled Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:22.50,labour:65,url:'https://www.tilemountain.co.uk/wall-tiles',img:'',desc:'600x600mm · Matt · Fashionable terrazzo finish'},
-    {id:'wt10',name:'Travertine Beige Natural Stone Effect Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:21.99,labour:65,url:'https://www.tilemountain.co.uk/wall-tiles',img:'',desc:'300x600mm · Matt · Warm natural stone look'},
+    {id:'wt1',name:'Gloss White Metro Brick Ceramic',brand:'Tile Mountain',unit:'m²',price:12.99,labour:65,url:'https://www.tilemountain.co.uk/bathroom-wall-tiles',img:'',desc:'200x100mm · Classic subway brick tile · Easy to clean'},
+    {id:'wt2',name:'Carrera White Marble Effect Gloss Ceramic',brand:'Tile Mountain',unit:'m²',price:17.99,labour:65,url:'https://www.tilemountain.co.uk/bathroom-wall-tiles',img:'',desc:'300x600mm · Gloss · Marble effect · Bright & airy feel'},
+    {id:'wt3',name:'Sage Green Gloss Metro Ceramic',brand:'Tile Mountain',unit:'m²',price:14.99,labour:65,url:'https://www.tilemountain.co.uk/bathroom-wall-tiles',img:'',desc:'200x100mm · Gloss · Trending sage green tone'},
+    {id:'wt4',name:'Calacatta White Large Format Gloss Porcelain',brand:'Tile Mountain',unit:'m²',price:24.99,labour:65,url:'https://www.tilemountain.co.uk/bathroom-wall-tiles',img:'',desc:'600x1200mm · Polished · Premium large format · Minimal grout lines'},
+    {id:'wt5',name:'Concrete Light Grey Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:19.99,labour:65,url:'https://www.tilemountain.co.uk/bathroom-wall-tiles',img:'',desc:'300x600mm · Matt · Urban industrial feel'},
+    {id:'wt6',name:'Zellige White Gloss Textured Ceramic',brand:'Tile Mountain',unit:'m²',price:29.99,labour:65,url:'https://www.tilemountain.co.uk/bathroom-wall-tiles',img:'',desc:'100x100mm · Handmade-look · Artisan rippled surface'},
+    {id:'wt7',name:'Midnight Black Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:22.99,labour:65,url:'https://www.tilemountain.co.uk/bathroom-wall-tiles',img:'',desc:'300x600mm · Matt · Bold statement wall'},
+    {id:'wt8',name:'Blush Pink Gloss Metro Ceramic',brand:'Tile Mountain',unit:'m²',price:14.99,labour:65,url:'https://www.tilemountain.co.uk/bathroom-wall-tiles',img:'',desc:'200x100mm · Gloss · Warm blush pink · Trending colour'},
+    {id:'wt9',name:'Terrazzo Grey & White Speckled Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:22.50,labour:65,url:'https://www.tilemountain.co.uk/bathroom-wall-tiles',img:'',desc:'600x600mm · Matt · Fashionable terrazzo finish'},
+    {id:'wt10',name:'Travertine Beige Natural Stone Effect Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:21.99,labour:65,url:'https://www.tilemountain.co.uk/bathroom-wall-tiles',img:'',desc:'300x600mm · Matt · Warm natural stone look'},
     {id:'wt_other',name:'OTHER — Supplied by Customer',brand:'',unit:'m²',price:0,labour:80,url:'',img:'',desc:'Labour cost only · Price on assessment · Includes wall preparation and waterproofing',isOther:true},
   ],
   wall_panels:[
-    {id:'wp1',name:'Trepanel Aqua® Gloss Carrara Marble PVC Panel',brand:'Bathroom Mountain',unit:'m²',price:47.95,labour:40,url:'https://www.tilemountain.co.uk/wall-panels',img:'',desc:'2400x1000mm · PVC · Grout-free · 100% waterproof · Easy click fit'},
-    {id:'wp2',name:'Trepanel Aqua® Matt Grey Marble PVC Panel',brand:'Bathroom Mountain',unit:'m²',price:47.95,labour:40,url:'https://www.tilemountain.co.uk/wall-panels',img:'',desc:'2400x1000mm · PVC · Subtle grey marble · No grout needed'},
-    {id:'wp3',name:'Trepanel Aqua® Grey Concrete Effect PVC Panel',brand:'Bathroom Mountain',unit:'m²',price:47.95,labour:40,url:'https://www.tilemountain.co.uk/wall-panels',img:'',desc:'2400x1000mm · PVC · Industrial concrete look · Waterproof'},
+    {id:'wp1',name:'Trepanel Aqua® Gloss Carrara Marble PVC Panel',brand:'Bathroom Mountain',unit:'m²',price:47.95,labour:40,url:'https://www.bathroommountain.co.uk/wall-panels/shower-panels/pvc',img:'',desc:'2400x1000mm · PVC · Grout-free · 100% waterproof · Easy click fit'},
+    {id:'wp2',name:'Trepanel Aqua® Matt Grey Marble PVC Panel',brand:'Bathroom Mountain',unit:'m²',price:47.95,labour:40,url:'https://www.bathroommountain.co.uk/wall-panels/shower-panels/pvc',img:'',desc:'2400x1000mm · PVC · Subtle grey marble · No grout needed'},
+    {id:'wp3',name:'Trepanel Aqua® Grey Concrete Effect PVC Panel',brand:'Bathroom Mountain',unit:'m²',price:47.95,labour:40,url:'https://www.bathroommountain.co.uk/wall-panels/shower-panels/pvc',img:'',desc:'2400x1000mm · PVC · Industrial concrete look · Waterproof'},
     {id:'wp4',name:'Trepanel Aqua® Matt Ivory Travertine PVC Panel',brand:'Bathroom Mountain',unit:'m²',price:47.95,labour:40,url:'https://www.bathroommountain.co.uk/wall-panels/shower-panels/pvc',img:'',desc:'2400x1000mm · PVC · Warm ivory stone · Grout-free finish'},
     {id:'wp5',name:'Trepanel Aqua Luxe® Carrara Marble SPC Panel 4-Pack',brand:'Bathroom Mountain',unit:'m²',price:68.50,labour:40,url:'https://www.bathroommountain.co.uk/wall-panels/shower-panels/spc',img:'',desc:'SPC stone composite · Covers 2.8m² per pack · Premium rigid panel · Embossed satin'},
     {id:'wp6',name:'Trepanel Aqua Luxe® Grey Natural Stone SPC Panel 4-Pack',brand:'Bathroom Mountain',unit:'m²',price:68.50,labour:40,url:'https://www.bathroommountain.co.uk/wall-panels/shower-panels/spc',img:'',desc:'SPC stone composite · Textured stone effect · Matt finish · Waterproof'},
@@ -586,19 +680,19 @@ var catalog = {
   units_toilet:[
     {id:'ut1',name:'Close-Coupled WC Rimless',brand:'Bathroom Mountain',unit:'pcs',price:189,install:250,
      img:'',
-     url:'https://www.bathroommountain.co.uk/toilets/close-coupled',
+     url:'https://www.bathroommountain.co.uk/toilets/close-coupled-toilets',
      desc:'Rimless ceramic pan · Soft-close seat · Dual flush cistern · Chrome flush button'},
     {id:'ut2',name:'Back-to-Wall WC Rimless',brand:'Bathroom Mountain',unit:'pcs',price:249,install:250,
      img:'',
-     url:'https://www.bathroommountain.co.uk/toilets/back-to-wall',
+     url:'https://www.bathroommountain.co.uk/toilets/back-to-wall-toilets',
      desc:'Concealed cistern design · Rimless pan · Soft-close seat · Sleek modern profile'},
     {id:'ut3',name:'Wall-Hung WC + Concealed Frame',brand:'Bathroom Mountain',unit:'pcs',price:389,install:500,
      img:'',
-     url:'https://www.bathroommountain.co.uk/toilets/wall-hung',
+     url:'https://www.bathroommountain.co.uk/toilets/wall-hung-toilets',
      desc:'Wall-hung rimless pan · Concealed cistern frame · Choice of flush plate · Easy floor cleaning'},
     {id:'ut4',name:'Close-Coupled WC Suite with Basin',brand:'Bathroom Mountain',unit:'pcs',price:329,install:250,
      img:'',
-     url:'https://www.bathroommountain.co.uk/toilets',
+     url:'https://www.bathroommountain.co.uk/bathroom-suites',
      desc:'Matching WC & basin set · Soft-close seat · Ideal for cloakrooms & en-suites'},
     {id:'ut5',name:'Smart Bidet WC — Integrated',brand:'Bathroom Mountain',unit:'pcs',price:799,install:500,
      img:'',
@@ -614,7 +708,7 @@ var catalog = {
      desc:'Thermostatic bar valve · Fixed head + handset · Anti-scald protection · Chrome or black finish'},
     {id:'us2',name:'Concealed Thermostatic Shower Valve',brand:'Bathroom Mountain',unit:'pcs',price:189,install:400,
      img:'',
-     url:'https://www.bathroommountain.co.uk/showers',
+     url:'https://www.bathroommountain.co.uk/showers/shower-valves',
      desc:'Flush-mounted concealed valve · 2 or 3 outlet · Pairs with any head or rain head'},
     {id:'us3',name:'Rain Head + Concealed Arm',brand:'Bathroom Mountain',unit:'pcs',price:99,install:150,
      img:'',
@@ -634,11 +728,11 @@ var catalog = {
   units_enclosure:[
     {id:'ue1',name:'Walk-In Shower Enclosure 1200x900mm',brand:'Bathroom Mountain',unit:'pcs',price:349,install:400,
      img:'',
-     url:'https://www.bathroommountain.co.uk/showers/shower-enclosures',
+     url:'https://www.bathroommountain.co.uk/showers/shower-enclosures/walk-in-enclosures',
      desc:'8mm toughened glass · Chrome frame · Includes shower tray & waste'},
     {id:'ue2',name:'Frameless Walk-In Enclosure 1400x900mm',brand:'Bathroom Mountain',unit:'pcs',price:549,install:400,
      img:'',
-     url:'https://www.bathroommountain.co.uk/showers/shower-enclosures',
+     url:'https://www.bathroommountain.co.uk/showers/shower-enclosures/walk-in-enclosures',
      desc:'10mm frameless glass · Minimalist look · Low-profile tray · Includes tray & waste'},
     {id:'ue3',name:'Quadrant Shower Enclosure 900x900mm',brand:'Bathroom Mountain',unit:'pcs',price:299,install:400,
      img:'',
@@ -658,11 +752,11 @@ var catalog = {
   units_bath:[
     {id:'ub1',name:'Acrylic Straight Bath 1700x750mm',brand:'Bathroom Mountain',unit:'pcs',price:249,install:450,
      img:'',
-     url:'https://www.bathroommountain.co.uk/baths',
+     url:'https://www.bathroommountain.co.uk/baths/straight-baths',
      desc:'Standard acrylic bath · Includes front & end panels · Grips included · Lightweight & durable'},
     {id:'ub2',name:'Single-Ended Bath 1500x700mm (Compact)',brand:'Bathroom Mountain',unit:'pcs',price:219,install:450,
      img:'',
-     url:'https://www.bathroommountain.co.uk/baths/freestanding-baths',
+     url:'https://www.bathroommountain.co.uk/baths',
      desc:'Compact 1500mm bath · Ideal for smaller bathrooms · Includes panels'},
     {id:'ub3',name:'L-Shape Shower Bath 1700mm',brand:'Bathroom Mountain',unit:'pcs',price:399,install:450,
      img:'',
@@ -710,11 +804,11 @@ var catalog = {
   units_taps:[
     {id:'tp1',name:'Basin Mixer Tap — Chrome',brand:'Bathroom Mountain',unit:'pcs',price:59,install:100,
      img:'',
-     url:'https://www.bathroommountain.co.uk/taps/bath-taps',
+     url:'https://www.bathroommountain.co.uk/taps/basin-taps',
      desc:'Single lever mixer · Chrome finish · Includes click-clack waste'},
     {id:'tp2',name:'Basin Mixer Tap — Matt Black',brand:'Bathroom Mountain',unit:'pcs',price:89,install:100,
      img:'',
-     url:'https://www.bathroommountain.co.uk/taps',
+     url:'https://www.bathroommountain.co.uk/taps/basin-taps',
      desc:'Single lever mixer · Matt black finish · Includes click-clack waste'},
     {id:'tp3',name:'Basin Mixer Tap — Brushed Gold',brand:'Bathroom Mountain',unit:'pcs',price:119,install:100,
      img:'',
@@ -744,16 +838,16 @@ var catalog = {
      url:'https://www.bathroommountain.co.uk/mirrors-and-cabinets/mirrors/illuminated-mirrors',
      desc:'500x700mm · Touch sensor · Demister pad · Mains powered · IP44'},
     {id:'el2',name:'Evelyn LED Mirror 600x400mm',brand:'Bathroom Mountain',unit:'pcs',price:79.99,install:150,
-     url:'https://www.bathroommountain.co.uk/mirrors-and-cabinets/mirrors/illuminated-mirrors',
+     url:'https://www.bathroommountain.co.uk/evelyn-illuminated-led-mirror-600x400mm-73153v2',
      desc:'600x400mm · Touch sensor · Demister pad · Daylight 6500K'},
     {id:'el3',name:'Evelyn LED Mirror 700x500mm',brand:'Bathroom Mountain',unit:'pcs',price:109.99,install:150,
-     url:'https://www.bathroommountain.co.uk/mirrors-and-cabinets/mirrors/illuminated-mirrors',
+     url:'https://www.bathroommountain.co.uk/evelyn-illuminated-led-mirror-700x500mm-73033v2',
      desc:'700x500mm · Touch sensor · Demister pad · Bluetooth speaker'},
     {id:'el4',name:'Evelyn LED Mirror 500x1000mm',brand:'Bathroom Mountain',unit:'pcs',price:132.99,install:150,
      url:'https://www.bathroommountain.co.uk/mirrors-and-cabinets/mirrors/illuminated-mirrors',
      desc:'500x1000mm · Full length · Touch sensor · Demister · Vertical or horizontal'},
     {id:'el5',name:'Aurora LED Mirror Cabinet 700x600mm — Matt Black',brand:'Bathroom Mountain',unit:'pcs',price:199.99,install:150,
-     url:'https://www.bathroommountain.co.uk/mirrors-and-cabinets/mirror-cabinets',
+     url:'https://www.bathroommountain.co.uk/mirrors-and-cabinets/mirror-cabinets/illuminated',
      desc:'700x600mm · Cabinet with storage · LED illuminated · Matt black · Demister'},
     {id:'el6',name:'Bluetooth LED Mirror with Speaker 800x600mm',brand:'Bathroom Mountain',unit:'pcs',price:229.99,install:150,
      url:'https://www.bathroommountain.co.uk/mirrors-and-cabinets/mirrors/bluetooth-led-mirrors',
@@ -908,7 +1002,12 @@ function startCalc() {
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
   setTimeout(function(){ window.scrollTo({top:0,left:0,behavior:'instant'}); }, 10);
-  if (!calcInited) initCalc();
+  if(!calcInited) {
+    // Load from Firebase first, then init
+    loadFromFirebase(function() {
+      initCalc();
+    });
+  }
 }
 function showLogin() {
   hide('landingScreen'); hide('calcScreen'); hide('adminScreen');
@@ -918,7 +1017,10 @@ function showAdminScreen() {
   hide('calcScreen'); hide('landingScreen');
   var bn=document.getElementById('bottomNav'); if(bn) bn.style.display='none';
   showBlock('adminScreen');
-  renderAdminProducts(); renderCompanyList(); loadAdminRates();
+  // Load latest from Firebase before showing admin
+  loadFromFirebase(function() {
+    renderAdminProducts(); renderCompanyList(); loadAdminRates();
+  });
 }
 function backToCalc() {
   hide('adminScreen');
@@ -2431,12 +2533,12 @@ var catalog = {
     {id:'pr3',name:'Wall preparation & plastering',brand:'Service',unit:'m²',price:55,desc:'Wall levelling, skimming and priming'},
   ],
   floor_tiles:[
-    {id:'ft1',name:'Carrera White Marble Effect Polished Porcelain',brand:'Tile Mountain',unit:'m²',price:19.95,labour:100,url:'https://www.tilemountain.co.uk/carrara-white-matt-marble-porcelain-floor-tile',img:'',desc:'800x800mm · Polished · Classic white marble veining'},
-    {id:'ft2',name:'Kayrak Anthracite Slate Effect Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:16.95,labour:100,url:'https://www.tilemountain.co.uk/kayrak-anthracite-slate-effect-matt-porcelain-wall-and-floor-tile',img:'',desc:'600x400mm · Matt · Slip resistant R10 · Natural slate look'},
-    {id:'ft3',name:'Beton Beige Concrete Effect Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:19.99,labour:100,url:'https://www.tilemountain.co.uk/beton-beige-concrete-effect-porcelain-floor-tile',img:'',desc:'600x600mm · Matt · Industrial concrete look · R9'},
-    {id:'ft4',name:'Carrera Gold Marble Effect Rectified Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:18.99,labour:100,url:'https://www.tilemountain.co.uk/carrera-gold-marble-effect-rectified-matt-porcelain-floor-tile',img:'',desc:'600x300mm · Rectified · Warm gold marble veining'},
-    {id:'ft5',name:'Terrazzo Grey & White Speckled Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:22.50,labour:100,url:'https://www.tilemountain.co.uk/alaskan-calacatta-white-marble-effect-polished-porcelain-floor-tile',img:'',desc:'600x600mm · Matt · Trendy terrazzo speckled finish'},
-    {id:'ft6',name:'Checkerboard Black & White Gloss Ceramic',brand:'Tile Mountain',unit:'m²',price:14.99,labour:100,url:'https://www.tilemountain.co.uk/trend-nacar-decor',img:'',desc:'200x200mm · Gloss · Classic retro checkerboard pattern'},
+    {id:'ft1',name:'Carrera White Marble Effect Polished Porcelain',brand:'Tile Mountain',unit:'m²',price:19.95,labour:100,url:'https://www.tilemountain.co.uk/floor-tiles',img:'',desc:'800x800mm · Polished · Classic white marble veining'},
+    {id:'ft2',name:'Kayrak Anthracite Slate Effect Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:16.95,labour:100,url:'https://www.tilemountain.co.uk/floor-tiles',img:'',desc:'600x400mm · Matt · Slip resistant R10 · Natural slate look'},
+    {id:'ft3',name:'Beton Beige Concrete Effect Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:19.99,labour:100,url:'https://www.tilemountain.co.uk/floor-tiles',img:'',desc:'600x600mm · Matt · Industrial concrete look · R9'},
+    {id:'ft4',name:'Carrera Gold Marble Effect Rectified Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:18.99,labour:100,url:'https://www.tilemountain.co.uk/floor-tiles',img:'',desc:'600x300mm · Rectified · Warm gold marble veining'},
+    {id:'ft5',name:'Terrazzo Grey & White Speckled Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:22.50,labour:100,url:'https://www.tilemountain.co.uk/floor-tiles',img:'',desc:'600x600mm · Matt · Trendy terrazzo speckled finish'},
+    {id:'ft6',name:'Checkerboard Black & White Gloss Ceramic',brand:'Tile Mountain',unit:'m²',price:14.99,labour:100,url:'https://www.tilemountain.co.uk/floor-tiles',img:'',desc:'200x200mm · Gloss · Classic retro checkerboard pattern'},
     {id:'ft7',name:'Calacatta White Large Format Polished Porcelain',brand:'Tile Mountain',unit:'m²',price:27.99,labour:100,url:'https://www.tilemountain.co.uk/floor-tiles',img:'',desc:'1200x600mm · Polished · Premium Calacatta marble look'},
     {id:'ft8',name:'Rustic Terracotta Effect Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:17.50,labour:100,url:'https://www.tilemountain.co.uk/floor-tiles',img:'',desc:'330x330mm · Matt · Warm Mediterranean terracotta feel'},
     {id:'ft9',name:'Midnight Black Honed Porcelain',brand:'Tile Mountain',unit:'m²',price:21.99,labour:100,url:'https://www.tilemountain.co.uk/floor-tiles',img:'',desc:'600x600mm · Honed · Bold all-black statement floor'},
@@ -2457,22 +2559,22 @@ var catalog = {
     {id:'fl_other',name:'OTHER — Supplied by Customer',brand:'',unit:'m²',price:0,labour:60,url:'',img:'',desc:'Labour cost only · Price on assessment · Rate slightly higher due to unknown LVT variables',isOther:true},
   ],
   wall_tiles:[
-    {id:'wt1',name:'Gloss White Metro Brick Ceramic',brand:'Tile Mountain',unit:'m²',price:12.99,labour:65,url:'https://www.tilemountain.co.uk/metro-white-wall-tile',img:'',desc:'200x100mm · Classic subway brick tile · Easy to clean'},
-    {id:'wt2',name:'Carrera White Marble Effect Gloss Ceramic',brand:'Tile Mountain',unit:'m²',price:17.99,labour:65,url:'https://www.tilemountain.co.uk/alaskan-calacatta-white-marble-effect-gloss-ceramic-wall-tile',img:'',desc:'300x600mm · Gloss · Marble effect · Bright & airy feel'},
-    {id:'wt3',name:'Sage Green Gloss Metro Ceramic',brand:'Tile Mountain',unit:'m²',price:14.99,labour:65,url:'https://www.tilemountain.co.uk/calacatta-gold-polished-marble-effect-porcelain-wall-and-floor-tile',img:'',desc:'200x100mm · Gloss · Trending sage green tone'},
-    {id:'wt4',name:'Calacatta White Large Format Gloss Porcelain',brand:'Tile Mountain',unit:'m²',price:24.99,labour:65,url:'https://www.tilemountain.co.uk/kayrak-anthracite-slate-effect-matt-porcelain-wall-and-floor-tile',img:'',desc:'600x1200mm · Polished · Premium large format · Minimal grout lines'},
-    {id:'wt5',name:'Concrete Light Grey Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:19.99,labour:65,url:'https://www.tilemountain.co.uk/wall-tiles',img:'',desc:'300x600mm · Matt · Urban industrial feel'},
-    {id:'wt6',name:'Zellige White Gloss Textured Ceramic',brand:'Tile Mountain',unit:'m²',price:29.99,labour:65,url:'https://www.tilemountain.co.uk/wall-tiles',img:'',desc:'100x100mm · Handmade-look · Artisan rippled surface'},
-    {id:'wt7',name:'Midnight Black Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:22.99,labour:65,url:'https://www.tilemountain.co.uk/wall-tiles',img:'',desc:'300x600mm · Matt · Bold statement wall'},
-    {id:'wt8',name:'Blush Pink Gloss Metro Ceramic',brand:'Tile Mountain',unit:'m²',price:14.99,labour:65,url:'https://www.tilemountain.co.uk/wall-tiles',img:'',desc:'200x100mm · Gloss · Warm blush pink · Trending colour'},
-    {id:'wt9',name:'Terrazzo Grey & White Speckled Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:22.50,labour:65,url:'https://www.tilemountain.co.uk/wall-tiles',img:'',desc:'600x600mm · Matt · Fashionable terrazzo finish'},
-    {id:'wt10',name:'Travertine Beige Natural Stone Effect Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:21.99,labour:65,url:'https://www.tilemountain.co.uk/wall-tiles',img:'',desc:'300x600mm · Matt · Warm natural stone look'},
+    {id:'wt1',name:'Gloss White Metro Brick Ceramic',brand:'Tile Mountain',unit:'m²',price:12.99,labour:65,url:'https://www.tilemountain.co.uk/bathroom-wall-tiles',img:'',desc:'200x100mm · Classic subway brick tile · Easy to clean'},
+    {id:'wt2',name:'Carrera White Marble Effect Gloss Ceramic',brand:'Tile Mountain',unit:'m²',price:17.99,labour:65,url:'https://www.tilemountain.co.uk/bathroom-wall-tiles',img:'',desc:'300x600mm · Gloss · Marble effect · Bright & airy feel'},
+    {id:'wt3',name:'Sage Green Gloss Metro Ceramic',brand:'Tile Mountain',unit:'m²',price:14.99,labour:65,url:'https://www.tilemountain.co.uk/bathroom-wall-tiles',img:'',desc:'200x100mm · Gloss · Trending sage green tone'},
+    {id:'wt4',name:'Calacatta White Large Format Gloss Porcelain',brand:'Tile Mountain',unit:'m²',price:24.99,labour:65,url:'https://www.tilemountain.co.uk/bathroom-wall-tiles',img:'',desc:'600x1200mm · Polished · Premium large format · Minimal grout lines'},
+    {id:'wt5',name:'Concrete Light Grey Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:19.99,labour:65,url:'https://www.tilemountain.co.uk/bathroom-wall-tiles',img:'',desc:'300x600mm · Matt · Urban industrial feel'},
+    {id:'wt6',name:'Zellige White Gloss Textured Ceramic',brand:'Tile Mountain',unit:'m²',price:29.99,labour:65,url:'https://www.tilemountain.co.uk/bathroom-wall-tiles',img:'',desc:'100x100mm · Handmade-look · Artisan rippled surface'},
+    {id:'wt7',name:'Midnight Black Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:22.99,labour:65,url:'https://www.tilemountain.co.uk/bathroom-wall-tiles',img:'',desc:'300x600mm · Matt · Bold statement wall'},
+    {id:'wt8',name:'Blush Pink Gloss Metro Ceramic',brand:'Tile Mountain',unit:'m²',price:14.99,labour:65,url:'https://www.tilemountain.co.uk/bathroom-wall-tiles',img:'',desc:'200x100mm · Gloss · Warm blush pink · Trending colour'},
+    {id:'wt9',name:'Terrazzo Grey & White Speckled Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:22.50,labour:65,url:'https://www.tilemountain.co.uk/bathroom-wall-tiles',img:'',desc:'600x600mm · Matt · Fashionable terrazzo finish'},
+    {id:'wt10',name:'Travertine Beige Natural Stone Effect Matt Porcelain',brand:'Tile Mountain',unit:'m²',price:21.99,labour:65,url:'https://www.tilemountain.co.uk/bathroom-wall-tiles',img:'',desc:'300x600mm · Matt · Warm natural stone look'},
     {id:'wt_other',name:'OTHER — Supplied by Customer',brand:'',unit:'m²',price:0,labour:80,url:'',img:'',desc:'Labour cost only · Price on assessment · Includes wall preparation and waterproofing',isOther:true},
   ],
   wall_panels:[
-    {id:'wp1',name:'Trepanel Aqua® Gloss Carrara Marble PVC Panel',brand:'Bathroom Mountain',unit:'m²',price:47.95,labour:40,url:'https://www.tilemountain.co.uk/wall-panels',img:'',desc:'2400x1000mm · PVC · Grout-free · 100% waterproof · Easy click fit'},
-    {id:'wp2',name:'Trepanel Aqua® Matt Grey Marble PVC Panel',brand:'Bathroom Mountain',unit:'m²',price:47.95,labour:40,url:'https://www.tilemountain.co.uk/wall-panels',img:'',desc:'2400x1000mm · PVC · Subtle grey marble · No grout needed'},
-    {id:'wp3',name:'Trepanel Aqua® Grey Concrete Effect PVC Panel',brand:'Bathroom Mountain',unit:'m²',price:47.95,labour:40,url:'https://www.tilemountain.co.uk/wall-panels',img:'',desc:'2400x1000mm · PVC · Industrial concrete look · Waterproof'},
+    {id:'wp1',name:'Trepanel Aqua® Gloss Carrara Marble PVC Panel',brand:'Bathroom Mountain',unit:'m²',price:47.95,labour:40,url:'https://www.bathroommountain.co.uk/wall-panels/shower-panels/pvc',img:'',desc:'2400x1000mm · PVC · Grout-free · 100% waterproof · Easy click fit'},
+    {id:'wp2',name:'Trepanel Aqua® Matt Grey Marble PVC Panel',brand:'Bathroom Mountain',unit:'m²',price:47.95,labour:40,url:'https://www.bathroommountain.co.uk/wall-panels/shower-panels/pvc',img:'',desc:'2400x1000mm · PVC · Subtle grey marble · No grout needed'},
+    {id:'wp3',name:'Trepanel Aqua® Grey Concrete Effect PVC Panel',brand:'Bathroom Mountain',unit:'m²',price:47.95,labour:40,url:'https://www.bathroommountain.co.uk/wall-panels/shower-panels/pvc',img:'',desc:'2400x1000mm · PVC · Industrial concrete look · Waterproof'},
     {id:'wp4',name:'Trepanel Aqua® Matt Ivory Travertine PVC Panel',brand:'Bathroom Mountain',unit:'m²',price:47.95,labour:40,url:'https://www.bathroommountain.co.uk/wall-panels/shower-panels/pvc',img:'',desc:'2400x1000mm · PVC · Warm ivory stone · Grout-free finish'},
     {id:'wp5',name:'Trepanel Aqua Luxe® Carrara Marble SPC Panel 4-Pack',brand:'Bathroom Mountain',unit:'m²',price:68.50,labour:40,url:'https://www.bathroommountain.co.uk/wall-panels/shower-panels/spc',img:'',desc:'SPC stone composite · Covers 2.8m² per pack · Premium rigid panel · Embossed satin'},
     {id:'wp6',name:'Trepanel Aqua Luxe® Grey Natural Stone SPC Panel 4-Pack',brand:'Bathroom Mountain',unit:'m²',price:68.50,labour:40,url:'https://www.bathroommountain.co.uk/wall-panels/shower-panels/spc',img:'',desc:'SPC stone composite · Textured stone effect · Matt finish · Waterproof'},
@@ -2485,19 +2587,19 @@ var catalog = {
   units_toilet:[
     {id:'ut1',name:'Close-Coupled WC Rimless',brand:'Bathroom Mountain',unit:'pcs',price:189,install:250,
      img:'',
-     url:'https://www.bathroommountain.co.uk/toilets/close-coupled',
+     url:'https://www.bathroommountain.co.uk/toilets/close-coupled-toilets',
      desc:'Rimless ceramic pan · Soft-close seat · Dual flush cistern · Chrome flush button'},
     {id:'ut2',name:'Back-to-Wall WC Rimless',brand:'Bathroom Mountain',unit:'pcs',price:249,install:250,
      img:'',
-     url:'https://www.bathroommountain.co.uk/toilets/back-to-wall',
+     url:'https://www.bathroommountain.co.uk/toilets/back-to-wall-toilets',
      desc:'Concealed cistern design · Rimless pan · Soft-close seat · Sleek modern profile'},
     {id:'ut3',name:'Wall-Hung WC + Concealed Frame',brand:'Bathroom Mountain',unit:'pcs',price:389,install:500,
      img:'',
-     url:'https://www.bathroommountain.co.uk/toilets/wall-hung',
+     url:'https://www.bathroommountain.co.uk/toilets/wall-hung-toilets',
      desc:'Wall-hung rimless pan · Concealed cistern frame · Choice of flush plate · Easy floor cleaning'},
     {id:'ut4',name:'Close-Coupled WC Suite with Basin',brand:'Bathroom Mountain',unit:'pcs',price:329,install:250,
      img:'',
-     url:'https://www.bathroommountain.co.uk/toilets',
+     url:'https://www.bathroommountain.co.uk/bathroom-suites',
      desc:'Matching WC & basin set · Soft-close seat · Ideal for cloakrooms & en-suites'},
     {id:'ut5',name:'Smart Bidet WC — Integrated',brand:'Bathroom Mountain',unit:'pcs',price:799,install:500,
      img:'',
@@ -2513,7 +2615,7 @@ var catalog = {
      desc:'Thermostatic bar valve · Fixed head + handset · Anti-scald protection · Chrome or black finish'},
     {id:'us2',name:'Concealed Thermostatic Shower Valve',brand:'Bathroom Mountain',unit:'pcs',price:189,install:400,
      img:'',
-     url:'https://www.bathroommountain.co.uk/showers',
+     url:'https://www.bathroommountain.co.uk/showers/shower-valves',
      desc:'Flush-mounted concealed valve · 2 or 3 outlet · Pairs with any head or rain head'},
     {id:'us3',name:'Rain Head + Concealed Arm',brand:'Bathroom Mountain',unit:'pcs',price:99,install:150,
      img:'',
@@ -2533,11 +2635,11 @@ var catalog = {
   units_enclosure:[
     {id:'ue1',name:'Walk-In Shower Enclosure 1200x900mm',brand:'Bathroom Mountain',unit:'pcs',price:349,install:400,
      img:'',
-     url:'https://www.bathroommountain.co.uk/showers/shower-enclosures',
+     url:'https://www.bathroommountain.co.uk/showers/shower-enclosures/walk-in-enclosures',
      desc:'8mm toughened glass · Chrome frame · Includes shower tray & waste'},
     {id:'ue2',name:'Frameless Walk-In Enclosure 1400x900mm',brand:'Bathroom Mountain',unit:'pcs',price:549,install:400,
      img:'',
-     url:'https://www.bathroommountain.co.uk/showers/shower-enclosures',
+     url:'https://www.bathroommountain.co.uk/showers/shower-enclosures/walk-in-enclosures',
      desc:'10mm frameless glass · Minimalist look · Low-profile tray · Includes tray & waste'},
     {id:'ue3',name:'Quadrant Shower Enclosure 900x900mm',brand:'Bathroom Mountain',unit:'pcs',price:299,install:400,
      img:'',
@@ -2557,11 +2659,11 @@ var catalog = {
   units_bath:[
     {id:'ub1',name:'Acrylic Straight Bath 1700x750mm',brand:'Bathroom Mountain',unit:'pcs',price:249,install:450,
      img:'',
-     url:'https://www.bathroommountain.co.uk/baths',
+     url:'https://www.bathroommountain.co.uk/baths/straight-baths',
      desc:'Standard acrylic bath · Includes front & end panels · Grips included · Lightweight & durable'},
     {id:'ub2',name:'Single-Ended Bath 1500x700mm (Compact)',brand:'Bathroom Mountain',unit:'pcs',price:219,install:450,
      img:'',
-     url:'https://www.bathroommountain.co.uk/baths/freestanding-baths',
+     url:'https://www.bathroommountain.co.uk/baths',
      desc:'Compact 1500mm bath · Ideal for smaller bathrooms · Includes panels'},
     {id:'ub3',name:'L-Shape Shower Bath 1700mm',brand:'Bathroom Mountain',unit:'pcs',price:399,install:450,
      img:'',
@@ -2609,11 +2711,11 @@ var catalog = {
   units_taps:[
     {id:'tp1',name:'Basin Mixer Tap — Chrome',brand:'Bathroom Mountain',unit:'pcs',price:59,install:100,
      img:'',
-     url:'https://www.bathroommountain.co.uk/taps/bath-taps',
+     url:'https://www.bathroommountain.co.uk/taps/basin-taps',
      desc:'Single lever mixer · Chrome finish · Includes click-clack waste'},
     {id:'tp2',name:'Basin Mixer Tap — Matt Black',brand:'Bathroom Mountain',unit:'pcs',price:89,install:100,
      img:'',
-     url:'https://www.bathroommountain.co.uk/taps',
+     url:'https://www.bathroommountain.co.uk/taps/basin-taps',
      desc:'Single lever mixer · Matt black finish · Includes click-clack waste'},
     {id:'tp3',name:'Basin Mixer Tap — Brushed Gold',brand:'Bathroom Mountain',unit:'pcs',price:119,install:100,
      img:'',
@@ -2643,16 +2745,16 @@ var catalog = {
      url:'https://www.bathroommountain.co.uk/mirrors-and-cabinets/mirrors/illuminated-mirrors',
      desc:'500x700mm · Touch sensor · Demister pad · Mains powered · IP44'},
     {id:'el2',name:'Evelyn LED Mirror 600x400mm',brand:'Bathroom Mountain',unit:'pcs',price:79.99,install:150,
-     url:'https://www.bathroommountain.co.uk/mirrors-and-cabinets/mirrors/illuminated-mirrors',
+     url:'https://www.bathroommountain.co.uk/evelyn-illuminated-led-mirror-600x400mm-73153v2',
      desc:'600x400mm · Touch sensor · Demister pad · Daylight 6500K'},
     {id:'el3',name:'Evelyn LED Mirror 700x500mm',brand:'Bathroom Mountain',unit:'pcs',price:109.99,install:150,
-     url:'https://www.bathroommountain.co.uk/mirrors-and-cabinets/mirrors/illuminated-mirrors',
+     url:'https://www.bathroommountain.co.uk/evelyn-illuminated-led-mirror-700x500mm-73033v2',
      desc:'700x500mm · Touch sensor · Demister pad · Bluetooth speaker'},
     {id:'el4',name:'Evelyn LED Mirror 500x1000mm',brand:'Bathroom Mountain',unit:'pcs',price:132.99,install:150,
      url:'https://www.bathroommountain.co.uk/mirrors-and-cabinets/mirrors/illuminated-mirrors',
      desc:'500x1000mm · Full length · Touch sensor · Demister · Vertical or horizontal'},
     {id:'el5',name:'Aurora LED Mirror Cabinet 700x600mm — Matt Black',brand:'Bathroom Mountain',unit:'pcs',price:199.99,install:150,
-     url:'https://www.bathroommountain.co.uk/mirrors-and-cabinets/mirror-cabinets',
+     url:'https://www.bathroommountain.co.uk/mirrors-and-cabinets/mirror-cabinets/illuminated',
      desc:'700x600mm · Cabinet with storage · LED illuminated · Matt black · Demister'},
     {id:'el6',name:'Bluetooth LED Mirror with Speaker 800x600mm',brand:'Bathroom Mountain',unit:'pcs',price:229.99,install:150,
      url:'https://www.bathroommountain.co.uk/mirrors-and-cabinets/mirrors/bluetooth-led-mirrors',
@@ -2925,142 +3027,81 @@ function aTab(n) {
 }
 
 function renderAdminProducts() {
-  var cats = [
-    {id:'floor_tiles',     label:'Floor — Tiles'},
-    {id:'floor_lvt',       label:'Floor — LVT'},
-    {id:'wall_tiles',      label:'Wall Tiles'},
-    {id:'wall_panels',     label:'Wall Panels'},
-    {id:'units_toilet',    label:'Toilet'},
-    {id:'units_shower',    label:'Shower'},
-    {id:'units_enclosure', label:'Shower Enclosure'},
-    {id:'units_bath',      label:'Bath'},
-    {id:'units_basin',     label:'Basin & Vanity'},
-    {id:'units_taps',      label:'Taps'},
-    {id:'electrical_lighting',    label:'Lighting / LED Mirrors'},
-    {id:'electrical_heating',     label:'Underfloor Heating'},
-    {id:'electrical_ventilation', label:'Extractor Fan'},
-    {id:'electrical_shaving',     label:'Shaving Point'},
-    {id:'ceiling',         label:'Ceiling'},
-    {id:'wall_finish',     label:'Wall Plaster & Paint'},
-    {id:'finishes',        label:'Finishes'}
-  ];
-
-  var container = document.getElementById('adminProdList');
-  if(!container) return;
-  var html = '';
-
-  cats.forEach(function(cat) {
-    var prods = catalog[cat.id] || [];
-    var isFloorWall = ['floor_tiles','floor_lvt','wall_tiles','wall_panels'].indexOf(cat.id) >= 0;
-
-    html += '<div style="margin-bottom:24px">'
-      + '<div style="font-size:12px;font-weight:700;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #252525">'
-        + cat.label + ' <span style="color:#444;font-size:10px;font-weight:400">('+prods.length+')</span>'
-      + '</div>';
-
-    prods.forEach(function(p) {
-      html += '<div class="prod-row-a" id="row_'+cat.id+'_'+p.id+'">'
-        + '<div style="flex:1;min-width:0">'
-          + '<div style="font-size:12px;color:#ccc;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+p.name+'</div>'
-          + '<div style="font-size:10px;color:#555;margin-top:2px">'
-            + (p.brand ? p.brand+' · ' : '')
-            + '\xa3'+(p.price||0)+'/'+p.unit
-            + (p.labour ? ' · labour: \xa3'+p.labour+'/m\xb2' : '')
-            + (p.install ? ' · install: \xa3'+p.install : '')
-          + '</div>'
-        + '</div>'
-        + '<div style="display:flex;gap:6px;flex-shrink:0">'
-          + '<button class="btn-sm" style="color:var(--accent)" onclick="editProd(\''+cat.id+'\',\''+p.id+'\')">Edit</button>'
-          + '<button class="btn-sm" style="color:#e07070" onclick="removeProd(\''+cat.id+'\',\''+p.id+'\')">Remove</button>'
-        + '</div>'
-      + '</div>'
-      + '<div id="edit_'+cat.id+'_'+p.id+'" style="display:none;background:#141414;border:1px solid #252525;border-radius:6px;padding:14px;margin-bottom:8px">'
-        + '<div class="grid2">'
-          + '<div class="field"><label>Name</label><input id="ep_name_'+cat.id+'_'+p.id+'" value="'+p.name.replace(/"/g,'&quot;').replace(/'/g,'&#39;')+'"></div>'
-          + '<div class="field"><label>Brand</label><input id="ep_brand_'+cat.id+'_'+p.id+'" value="'+(p.brand||'').replace(/"/g,'&quot;')+'"></div>'
-          + '<div class="field"><label>Price (£)</label><input type="number" step="0.01" id="ep_price_'+cat.id+'_'+p.id+'" value="'+(p.price||0)+'"></div>'
-          + (isFloorWall ? '<div class="field"><label>Labour (£/m²)</label><input type="number" id="ep_labour_'+cat.id+'_'+p.id+'" value="'+(p.labour||0)+'"></div>' : '')
-          + (p.install !== undefined ? '<div class="field"><label>Install (£)</label><input type="number" id="ep_install_'+cat.id+'_'+p.id+'" value="'+(p.install||0)+'"></div>' : '')
-          + '<div class="field"><label>Image URL</label><input id="ep_img_'+cat.id+'_'+p.id+'" value="'+(p.img||'').replace(/"/g,'&quot;')+'"></div>'
-          + '<div class="field"><label>Product URL</label><input id="ep_url_'+cat.id+'_'+p.id+'" value="'+(p.url||'').replace(/"/g,'&quot;')+'"></div>'
-          + '<div class="field"><label>Description</label><input id="ep_desc_'+cat.id+'_'+p.id+'" value="'+(p.desc||'').replace(/"/g,'&quot;').replace(/'/g,'&#39;')+'"></div>'
-        + '</div>'
-        + '<div style="display:flex;gap:8px;margin-top:10px">'
-          + '<button class="btn-gold" style="padding:8px 16px;font-size:12px" onclick="saveProd(\''+cat.id+'\',\''+p.id+'\')">Save</button>'
-          + '<button class="btn-sm" onclick="cancelEdit(\''+cat.id+'\',\''+p.id+'\')">Cancel</button>'
-        + '</div>'
-      + '</div>';
-    });
-
-    // Add product button per category
-    html += '<button class="btn-sm" style="margin-top:4px;color:var(--accent)" onclick="addProductTocat(\''+cat.id+'\')">+ Add to '+cat.label+'</button>';
-    html += '</div>';
-  });
-
-  container.innerHTML = html;
-}
-
-function editProd(cat, id) {
-  document.querySelectorAll('[id^="edit_"]').forEach(function(el){ el.style.display='none'; });
-  var form = document.getElementById('edit_'+cat+'_'+id);
-  if(form) form.style.display = 'block';
-}
-
-function cancelEdit(cat, id) {
-  var form = document.getElementById('edit_'+cat+'_'+id);
-  if(form) form.style.display = 'none';
-}
-
-function saveProd(cat, id) {
-  var prods = catalog[cat] || [];
-  for(var i=0; i<prods.length; i++) {
-    if(prods[i].id === id) {
-      var g = function(field) { var el=document.getElementById('ep_'+field+'_'+cat+'_'+id); return el?el.value:null; };
-      if(g('name'))    prods[i].name    = g('name');
-      if(g('brand')!==null)  prods[i].brand   = g('brand');
-      if(g('price')!==null)  prods[i].price   = parseFloat(g('price'))||0;
-      if(g('labour')!==null) prods[i].labour  = parseFloat(g('labour'))||0;
-      if(g('install')!==null)prods[i].install = parseFloat(g('install'))||0;
-      if(g('img')!==null)    prods[i].img     = g('img');
-      if(g('url')!==null)    prods[i].url     = g('url');
-      if(g('desc')!==null)   prods[i].desc    = g('desc');
-      break;
+  var cats=['preparations','floor','walls','units','electrical','ceiling','finishes'];
+  var scopeLabel = wallScope==='all'?'All Walls':wallScope==='half'?'Half + Wet Area':wallScope==='wet'?'Wet Area Only':'';
+  var wallSuffix = scopeLabel ? ' ('+scopeLabel+')' : '';
+  var catNames={floor_tiles:'Floor – Tiles',floor_lvt:'Floor – LVT',wall_tiles:'Walls – Tiles'+wallSuffix,wall_panels:'Walls – Panels'+wallSuffix,units_toilet:'Toilet',units_shower:'Shower',units_enclosure:'Shower Enclosure',units_bath:'Bath',units_basin:'Basin & Vanity',units_taps:'Taps & Brassware',electrical_lighting:'LED Mirrors & Lighting',electrical_heating:'Underfloor Heating',electrical_ventilation:'Ventilation',electrical_shaving:'Shaving Point',ceiling:'Ceiling',wall_finish:'Wall Plaster & Paint',finishes:'Finishes'};
+  var html='';
+  for(var c=0;c<cats.length;c++){
+    var cat=cats[c];
+    html+='<div style="margin-bottom:20px"><div class="sec-title" style="margin-top:0">'+catNames[cat]+'</div>';
+    var prods=catalog[cat]||[];
+    if(!prods.length) { html+='<p style="color:#444;font-size:12px;padding:8px 0">No products yet</p>'; }
+    for(var i=0;i<prods.length;i++){
+      var p=prods[i];
+      var isFloor=(cat==='floor_tiles'||cat==='floor_lvt');
+      html+='<div class="prod-row-a">'
+        +'<div style="flex:1">'
+        +'<span style="font-size:12px;color:#ccc">'+p.name+'</span>'
+        +' <span style="font-size:10px;color:#555;margin-left:6px">'+p.brand+'</span>'
+        +' <span style="font-size:11px;color:#d4a847;margin-left:8px">'+fmt(getDisplayPrice(p.price))+'/'+p.unit+'</span>'
+        +(isFloor&&p.labour?' <span style="font-size:10px;color:#666;margin-left:6px">labour: '+fmt(p.labour)+'/m²</span>':'')
+        +(p.url?'<a href="'+p.url+'" target="_blank" style="font-size:10px;color:#888;margin-left:8px;text-decoration:none">↗ details</a>':'')
+        +'</div>'
+        +'<button class="btn-sm" style="color:#e07070;font-size:11px;flex-shrink:0" onclick="removeProd(\''+cat+'\',\''+p.id+'\')">Remove</button>'
+        +'</div>';
     }
+    html+='</div>';
   }
-  renderAdminProducts();
-  showToast('Saved!');
+  document.getElementById('adminProdList').innerHTML=html;
 }
 
-function removeProd(cat, id) {
-  if(!confirm('Remove this product?')) return;
-  catalog[cat] = (catalog[cat]||[]).filter(function(p){ return p.id!==id; });
-  renderAdminProducts();
-  showToast('Removed');
-}
-
-function addProductTocat(cat) {
-  var newId = cat+'_'+Date.now();
+function addProduct() {
+  var name=document.getElementById('np_name').value.trim();
+  var price=parseFloat(document.getElementById('np_price').value);
+  if(!name||!price){ alert('Please enter a name and price'); return; }
+  var cat=document.getElementById('np_cat').value;
+  var prod={
+    id:'p'+Date.now(),
+    name:name,
+    brand:document.getElementById('np_brand').value||'',
+    unit:document.getElementById('np_unit').value||'m²',
+    price:price,
+    labour:parseFloat(document.getElementById('np_labour').value)||100,
+    url:document.getElementById('np_url').value||'',
+    img:document.getElementById('np_img').value||'',
+    desc:document.getElementById('np_desc').value||''
+  };
   if(!catalog[cat]) catalog[cat]=[];
-  catalog[cat].push({id:newId,name:'New Product',brand:'',unit:'pcs',price:0,labour:0,install:0,img:'',url:'',desc:''});
+  catalog[cat].push(prod);
   renderAdminProducts();
-  // Auto-open edit form for new product
-  setTimeout(function(){ editProd(cat, newId); }, 100);
+  // refresh product grid if pane exists
+  var stepMap={floor_tiles:1,floor_lvt:1,wall_tiles:2,wall_panels:2,units_toilet:3,units_shower:3,units_enclosure:3,units_bath:3,units_basin:3,units_taps:3,electrical_lighting:4,electrical_heating:4,electrical_ventilation:4,electrical_shaving:4,ceiling:5,finishes:6};
+  var si=stepMap[cat];
+  if(cat==='floor_tiles'||cat==='floor_lvt') {
+    var g=document.getElementById('grid_floor_active');
+    if(g && floorCategory==='tiles' && cat==='floor_tiles') renderProductGrid('floor_tiles','grid_floor_active');
+    if(g && floorCategory==='lvt' && cat==='floor_lvt') renderProductGrid('floor_lvt','grid_floor_active');
+  } else if(cat==='wall_tiles'||cat==='wall_panels') {
+    var g=document.getElementById('grid_wall_active');
+    if(g && wallCategory==='tiles' && cat==='wall_tiles') renderProductGrid('wall_tiles','grid_wall_active');
+    if(g && wallCategory==='panels' && cat==='wall_panels') renderProductGrid('wall_panels','grid_wall_active');
+  } else { var g=document.getElementById('grid_'+cat); if(g) renderProductGrid(cat,'grid_'+cat); }
+  // clear fields
+  ['np_name','np_brand','np_price','np_labour','np_url','np_img','np_desc'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
 }
 
-function showToast(msg) {
-  var t = document.getElementById('adminToast');
-  if(!t) {
-    t = document.createElement('div');
-    t.id = 'adminToast';
-    t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--accent);color:#111;padding:10px 20px;border-radius:6px;font-size:13px;font-weight:700;z-index:9999;';
-    document.body.appendChild(t);
-  }
-  t.textContent = msg;
-  t.style.opacity = '1';
-  clearTimeout(t._to);
-  t._to = setTimeout(function(){ t.style.opacity='0'; }, 2000);
+function removeProd(cat,id){
+  catalog[cat]=catalog[cat].filter(function(p){return p.id!==id;});
+  if(sel[cat]) delete sel[cat][id];
+  renderAdminProducts();
+  if(cat==='floor_tiles'||cat==='floor_lvt') {
+    var g=document.getElementById('grid_floor_active'); if(g && floorCategory) renderProductGrid('floor_'+floorCategory,'grid_floor_active');
+  } else if(cat==='wall_tiles'||cat==='wall_panels') {
+    var g=document.getElementById('grid_wall_active'); if(g && wallCategory) renderProductGrid('wall_'+wallCategory,'grid_wall_active');
+  } else { var g=document.getElementById('grid_'+cat); if(g) renderProductGrid(cat,'grid_'+cat); }
+  recalc();
 }
-
 
 function loadAdminRates(){
   var cfg=getSettings();
@@ -3151,6 +3192,30 @@ renderProductGrid = function(cat, gridId) {
     if(box) { box.style.display='block'; box.textContent = 'renderProductGrid error: ' + e.message + '\n' + e.stack; }
   }
 };
+
+function resetStorage() {
+  if(!confirm('Reset all products and settings to defaults? This cannot be undone.')) return;
+  localStorage.removeItem('renocalc_data');
+  location.reload();
+}
+
+function handleImgUpload(event, cat, id) {
+  var file = event.target.files[0];
+  if(!file) return;
+  showToast('Uploading image...');
+  uploadImage(cat, id, file, function(url) {
+    var imgEl = document.getElementById('ep_img_'+cat+'_'+id);
+    if(imgEl) imgEl.value = url;
+    showToast('Image uploaded! Click Save to apply.');
+  });
+}
+
+function resetStorage() {
+  if(!confirm('Reset all products and settings to defaults?')) return;
+  db.collection('renocalc').doc('data').delete().then(function(){
+    location.reload();
+  });
+}
 </script>
 </body>
 </html>
